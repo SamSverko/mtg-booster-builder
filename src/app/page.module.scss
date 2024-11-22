@@ -1,0 +1,22 @@
+.numberInput {
+    min-width: 5ch;
+}
+
+.setCodesSelection {
+    display: grid;
+    gap: 4px;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.setCodeListItem {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+
+    label {
+        cursor: pointer;
+    }
+}

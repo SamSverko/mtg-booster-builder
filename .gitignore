@@ -1,0 +1,4 @@
+/node_modules
+/public/cards.csv
+.DS_Store
+.next

@@ -14,7 +14,7 @@ export function getBoosters(
         return []; // Return an empty array if no cards are available
     }
 
-    const allGeneratedBoosters: ManaBoxCard[][] = []; // Array to hold all boosters for each set
+    const generatedBoosters: ManaBoxCard[][] = []; // Initialize as an array of arrays
 
     boosterAllocation.forEach((setCodeWithCardCount) => {
         const { allocatedBoosterCount, setCode } = setCodeWithCardCount;
@@ -38,67 +38,87 @@ export function getBoosters(
             // Create a map to track available cards with quantities
             const availableCards = new Map<string, ManaBoxCard[]>();
 
+            // Populate the available cards map based on card quantities
             setCards.forEach((card) => {
                 if (!availableCards.has(card.scryfallID)) {
                     availableCards.set(card.scryfallID, []);
                 }
 
-                // Add the card multiple times based on its quantity
+                // Push the card into the map according to its quantity
                 for (let i = 0; i < card.quantity; i++) {
                     availableCards.get(card.scryfallID)?.push(card);
                 }
             });
 
-            // Generate the required number of boosters for this set
+            // Generate the required number of boosters
             for (let i = 0; i < allocatedBoosterCount; i++) {
-                console.log(`Generating booster ${i + 1} for set: ${setCode}`);
+                const usedScryfallIDs = new Set<string>(); // Track scryfallIDs for this booster
+                const booster: ManaBoxCard[] = [];
 
-                // We need to clear the slots array before filling it
-                const boosterSlots: ManaBoxCard[] = [];
-
+                // Generate booster with unique scryfallIDs
                 PLAY_BOOSTER.slots.forEach((slot) => {
+                    // Select a card for each slot
                     const selectedSlot = getRandomSlotItem(slot);
 
+                    // Get cards matching the rarity and foil
                     const matchingCards = filterMatchingCards(
                         availableCards,
                         selectedSlot
                     );
 
-                    if (matchingCards.length === 0) {
+                    if (matchingCards) {
+                        let selectedCard: ManaBoxCard | null = null;
+
+                        // Try to select a card with a unique scryfallID
+                        for (let j = 0; j < matchingCards.length; j++) {
+                            const card = matchingCards[j];
+
+                            // Ensure the card hasn't already been selected for this booster
+                            if (!usedScryfallIDs.has(card.scryfallID)) {
+                                selectedCard = card;
+                                usedScryfallIDs.add(card.scryfallID);
+                                break;
+                            }
+                        }
+
+                        if (selectedCard) {
+                            // Decrease the quantity of the selected card
+                            removeCardFromAvailableCards(
+                                availableCards,
+                                selectedCard
+                            );
+
+                            // Add the selected card to the booster
+                            booster.push(selectedCard);
+                        } else {
+                            console.warn(
+                                `Could not find a unique card for rarity ${selectedSlot.rarity} and foil ${selectedSlot.foil} in set ${setCode}`
+                            );
+                        }
+                    } else {
                         console.warn(
                             `No cards found for rarity ${selectedSlot.rarity} and foil ${selectedSlot.foil}`
                         );
-                    } else {
-                        // Select a random card from the matching cards
-                        const selectedCard =
-                            matchingCards[
-                                Math.floor(Math.random() * matchingCards.length)
-                            ];
-
-                        // Remove the selected card from available cards
-                        removeCardFromAvailableCards(
-                            availableCards,
-                            selectedCard
-                        );
-
-                        // Add the selected card to the booster slots array
-                        boosterSlots.push(selectedCard);
                     }
                 });
 
-                // After generating the booster for this iteration, add it to the final result as a separate array
-                console.log(
-                    `Booster ${i + 1} generated for set ${setCode}:`,
-                    boosterSlots
-                );
-                allGeneratedBoosters.push(boosterSlots);
+                // If a booster was successfully generated, add it to the final boosters array
+                if (booster.length === 14) {
+                    generatedBoosters.push(booster);
+                    console.log(
+                        `Booster ${i + 1} generated for set ${setCode}:`,
+                        booster
+                    );
+                } else {
+                    console.warn(
+                        `Booster ${i + 1} failed to generate for set ${setCode}`
+                    );
+                }
             }
         }
     });
 
-    console.log(`Final generated boosters structure:`, allGeneratedBoosters);
-
-    return allGeneratedBoosters; // Return the final array of arrays
+    return generatedBoosters;
 }
 
 function getRandomSlotItem(slot: PlayBoosterSlotItem) {

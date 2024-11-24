@@ -15,7 +15,7 @@ export default function SetSelectionListItem({
     set,
 }: SetSelectionListItemProps) {
     return (
-        <li className={styles.setSelectionListItem}>
+        <li className={styles.listItem}>
             <input
                 checked={isSelected}
                 disabled={isDisabled}

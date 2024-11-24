@@ -15,14 +15,16 @@ export default function PlayerCountInput({
     value,
 }: PlayerCountInputProps) {
     return (
-        <input
-            aria-labelledby={ariaLabelledby}
-            className={styles.numberInput}
-            max={format.maxPlayerCount ?? Infinity}
-            min={format.minPlayerCount}
-            onChange={(event) => onChange(Number(event.target.value))}
-            type="number"
-            value={value}
-        />
+        <div>
+            <input
+                aria-labelledby={ariaLabelledby}
+                className={styles.numberInput}
+                max={format.maxPlayerCount ?? Infinity}
+                min={format.minPlayerCount}
+                onChange={(event) => onChange(Number(event.target.value))}
+                type="number"
+                value={value}
+            />
+        </div>
     );
 }

@@ -28,18 +28,20 @@ export default function FormatSelect({
     };
 
     return (
-        <select
-            aria-labelledby={ariaLabelledby}
-            onChange={handleChange}
-            value={value.name}
-        >
-            {[FORMAT_NONE, FORMAT_BOOSTER_DRAFT, FORMAT_SEALED_DECK].map(
-                (format) => (
-                    <option key={format.name} value={format.name}>
-                        {format.name}
-                    </option>
-                )
-            )}
-        </select>
+        <div>
+            <select
+                aria-labelledby={ariaLabelledby}
+                onChange={handleChange}
+                value={value.name}
+            >
+                {[FORMAT_NONE, FORMAT_BOOSTER_DRAFT, FORMAT_SEALED_DECK].map(
+                    (format) => (
+                        <option key={format.name} value={format.name}>
+                            {format.name}
+                        </option>
+                    )
+                )}
+            </select>
+        </div>
     );
 }

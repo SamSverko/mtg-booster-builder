@@ -1,4 +1,10 @@
-.setSelection {
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.list {
     display: grid;
     gap: 4px;
     grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));

@@ -104,10 +104,10 @@ export default function SetSelection({
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             <fieldset>
                 <legend>Set Selection</legend>
-                <ul className={styles.setSelection}>{setCodesListItems}</ul>
+                <ul className={styles.list}>{setCodesListItems}</ul>
             </fieldset>
 
             <p>

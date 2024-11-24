@@ -11,6 +11,7 @@ import {
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
 import { SetCodeWithCardCount } from "@/app/types";
+import styles from "@/app/page.module.scss";
 
 export default function Home() {
     const { cards, isLoading } = useCards();
@@ -32,7 +33,7 @@ export default function Home() {
     }, [format, playerCount]);
 
     return (
-        <div>
+        <div className={styles.container}>
             <h1>MTG Booster Builder</h1>
 
             <hr />

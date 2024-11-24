@@ -4,4 +4,34 @@ body {
     color: white;
     font-family: monospace;
     font-size: 16px;
+    margin: 0;
+    padding: 8px;
+}
+
+h1,
+h2,
+h3,
+hr,
+p,
+ul {
+    margin: 0
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+}
+
+h3 {
+    font-size: 1rem;
+}
+
+hr {
+    background-color: white;
+    border: none;
+    height: 2px;
+    width: 100%;
 }

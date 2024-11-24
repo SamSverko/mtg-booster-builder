@@ -1,9 +1,10 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Format, SetCodeWithCardCount } from "@/app/types";
 import styles from "@/app/components/BoosterAllocation.module.scss";
 
 type SetSelectionProps = {
     boosterCount: number;
+    cardCountPerSet: number;
     format: Format;
     isLoading?: boolean;
     onChange: (selectedSets: SetCodeWithCardCount[]) => void;
@@ -14,41 +15,44 @@ type SetSelectionProps = {
 
 export default function BoosterAllocation({
     boosterCount,
+    cardCountPerSet,
     isLoading,
     onChange,
     setCodesWithCardCount,
     value,
 }: SetSelectionProps) {
+    const prevBoosterCount = useRef(boosterCount);
+
     const totalAllocatedBoosters = useMemo(
         () => value.reduce((acc, set) => acc + set.allocatedBoosterCount, 0),
         [value]
     );
 
     const resetBoosterAllocation = useCallback(() => {
-        const resetValue = setCodesWithCardCount.map((set) => ({
-            ...set,
-            allocatedBoosterCount: 0,
-        }));
-        onChange(resetValue);
-    }, [setCodesWithCardCount, onChange]);
+        onChange([]);
+    }, [onChange]);
 
     const allocateBooster = useCallback(
         (set: SetCodeWithCardCount, increment: number) => {
-            const updatedValue = value.map((existingSet) => {
-                if (existingSet.setCode === set.setCode) {
-                    const newCount = Math.max(
-                        0,
-                        Math.min(
-                            boosterCount,
-                            existingSet.allocatedBoosterCount + increment
-                        )
-                    );
-                    return { ...existingSet, allocatedBoosterCount: newCount };
-                }
-                return existingSet;
-            });
+            const updatedValue = value
+                .map((existingSet) => {
+                    if (existingSet.setCode === set.setCode) {
+                        const newCount = Math.max(
+                            0,
+                            Math.min(
+                                boosterCount,
+                                existingSet.allocatedBoosterCount + increment
+                            )
+                        );
+                        return {
+                            ...existingSet,
+                            allocatedBoosterCount: newCount,
+                        };
+                    }
+                    return existingSet;
+                })
+                .filter((existingSet) => existingSet.allocatedBoosterCount > 0);
 
-            // Add set if it doesn't exist and increment > 0
             if (
                 !updatedValue.find((s) => s.setCode === set.setCode) &&
                 increment > 0
@@ -69,11 +73,30 @@ export default function BoosterAllocation({
             const remaining = boosterCount - totalAllocatedBoosters;
             if (remaining <= 0) return;
 
-            const updatedValue = value.map((existingSet) =>
-                existingSet.setCode === set.setCode
-                    ? { ...existingSet, allocatedBoosterCount: boosterCount }
-                    : existingSet
-            );
+            let setExists = false;
+
+            const updatedValue = value
+                .map((existingSet) => {
+                    if (existingSet.setCode === set.setCode) {
+                        setExists = true;
+                        return {
+                            ...existingSet,
+                            allocatedBoosterCount: Math.min(
+                                boosterCount,
+                                existingSet.allocatedBoosterCount + remaining
+                            ),
+                        };
+                    }
+                    return existingSet;
+                })
+                .filter((existingSet) => existingSet.allocatedBoosterCount > 0);
+
+            if (!setExists) {
+                updatedValue.push({
+                    ...set,
+                    allocatedBoosterCount: remaining,
+                });
+            }
 
             onChange(updatedValue);
         },
@@ -82,15 +105,25 @@ export default function BoosterAllocation({
 
     const removeAllAllocations = useCallback(
         (set: SetCodeWithCardCount) => {
-            const updatedValue = value.map((existingSet) =>
-                existingSet.setCode === set.setCode
-                    ? { ...existingSet, allocatedBoosterCount: 0 }
-                    : existingSet
-            );
+            const updatedValue = value
+                .map((existingSet) =>
+                    existingSet.setCode === set.setCode
+                        ? { ...existingSet, allocatedBoosterCount: 0 }
+                        : existingSet
+                )
+                .filter((existingSet) => existingSet.allocatedBoosterCount > 0);
+
             onChange(updatedValue);
         },
         [value, onChange]
     );
+
+    useEffect(() => {
+        if (prevBoosterCount.current !== boosterCount) {
+            prevBoosterCount.current = boosterCount;
+            onChange([]);
+        }
+    }, [boosterCount, onChange]);
 
     if (isLoading) {
         return (
@@ -128,7 +161,7 @@ export default function BoosterAllocation({
                 </thead>
                 <tbody>
                     {setCodesWithCardCount.map((set) => {
-                        const notEnoughCards = set.count < boosterCount;
+                        const notEnoughCards = set.count < cardCountPerSet;
                         const allocatedSet = value.find(
                             (v) => v.setCode === set.setCode
                         );
@@ -165,7 +198,9 @@ export default function BoosterAllocation({
                                         >
                                             -
                                         </button>
-                                        <span>
+                                        <span
+                                            className={styles.allocationCount}
+                                        >
                                             {allocatedSet?.allocatedBoosterCount ??
                                                 0}
                                         </span>
@@ -205,8 +240,8 @@ export default function BoosterAllocation({
             </table>
 
             <p>
-                <b>Note:</b> Disabled sets do not have enough cards for your
-                settings.
+                <b>Note:</b> Fully disabled sets do not have enough cards for
+                your settings.
             </p>
         </div>
     );

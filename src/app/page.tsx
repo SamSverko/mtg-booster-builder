@@ -78,6 +78,7 @@ export default function Home() {
 
             <BoosterAllocation
                 boosterCount={boosterRequirements.boosterCount}
+                cardCountPerSet={boosterRequirements.cardCountPerSet}
                 format={format}
                 isLoading={isLoading}
                 onChange={setBoosterAllocation}

@@ -145,99 +145,86 @@ export default function BoosterAllocation({
         <div className={styles.container}>
             <div className={styles.resetSection}>
                 <span>
-                    <b>Boosters left to allocate:</b>{" "}
+                    <b>Boosters to allocate:</b>{" "}
                     {boosterCount - totalAllocatedBoosters}
                 </span>
                 <button onClick={resetBoosterAllocation}>Reset</button>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th align="left">Set</th>
-                        <th align="right">Total cards</th>
-                        <th>Boosters</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {setCodesWithCardCount.map((set) => {
-                        const notEnoughCards = set.count < cardCountPerSet;
-                        const allocatedSet = value.find(
-                            (v) => v.setCode === set.setCode
-                        );
+            <div className={styles.listHeaders}>
+                <div>Set</div>
+                <div>Total cards</div>
+                <div>Boosters</div>
+            </div>
 
-                        return (
-                            <tr key={set.setCode}>
-                                <td align="left">{set.setCode}</td>
-                                <td align="right">{set.count}</td>
-                                <td align="center">
-                                    <div className={styles.tableCellBoosters}>
-                                        <button
-                                            aria-label="Remove all remaining allocations"
-                                            onClick={() =>
-                                                removeAllAllocations(set)
-                                            }
-                                            disabled={
-                                                notEnoughCards ||
-                                                (allocatedSet?.allocatedBoosterCount ??
-                                                    0) === 0
-                                            }
-                                        >
-                                            - -
-                                        </button>
-                                        <button
-                                            aria-label="Remove one booster allocation"
-                                            onClick={() =>
-                                                allocateBooster(set, -1)
-                                            }
-                                            disabled={
-                                                notEnoughCards ||
-                                                (allocatedSet?.allocatedBoosterCount ??
-                                                    0) <= 0
-                                            }
-                                        >
-                                            -
-                                        </button>
-                                        <span
-                                            className={styles.allocationCount}
-                                        >
-                                            {allocatedSet?.allocatedBoosterCount ??
-                                                0}
-                                        </span>
-                                        <button
-                                            aria-label="Add one booster allocation"
-                                            onClick={() =>
-                                                allocateBooster(set, 1)
-                                            }
-                                            disabled={
-                                                notEnoughCards ||
-                                                totalAllocatedBoosters >=
-                                                    boosterCount
-                                            }
-                                        >
-                                            +
-                                        </button>
+            <ul className={styles.list}>
+                {setCodesWithCardCount.map((set) => {
+                    const notEnoughCards = set.count < cardCountPerSet;
+                    const allocatedSet = value.find(
+                        (v) => v.setCode === set.setCode
+                    );
 
-                                        <button
-                                            aria-label="Add all remaining allocations"
-                                            onClick={() =>
-                                                addAllRemainingAllocations(set)
-                                            }
-                                            disabled={
-                                                notEnoughCards ||
-                                                totalAllocatedBoosters >=
-                                                    boosterCount
-                                            }
-                                        >
-                                            + +
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                    return (
+                        <li
+                            className={notEnoughCards ? styles.muted : ""}
+                            key={set.setCode}
+                        >
+                            <div>{set.setCode}</div>
+                            <div>{set.count}</div>
+                            <div>
+                                <button
+                                    aria-label="Remove all remaining allocations"
+                                    onClick={() => removeAllAllocations(set)}
+                                    disabled={
+                                        notEnoughCards ||
+                                        (allocatedSet?.allocatedBoosterCount ??
+                                            0) === 0
+                                    }
+                                >
+                                    - -
+                                </button>
+                                <button
+                                    aria-label="Remove one booster allocation"
+                                    onClick={() => allocateBooster(set, -1)}
+                                    disabled={
+                                        notEnoughCards ||
+                                        (allocatedSet?.allocatedBoosterCount ??
+                                            0) <= 0
+                                    }
+                                >
+                                    -
+                                </button>
+                                <span className={styles.allocationCount}>
+                                    {allocatedSet?.allocatedBoosterCount ?? 0}
+                                </span>
+                                <button
+                                    aria-label="Add one booster allocation"
+                                    onClick={() => allocateBooster(set, 1)}
+                                    disabled={
+                                        notEnoughCards ||
+                                        totalAllocatedBoosters >= boosterCount
+                                    }
+                                >
+                                    +
+                                </button>
+
+                                <button
+                                    aria-label="Add all remaining allocations"
+                                    onClick={() =>
+                                        addAllRemainingAllocations(set)
+                                    }
+                                    disabled={
+                                        notEnoughCards ||
+                                        totalAllocatedBoosters >= boosterCount
+                                    }
+                                >
+                                    + +
+                                </button>
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
 
             <p>
                 <b>Note:</b> Fully disabled sets do not have enough cards for

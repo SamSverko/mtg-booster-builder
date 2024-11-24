@@ -17,6 +17,11 @@ ul {
     margin: 0
 }
 
+button:enabled,
+select:enabled {
+    cursor: pointer;
+}
+
 h1 {
     font-size: 1.5rem;
 }

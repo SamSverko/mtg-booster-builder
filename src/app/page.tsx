@@ -23,12 +23,20 @@ export default function Home() {
     >([]);
 
     const boosterRequirements = useMemo(() => {
-        if (!format || !format.boosterPerPlayerCount)
-            return { boosterCount: 0, cardCountPerSet: 0 };
+        // If no format is selected, player count = booster count
+        if (!format || !format.boosterPerPlayerCount) {
+            return {
+                boosterCount: playerCount,
+                cardCountPerSet: playerCount * PLAY_BOOSTER.slots.length,
+            };
+        }
+
+        // Otherwise, calculate based on format.boosterPerPlayerCount
         const boosterCount = Math.ceil(
             playerCount * format.boosterPerPlayerCount
         );
         const cardCountPerSet = boosterCount * PLAY_BOOSTER.slots.length;
+
         return { boosterCount, cardCountPerSet };
     }, [format, playerCount]);
 

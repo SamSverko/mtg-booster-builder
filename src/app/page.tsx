@@ -21,6 +21,9 @@ export default function Home() {
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);
     const [format, setFormat] = useState(FORMAT_NONE);
     const [playerCount, setPlayerCount] = useState(FORMAT_NONE.minPlayerCount);
+    const [selectedSets, setSelectedSets] = useState<SetCodeWithCardCount[]>(
+        []
+    );
     const [setCodesWithCardCount, setSetCodesWithCardCount] = useState<
         SetCodeWithCardCount[] | null
     >(null);
@@ -32,21 +35,40 @@ export default function Home() {
 
     const setCodesListItems = useMemo(
         () =>
-            setCodesWithCardCount?.map(({ setCode, count }) => (
-                <li key={setCode} className={styles.setCodeListItem}>
-                    <input
-                        disabled={count < boosterRequirements.cardCountPerSet}
-                        id={setCode}
-                        name={setCode}
-                        type="checkbox"
-                        value={setCode}
-                    />
-                    <label htmlFor={setCode}>
-                        {setCode} ({count} cards)
-                    </label>
-                </li>
-            )),
-        [boosterRequirements.cardCountPerSet, setCodesWithCardCount]
+            setCodesWithCardCount?.map((set) => {
+                const isDisabled =
+                    (!selectedSets.some((s) => s.setCode === set.setCode) &&
+                        selectedSets.length >=
+                            boosterRequirements.boosterCount) ||
+                    set.count < boosterRequirements.cardCountPerSet;
+
+                return (
+                    <li key={set.setCode} className={styles.setCodeListItem}>
+                        <input
+                            disabled={isDisabled}
+                            id={set.setCode}
+                            name={set.setCode}
+                            type="checkbox"
+                            value={set.setCode}
+                            checked={selectedSets.some(
+                                (s) => s.setCode === set.setCode
+                            )}
+                            onChange={(event) =>
+                                handleSetSelection(set, event.target.checked)
+                            }
+                        />
+                        <label htmlFor={set.setCode}>
+                            {set.setCode} ({set.count} cards)
+                        </label>
+                    </li>
+                );
+            }),
+        [
+            boosterRequirements.boosterCount,
+            boosterRequirements.cardCountPerSet,
+            setCodesWithCardCount,
+            selectedSets,
+        ]
     );
 
     useEffect(() => {
@@ -63,6 +85,19 @@ export default function Home() {
 
         fetchData();
     }, []);
+
+    const handleSetSelection = (
+        set: SetCodeWithCardCount,
+        isChecked: boolean
+    ) => {
+        setSelectedSets((prevSelected) => {
+            if (isChecked) {
+                return [...prevSelected, set];
+            } else {
+                return prevSelected.filter((s) => s.setCode !== set.setCode);
+            }
+        });
+    };
 
     return (
         <div>
@@ -115,13 +150,6 @@ export default function Home() {
                 value={playerCount}
             />
 
-            <p>
-                {boosterRequirements.boosterCount} booster
-                {boosterRequirements.boosterCount !== 1 && "s"} will be
-                generated for you from a total of{" "}
-                {boosterRequirements.cardCountPerSet} cards.
-            </p>
-
             <h3>Set(s)</h3>
 
             <p>
@@ -136,6 +164,32 @@ export default function Home() {
             ) : (
                 <p>Loading sets...</p>
             )}
+
+            <h2>Step 3: Confirm details</h2>
+
+            <ul>
+                <li>
+                    <b>Number of cards required:</b>{" "}
+                    {boosterRequirements.cardCountPerSet}
+                </li>
+                <li>
+                    <b>Total number of boosters to be generated:</b>{" "}
+                    {boosterRequirements.boosterCount}
+                </li>
+                <li>
+                    <b>Number of boosters to be generated per set:</b>
+                    <ul>
+                        {selectedSets.length === 0 && <li>⚠️ None selected</li>}
+                        {selectedSets.map((set) => (
+                            <li key={set.setCode}>
+                                {set.setCode}:{" "}
+                                {boosterRequirements.boosterCount} booster
+                                {boosterRequirements.boosterCount !== 1 && "s"}
+                            </li>
+                        ))}
+                    </ul>
+                </li>
+            </ul>
         </div>
     );
 }

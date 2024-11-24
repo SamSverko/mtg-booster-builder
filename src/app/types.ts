@@ -11,12 +11,6 @@ type CardRarity = "common" | "uncommon" | "rare" | "mythic";
 export type CardSupertype = "basic"; // add more as needed
 export type CardType = "land"; // add more as needed
 
-type FixedLengthArray<
-    T,
-    L extends number,
-    R extends unknown[] = []
-> = R["length"] extends L ? R : FixedLengthArray<T, L, [T, ...R]>;
-
 export type Format = {
     minPlayerCount: number;
     name: string;
@@ -48,7 +42,7 @@ export type ManaBoxCard = {
     purchasePriceCurrency: string;
 };
 
-type PlayBoosterSlotItem = {
+export type PlayBoosterSlotItem = {
     foil: CardFoil;
     percentage: number;
     rarity: CardRarity;
@@ -58,7 +52,7 @@ type PlayBoosterSlotItem = {
 
 export type PlayBooster = {
     setCode?: string;
-    slots: FixedLengthArray<PlayBoosterSlotItem, 14>;
+    slots: PlayBoosterSlotItem[];
 };
 
 export type SetCodeWithCardCount = {

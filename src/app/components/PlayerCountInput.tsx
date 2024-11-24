@@ -1,4 +1,5 @@
 import { Format } from "@/app/types";
+
 import styles from "@/app/components/PlayerCountInput.module.scss";
 
 type PlayerCountInputProps = {

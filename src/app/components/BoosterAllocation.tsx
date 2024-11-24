@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
+
 import { Format, SetCodeWithCardCount } from "@/app/types";
+
 import styles from "@/app/components/BoosterAllocation.module.scss";
 
 type SetSelectionProps = {

@@ -1,5 +1,13 @@
 import { Format, PlayBooster } from "@/app/types";
 
+export const BASIC_LAND_NAMES = [
+    "Plains",
+    "Island",
+    "Swamp",
+    "Mountain",
+    "Forest",
+];
+
 export const FORMAT_BOOSTER_DRAFT: Format = {
     boosterPerPlayerCount: 3,
     deckSize: 40,

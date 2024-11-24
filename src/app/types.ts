@@ -25,7 +25,7 @@ export type Format = {
 export type ManaBoxCard = {
     binderName: string;
     binderType: "binder" | "deck" | "list";
-    Name: string;
+    name: string;
     setCode: string;
     setName: string;
     collectorNumber: number;

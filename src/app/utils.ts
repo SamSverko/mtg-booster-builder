@@ -3,7 +3,7 @@ import {
     PlayBoosterSlotItem,
     SetCodeWithCardCount,
 } from "@/app/types";
-import { PLAY_BOOSTER } from "@/app/constants";
+import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
 
 export function getBoosters(
     cards: ManaBoxCard[] | null,
@@ -60,35 +60,42 @@ export function getBoosters(
                     // Select a card for each slot
                     const selectedSlot = getRandomSlotItem(slot);
 
-                    // Get cards matching the rarity and foil
-                    const matchingCards = filterMatchingCards(
+                    // Filter matching cards first
+                    let matchingCards = filterMatchingCards(
                         availableCards,
                         selectedSlot
                     );
 
-                    if (matchingCards) {
-                        let selectedCard: ManaBoxCard | null = null;
+                    if (
+                        slot[0].superType === "basic" &&
+                        slot[0].type === "land"
+                    ) {
+                        // Include only basic lands
+                        matchingCards = matchingCards.filter((card) =>
+                            BASIC_LAND_NAMES.includes(card.name)
+                        );
+                    } else {
+                        // Exclude basic lands
+                        matchingCards = matchingCards.filter(
+                            (card) => !BASIC_LAND_NAMES.includes(card.name)
+                        );
+                    }
 
-                        // Try to select a card with a unique scryfallID
-                        for (let j = 0; j < matchingCards.length; j++) {
-                            const card = matchingCards[j];
+                    // Shuffle matching cards
+                    matchingCards.sort(() => Math.random() - 0.5);
 
-                            // Ensure the card hasn't already been selected for this booster
-                            if (!usedScryfallIDs.has(card.scryfallID)) {
-                                selectedCard = card;
-                                usedScryfallIDs.add(card.scryfallID);
-                                break;
-                            }
-                        }
+                    if (matchingCards.length > 0) {
+                        // Select the first available card
+                        const selectedCard = matchingCards.find(
+                            (card) => !usedScryfallIDs.has(card.scryfallID)
+                        );
 
                         if (selectedCard) {
-                            // Decrease the quantity of the selected card
+                            usedScryfallIDs.add(selectedCard.scryfallID);
                             removeCardFromAvailableCards(
                                 availableCards,
                                 selectedCard
                             );
-
-                            // Add the selected card to the booster
                             booster.push(selectedCard);
                         } else {
                             console.warn(
@@ -97,7 +104,7 @@ export function getBoosters(
                         }
                     } else {
                         console.warn(
-                            `No cards found for rarity ${selectedSlot.rarity} and foil ${selectedSlot.foil}`
+                            `No cards available for ${slot[0].superType} ${slot[0].type} in set ${setCode}`
                         );
                     }
                 });

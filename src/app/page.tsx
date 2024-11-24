@@ -12,11 +12,12 @@ import { ManaBoxCard } from "@/app/types";
 import {
     getLocalCardData,
     getSetCodesWithCardCount,
-    getRequiredBoosterCount,
+    getBoosterRequirements,
     SetCodeWithCardCount,
 } from "@/app/utils";
 
 export default function Home() {
+    console.clear();
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);
     const [format, setFormat] = useState(FORMAT_NONE);
     const [playerCount, setPlayerCount] = useState(FORMAT_NONE.minPlayerCount);
@@ -24,8 +25,8 @@ export default function Home() {
         SetCodeWithCardCount[] | null
     >(null);
 
-    const requiredBoosterCount = useMemo(
-        () => getRequiredBoosterCount(format, playerCount),
+    const boosterRequirements = useMemo(
+        () => getBoosterRequirements(format, playerCount),
         [format, playerCount]
     );
 
@@ -34,6 +35,7 @@ export default function Home() {
             setCodesWithCardCount?.map(({ setCode, count }) => (
                 <li key={setCode} className={styles.setCodeListItem}>
                     <input
+                        disabled={count < boosterRequirements.cardCountPerSet}
                         id={setCode}
                         name={setCode}
                         type="checkbox"
@@ -44,7 +46,7 @@ export default function Home() {
                     </label>
                 </li>
             )),
-        [setCodesWithCardCount]
+        [boosterRequirements.cardCountPerSet, setCodesWithCardCount]
     );
 
     useEffect(() => {
@@ -114,11 +116,18 @@ export default function Home() {
             />
 
             <p>
-                {requiredBoosterCount} booster
-                {requiredBoosterCount !== 1 && "s"} will be generated for you.
+                {boosterRequirements.boosterCount} booster
+                {boosterRequirements.boosterCount !== 1 && "s"} will be
+                generated for you from a total of{" "}
+                {boosterRequirements.cardCountPerSet} cards.
             </p>
 
             <h3>Set(s)</h3>
+
+            <p>
+                <b>Note:</b> Disabled sets do not have enough cards for your
+                settings.
+            </p>
 
             {setCodesListItems?.length ? (
                 <ul className={styles.setCodesSelection}>

@@ -1,6 +1,7 @@
 import Papa from "papaparse";
 
 import { Format, ManaBoxCard } from "@/app/types";
+import { PLAY_BOOSTER } from "@/app/constants";
 
 export const getLocalCardData = async () => {
     const response = await fetch("/cards.csv");
@@ -50,11 +51,12 @@ export const getSetCodesWithCardCount = (
         .map(([setCode, count]) => ({ setCode, count }));
 };
 
-export const getRequiredBoosterCount = (
-    format: Format,
-    playerCount: number
-) => {
-    return !format.boosterPerPlayerCount
+export const getBoosterRequirements = (format: Format, playerCount: number) => {
+    const boosterCount = !format.boosterPerPlayerCount
         ? playerCount
         : Math.ceil(playerCount * format.boosterPerPlayerCount);
+
+    const cardCountPerSet = boosterCount * PLAY_BOOSTER.slots.length;
+
+    return { boosterCount, cardCountPerSet };
 };

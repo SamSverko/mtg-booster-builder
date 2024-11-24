@@ -5,7 +5,7 @@ import { ManaBoxCard, SetCodeWithCardCount } from "@/app/types";
 
 export default function useCards() {
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const getLocalCardData = async () => {
@@ -49,7 +49,7 @@ export default function useCards() {
                 .map(([setCode, count]) => ({
                     setCode,
                     count,
-                    allocatedBoosters: 0,
+                    allocatedBoosterCount: 0,
                 })),
         [cards]
     );
@@ -80,7 +80,7 @@ export default function useCards() {
                 .map(({ setCode, count }) => ({
                     setCode,
                     count,
-                    allocatedBoosters: 0,
+                    allocatedBoosterCount: 0,
                 })),
         },
         isLoading,

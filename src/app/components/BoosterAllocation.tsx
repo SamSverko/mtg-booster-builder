@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from "react";
 import { Format, SetCodeWithCardCount } from "@/app/types";
-
 import styles from "@/app/components/BoosterAllocation.module.scss";
 
 type SetSelectionProps = {
@@ -21,69 +20,73 @@ export default function BoosterAllocation({
     value,
 }: SetSelectionProps) {
     const totalAllocatedBoosters = useMemo(
-        () => value.reduce((acc, set) => acc + set.allocatedBoosters, 0),
+        () => value.reduce((acc, set) => acc + set.allocatedBoosterCount, 0),
         [value]
     );
 
     const resetBoosterAllocation = useCallback(() => {
-        const resetValue = value.map((set) => ({
+        const resetValue = setCodesWithCardCount.map((set) => ({
             ...set,
-            allocatedBoosters: 0,
+            allocatedBoosterCount: 0,
         }));
         onChange(resetValue);
-    }, [value, onChange]);
+    }, [setCodesWithCardCount, onChange]);
 
     const allocateBooster = useCallback(
-        (setCode: string, increment: number) => {
-            console.log(
-                `Allocating booster for set: ${setCode}, increment: ${increment}`
-            );
+        (set: SetCodeWithCardCount, increment: number) => {
+            const updatedValue = value.map((existingSet) => {
+                if (existingSet.setCode === set.setCode) {
+                    const newCount = Math.max(
+                        0,
+                        Math.min(
+                            boosterCount,
+                            existingSet.allocatedBoosterCount + increment
+                        )
+                    );
+                    return { ...existingSet, allocatedBoosterCount: newCount };
+                }
+                return existingSet;
+            });
 
-            console.log("Value:", value);
+            // Add set if it doesn't exist and increment > 0
+            if (
+                !updatedValue.find((s) => s.setCode === set.setCode) &&
+                increment > 0
+            ) {
+                updatedValue.push({
+                    ...set,
+                    allocatedBoosterCount: increment,
+                });
+            }
 
-            const updatedValue = value.map((set) =>
-                set.setCode === setCode
-                    ? {
-                          ...set,
-                          allocatedBoosters: set.allocatedBoosters + increment,
-                      }
-                    : set
-            );
-            console.log("Updated Value:", updatedValue);
             onChange(updatedValue);
         },
-        [value, onChange]
+        [value, boosterCount, onChange]
     );
 
     const addAllRemainingAllocations = useCallback(
-        (setCode: string) => {
-            console.log(`Adding all boosters for set: ${setCode}`);
-            const updatedValue = value.map((set) =>
-                set.setCode === setCode
-                    ? {
-                          ...set,
-                          allocatedBoosters: boosterCount,
-                      }
-                    : set
+        (set: SetCodeWithCardCount) => {
+            const remaining = boosterCount - totalAllocatedBoosters;
+            if (remaining <= 0) return;
+
+            const updatedValue = value.map((existingSet) =>
+                existingSet.setCode === set.setCode
+                    ? { ...existingSet, allocatedBoosterCount: boosterCount }
+                    : existingSet
             );
-            console.log("Updated Value:", updatedValue);
+
             onChange(updatedValue);
         },
-        [value, onChange, boosterCount]
+        [value, boosterCount, totalAllocatedBoosters, onChange]
     );
 
     const removeAllAllocations = useCallback(
-        (setCode: string) => {
-            console.log(`Removing all boosters for set: ${setCode}`);
-            const updatedValue = value.map((set) =>
-                set.setCode === setCode
-                    ? {
-                          ...set,
-                          allocatedBoosters: 0,
-                      }
-                    : set
+        (set: SetCodeWithCardCount) => {
+            const updatedValue = value.map((existingSet) =>
+                existingSet.setCode === set.setCode
+                    ? { ...existingSet, allocatedBoosterCount: 0 }
+                    : existingSet
             );
-            console.log("Updated Value:", updatedValue);
             onChange(updatedValue);
         },
         [value, onChange]
@@ -126,6 +129,10 @@ export default function BoosterAllocation({
                 <tbody>
                     {setCodesWithCardCount.map((set) => {
                         const notEnoughCards = set.count < boosterCount;
+                        const allocatedSet = value.find(
+                            (v) => v.setCode === set.setCode
+                        );
+
                         return (
                             <tr key={set.setCode}>
                                 <td align="left">{set.setCode}</td>
@@ -135,13 +142,12 @@ export default function BoosterAllocation({
                                         <button
                                             aria-label="Remove all remaining allocations"
                                             onClick={() =>
-                                                removeAllAllocations(
-                                                    set.setCode
-                                                )
+                                                removeAllAllocations(set)
                                             }
                                             disabled={
                                                 notEnoughCards ||
-                                                set.allocatedBoosters === 0
+                                                (allocatedSet?.allocatedBoosterCount ??
+                                                    0) === 0
                                             }
                                         >
                                             - -
@@ -149,24 +155,28 @@ export default function BoosterAllocation({
                                         <button
                                             aria-label="Remove one booster allocation"
                                             onClick={() =>
-                                                allocateBooster(set.setCode, -1)
+                                                allocateBooster(set, -1)
                                             }
                                             disabled={
                                                 notEnoughCards ||
-                                                set.allocatedBoosters <= 0
+                                                (allocatedSet?.allocatedBoosterCount ??
+                                                    0) <= 0
                                             }
                                         >
                                             -
                                         </button>
-                                        <span>{set.allocatedBoosters}</span>
+                                        <span>
+                                            {allocatedSet?.allocatedBoosterCount ??
+                                                0}
+                                        </span>
                                         <button
                                             aria-label="Add one booster allocation"
                                             onClick={() =>
-                                                allocateBooster(set.setCode, 1)
+                                                allocateBooster(set, 1)
                                             }
                                             disabled={
                                                 notEnoughCards ||
-                                                set.allocatedBoosters >=
+                                                totalAllocatedBoosters >=
                                                     boosterCount
                                             }
                                         >
@@ -176,13 +186,11 @@ export default function BoosterAllocation({
                                         <button
                                             aria-label="Add all remaining allocations"
                                             onClick={() =>
-                                                addAllRemainingAllocations(
-                                                    set.setCode
-                                                )
+                                                addAllRemainingAllocations(set)
                                             }
                                             disabled={
                                                 notEnoughCards ||
-                                                set.allocatedBoosters ===
+                                                totalAllocatedBoosters >=
                                                     boosterCount
                                             }
                                         >

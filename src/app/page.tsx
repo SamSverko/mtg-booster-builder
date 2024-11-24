@@ -10,20 +10,21 @@ import {
 } from "@/app/components";
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
-import { SetCodeWithCardCount } from "@/app/types";
+import { Format, SetCodeWithCardCount } from "@/app/types";
 import styles from "@/app/page.module.scss";
 
 export default function Home() {
     const { data, isLoading } = useCards();
 
-    const [format, setFormat] = useState(FORMAT_NONE);
-    const [playerCount, setPlayerCount] = useState(format.minPlayerCount || 1);
+    const [format, setFormat] = useState<Format>(FORMAT_NONE);
+    const [playerCount, setPlayerCount] = useState<number>(
+        format.minPlayerCount || 1
+    );
     const [boosterAllocation, setBoosterAllocation] = useState<
         SetCodeWithCardCount[]
     >([]);
 
     const boosterRequirements = useMemo(() => {
-        // If no format is selected, player count = booster count
         if (!format || !format.boosterPerPlayerCount) {
             return {
                 boosterCount: playerCount,
@@ -31,7 +32,6 @@ export default function Home() {
             };
         }
 
-        // Otherwise, calculate based on format.boosterPerPlayerCount
         const boosterCount = Math.ceil(
             playerCount * format.boosterPerPlayerCount
         );

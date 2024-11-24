@@ -86,6 +86,14 @@ export default function Home() {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        if (selectedSets.length > boosterRequirements.boosterCount) {
+            setSelectedSets((prevSelected) =>
+                prevSelected.slice(0, boosterRequirements.boosterCount)
+            );
+        }
+    }, [boosterRequirements.boosterCount, selectedSets]);
+
     const handleSetSelection = (
         set: SetCodeWithCardCount,
         isChecked: boolean

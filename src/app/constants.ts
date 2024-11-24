@@ -1,6 +1,6 @@
 import { Format, PlayBooster } from "@/app/types";
 
-export const BOOSTER_DRAFT: Format = {
+export const FORMAT_BOOSTER_DRAFT: Format = {
     boosterPerPlayerCount: 3,
     deckSize: 40,
     details:
@@ -12,7 +12,7 @@ export const BOOSTER_DRAFT: Format = {
     url: "https://magic.wizards.com/en/formats/booster-draft",
 };
 
-export const SEALED_DECK: Format = {
+export const FORMAT_SEALED_DECK: Format = {
     boosterPerPlayerCount: 6,
     deckSize: 40,
     details:
@@ -24,7 +24,7 @@ export const SEALED_DECK: Format = {
     url: "https://magic.wizards.com/en/formats/sealed-deck",
 };
 
-export const NO_FORMAT: Format = {
+export const FORMAT_NONE: Format = {
     minPlayerCount: 1,
     name: "No format",
 };

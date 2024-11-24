@@ -2,7 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { BOOSTER_DRAFT, NO_FORMAT, SEALED_DECK } from "@/app/constants";
+import {
+    FORMAT_BOOSTER_DRAFT,
+    FORMAT_NONE,
+    FORMAT_SEALED_DECK,
+} from "@/app/constants";
 import styles from "@/app/page.module.scss";
 import { ManaBoxCard } from "@/app/types";
 import {
@@ -14,8 +18,8 @@ import {
 
 export default function Home() {
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);
-    const [format, setFormat] = useState(NO_FORMAT);
-    const [playerCount, setPlayerCount] = useState(NO_FORMAT.minPlayerCount);
+    const [format, setFormat] = useState(FORMAT_NONE);
+    const [playerCount, setPlayerCount] = useState(FORMAT_NONE.minPlayerCount);
     const [setCodesWithCardCount, setSetCodesWithCardCount] = useState<
         SetCodeWithCardCount[] | null
     >(null);
@@ -78,21 +82,25 @@ export default function Home() {
                 aria-labelledby="format-label"
                 onChange={(event) =>
                     setFormat(
-                        [BOOSTER_DRAFT, SEALED_DECK].find(
+                        [FORMAT_BOOSTER_DRAFT, FORMAT_SEALED_DECK].find(
                             (format) => format.name === event.target.value
-                        ) || NO_FORMAT
+                        ) || FORMAT_NONE
                     )
                 }
                 value={format.name}
             >
-                <option value={NO_FORMAT.name}>No format</option>
-                <option value={BOOSTER_DRAFT.name}>{BOOSTER_DRAFT.name}</option>
-                <option value={SEALED_DECK.name}>{SEALED_DECK.name}</option>
+                <option value={FORMAT_NONE.name}>No format</option>
+                <option value={FORMAT_BOOSTER_DRAFT.name}>
+                    {FORMAT_BOOSTER_DRAFT.name}
+                </option>
+                <option value={FORMAT_SEALED_DECK.name}>
+                    {FORMAT_SEALED_DECK.name}
+                </option>
             </select>
 
             <h3 id="player-count-label">
                 Number of{" "}
-                {format.name === NO_FORMAT.name ? "boosters" : "players"}
+                {format.name === FORMAT_NONE.name ? "boosters" : "players"}
             </h3>
             {/* TODO - make attributes match selected format */}
             <input

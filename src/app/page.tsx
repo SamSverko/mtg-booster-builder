@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 
 import {
+    BoosterAllocation,
     CardCount,
     FormatSelect,
     PlayerCountInput,
-    SetSelection,
 } from "@/app/components";
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
@@ -14,21 +14,21 @@ import { SetCodeWithCardCount } from "@/app/types";
 import styles from "@/app/page.module.scss";
 
 export default function Home() {
-    const { cards, isLoading } = useCards();
+    const { data, isLoading } = useCards();
 
     const [format, setFormat] = useState(FORMAT_NONE);
-    const [playerCount, setPlayerCount] = useState(FORMAT_NONE.minPlayerCount);
-    const [selectedSets, setSelectedSets] = useState<SetCodeWithCardCount[]>(
-        []
-    );
+    const [playerCount, setPlayerCount] = useState(format.minPlayerCount || 1);
+    const [boosterAllocation, setBoosterAllocation] = useState<
+        SetCodeWithCardCount[]
+    >([]);
 
     const boosterRequirements = useMemo(() => {
-        const boosterCount = !format.boosterPerPlayerCount
-            ? playerCount
-            : Math.ceil(playerCount * format.boosterPerPlayerCount);
-
+        if (!format || !format.boosterPerPlayerCount)
+            return { boosterCount: 0, cardCountPerSet: 0 };
+        const boosterCount = Math.ceil(
+            playerCount * format.boosterPerPlayerCount
+        );
         const cardCountPerSet = boosterCount * PLAY_BOOSTER.slots.length;
-
         return { boosterCount, cardCountPerSet };
     }, [format, playerCount]);
 
@@ -40,7 +40,7 @@ export default function Home() {
 
             <h2>Step 1: Import your cards</h2>
             {/* TODO - make this an input so you can upload your .csv file */}
-            <CardCount cardCount={cards?.length} isLoading={isLoading} />
+            <CardCount cardCount={data.cards?.length} isLoading={isLoading} />
 
             <hr />
 
@@ -56,7 +56,7 @@ export default function Home() {
 
             <h3 id="player-count-label">
                 Number of{" "}
-                {format.name === FORMAT_NONE.name ? "boosters" : "players"}
+                {format?.name === FORMAT_NONE.name ? "boosters" : "players"}
             </h3>
 
             <PlayerCountInput
@@ -68,15 +68,14 @@ export default function Home() {
 
             <h3>Set(s)</h3>
 
-            <SetSelection
+            <BoosterAllocation
                 boosterCount={boosterRequirements.boosterCount}
-                cardCountPerSet={boosterRequirements.cardCountPerSet}
-                cards={cards}
                 format={format}
                 isLoading={isLoading}
-                onChange={setSelectedSets}
+                onChange={setBoosterAllocation}
                 playerCount={playerCount}
-                value={selectedSets}
+                setCodesWithCardCount={data?.setCodesWithCardCount || []}
+                value={boosterAllocation}
             />
 
             <hr />

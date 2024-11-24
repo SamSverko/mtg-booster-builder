@@ -1,11 +1,12 @@
 import Papa from "papaparse";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { ManaBoxCard } from "@/app/types";
+import { ManaBoxCard, SetCodeWithCardCount } from "@/app/types";
 
 export default function useCards() {
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     const getLocalCardData = async () => {
         const response = await fetch("/cards.csv");
@@ -33,20 +34,56 @@ export default function useCards() {
         });
     };
 
+    const setCodesWithCardCount = useMemo<SetCodeWithCardCount[]>(
+        () =>
+            Object.entries(
+                (cards || []).reduce((acc: { [key: string]: number }, card) => {
+                    if (!acc[card.setCode]) {
+                        acc[card.setCode] = 0;
+                    }
+                    acc[card.setCode]++;
+                    return acc;
+                }, {})
+            )
+                .sort(([, countA], [, countB]) => countB - countA)
+                .map(([setCode, count]) => ({
+                    setCode,
+                    count,
+                    allocatedBoosters: 0,
+                })),
+        [cards]
+    );
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
+                setError(null);
                 const parsedData = await getLocalCardData();
                 setCards(parsedData.data);
-                setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching or parsing the CSV data:", error);
+                setError("Failed to load or parse card data");
+            } finally {
+                setIsLoading(false);
             }
         };
 
         fetchData();
     }, []);
 
-    return { cards, isLoading };
+    return {
+        data: {
+            cards,
+            setCodesWithCardCount: setCodesWithCardCount
+                .sort((a, b) => b.count - a.count)
+                .map(({ setCode, count }) => ({
+                    setCode,
+                    count,
+                    allocatedBoosters: 0,
+                })),
+        },
+        isLoading,
+        error,
+    };
 }

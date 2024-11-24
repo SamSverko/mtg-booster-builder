@@ -62,7 +62,7 @@ export type PlayBooster = {
 };
 
 export type SetCodeWithCardCount = {
-    allocatedBoosters?: number;
+    allocatedBoosters: number;
     count: number;
     setCode: string;
 };

@@ -1,0 +1,10 @@
+.setSelection {
+    display: grid;
+    gap: 4px;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    list-style: none;
+    margin: 0;
+    max-height: 125px;
+    overflow-y: auto;
+    padding: 0;
+}

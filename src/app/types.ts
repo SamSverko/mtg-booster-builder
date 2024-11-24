@@ -60,3 +60,9 @@ export type PlayBooster = {
     setCode?: string;
     slots: FixedLengthArray<PlayBoosterSlotItem, 14>;
 };
+
+export type SetCodeWithCardCount = {
+    allocatedBoosters?: number;
+    count: number;
+    setCode: string;
+};

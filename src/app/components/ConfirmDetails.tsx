@@ -27,7 +27,7 @@ export default function ConfirmDetails({
                     <b># boosters per set:</b>
                     <ul>
                         {boosterAllocation.length === 0 ? (
-                            <li>⚠️ None allocated</li>
+                            <li>None allocated</li>
                         ) : (
                             boosterAllocation.map((setCodeWithCardCount) => (
                                 <li key={setCodeWithCardCount.setCode}>

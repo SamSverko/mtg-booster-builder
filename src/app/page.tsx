@@ -129,6 +129,8 @@ export default function Home() {
             <h2>Step 5: Enjoy your boosters</h2>
 
             {/* TODO - save to local host for safe-refreshing! */}
+            {/* TODO - allow sort by collectorNumber */}
+            {/* TODO - add ability for user to check that they've gathered the cards */}
             {/* TODO - make this its own component */}
             {generatedBoosters.map((booster, index) => (
                 <details key={index}>

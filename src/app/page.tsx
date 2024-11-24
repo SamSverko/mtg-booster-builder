@@ -35,9 +35,13 @@ export default function Home() {
         <div>
             <h1>MTG Booster Builder</h1>
 
+            <hr />
+
             <h2>Step 1: Import your cards</h2>
             {/* TODO - make this an input so you can upload your .csv file */}
             <CardCount cardCount={cards?.length} isLoading={isLoading} />
+
+            <hr />
 
             <h2>Step 2: Choose your setup</h2>
 
@@ -63,11 +67,6 @@ export default function Home() {
 
             <h3>Set(s)</h3>
 
-            <p>
-                <b>Note:</b> Disabled sets do not have enough cards for your
-                settings.
-            </p>
-
             <SetSelection
                 boosterCount={boosterRequirements.boosterCount}
                 cardCountPerSet={boosterRequirements.cardCountPerSet}
@@ -78,6 +77,8 @@ export default function Home() {
                 playerCount={playerCount}
                 value={selectedSets}
             />
+
+            <hr />
 
             <h2>Step 3: Confirm details</h2>
 

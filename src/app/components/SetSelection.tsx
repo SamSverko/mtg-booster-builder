@@ -104,9 +104,16 @@ export default function SetSelection({
     }
 
     return (
-        <fieldset>
-            <legend>Set Selection</legend>
-            <ul className={styles.setSelection}>{setCodesListItems}</ul>
-        </fieldset>
+        <div>
+            <fieldset>
+                <legend>Set Selection</legend>
+                <ul className={styles.setSelection}>{setCodesListItems}</ul>
+            </fieldset>
+
+            <p>
+                <b>Note:</b> Disabled sets do not have enough cards for your
+                settings.
+            </p>
+        </div>
     );
 }

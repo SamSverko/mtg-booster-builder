@@ -46,8 +46,6 @@ export default function Home() {
         return { boosterCount, cardCountPerSet };
     }, [format, playerCount]);
 
-    console.log("generatedBoosters", generatedBoosters);
-
     return (
         <div className={styles.container}>
             <h1>MTG Booster Builder</h1>
@@ -109,6 +107,7 @@ export default function Home() {
 
             <h2>Step 4: Generate boosters</h2>
 
+            {/* TODO - make this its own component */}
             <button
                 disabled={boosterAllocation.length === 0}
                 onClick={
@@ -122,6 +121,30 @@ export default function Home() {
             >
                 Generate boosters
             </button>
+
+            {/* TODO - add error (or lack of) feedback here */}
+
+            <hr />
+
+            <h2>Step 5: Enjoy your boosters</h2>
+
+            {/* TODO - save to local host for safe-refreshing! */}
+            {/* TODO - make this its own component */}
+            {generatedBoosters.map((booster, index) => (
+                <details key={index}>
+                    <summary>
+                        Booster {index + 1} ({booster[0].setCode})
+                    </summary>
+                    <ul>
+                        {booster.map((card) => (
+                            <li key={card.scryfallID}>
+                                {card.collectorNumber} - {card.name}
+                                {card.foil === "foil" ? " (foil)" : ""}
+                            </li>
+                        ))}
+                    </ul>
+                </details>
+            ))}
         </div>
     );
 }

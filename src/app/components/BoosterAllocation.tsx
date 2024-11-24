@@ -181,7 +181,7 @@ export default function BoosterAllocation({
                                             0) === 0
                                     }
                                 >
-                                    - -
+                                    --
                                 </button>
                                 <button
                                     aria-label="Remove one booster allocation"
@@ -218,7 +218,7 @@ export default function BoosterAllocation({
                                         totalAllocatedBoosters >= boosterCount
                                     }
                                 >
-                                    + +
+                                    ++
                                 </button>
                             </div>
                         </li>

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import {
     BoosterAllocation,
     CardCount,
+    ConfirmDetails,
     FormatSelect,
     PlayerCountInput,
 } from "@/app/components";
@@ -91,16 +92,19 @@ export default function Home() {
 
             <h2>Step 3: Confirm details</h2>
 
-            <ul>
-                <li>
-                    <b>Number of cards required:</b>{" "}
-                    {boosterRequirements.cardCountPerSet}
-                </li>
-                <li>
-                    <b>Total number of boosters to be generated:</b>{" "}
-                    {boosterRequirements.boosterCount}
-                </li>
-            </ul>
+            <ConfirmDetails
+                boosterAllocation={boosterAllocation}
+                boosterCount={boosterRequirements.boosterCount}
+                cardCountPerSet={boosterRequirements.cardCountPerSet}
+            />
+
+            <hr />
+
+            <h2>Step 4: Generate boosters</h2>
+
+            <button disabled={boosterAllocation.length === 0}>
+                Generate boosters
+            </button>
         </div>
     );
 }

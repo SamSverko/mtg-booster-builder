@@ -110,15 +110,44 @@ function getRandomSlotItem(slot: PlayBoosterSlotItem) {
     const random = Math.random() * totalPercentage;
 
     let cumulativePercentage = 0;
+    let matchingItem: PlayBoosterSlotItem[0] | undefined;
 
+    // First, try to find a matching item by percentage distribution
     for (const item of slot) {
         cumulativePercentage += item.percentage;
         if (random <= cumulativePercentage) {
-            return item;
+            matchingItem = item;
+            break;
         }
     }
 
-    return slot[slot.length - 1]; // Return the last item if no match
+    // If no matching item found, go through the rarities within the slot
+    if (!matchingItem) {
+        const rarityOrder = ["mythic", "rare", "uncommon", "common"]; // Rarity step-down order
+
+        // Iterate through the rarities to find a match for the selected slot
+        for (const rarity of rarityOrder) {
+            // Find all items with the current rarity
+            const fallbackItems = slot.filter((item) => item.rarity === rarity);
+
+            if (fallbackItems.length > 0) {
+                // If we find any items with the current rarity, select one randomly
+                const randomItem =
+                    fallbackItems[
+                        Math.floor(Math.random() * fallbackItems.length)
+                    ];
+                matchingItem = randomItem;
+                break; // Exit as soon as a match is found
+            }
+        }
+    }
+
+    // If no matching item found, throw an error indicating not enough cards to finish the booster
+    if (!matchingItem) {
+        throw new Error("Not enough available cards to complete the booster.");
+    }
+
+    return matchingItem; // Return the selected matching item
 }
 
 function filterMatchingCards(

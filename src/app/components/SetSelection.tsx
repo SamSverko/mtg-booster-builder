@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { SetSelectionListItem } from "@/app/components";
 import { Format, ManaBoxCard, SetCodeWithCardCount } from "@/app/types";
 
@@ -80,6 +80,12 @@ export default function SetSelection({
             value,
         ]
     );
+
+    useEffect(() => {
+        if (value.length > boosterCount) {
+            onChange(value.slice(0, boosterCount));
+        }
+    }, [boosterCount, onChange, value]);
 
     if (isLoading) {
         return (

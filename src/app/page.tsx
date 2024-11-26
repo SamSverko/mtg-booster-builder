@@ -1,5 +1,16 @@
 "use client";
 
+import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    Button,
+    Divider,
+    Typography,
+} from "@mui/material";
+
 import { useMemo, useState } from "react";
 
 import {
@@ -13,8 +24,6 @@ import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
 import { Format, ManaBoxCard, SetCodeWithCardCount } from "@/app/types";
 import { getBoosters } from "@/app/utils";
-
-import styles from "@/app/page.module.scss";
 
 export default function Home() {
     const { data, isLoading } = useCards();
@@ -47,20 +56,34 @@ export default function Home() {
     }, [format, playerCount]);
 
     return (
-        <div className={styles.container}>
-            <h1>MTG Booster Builder</h1>
+        <Box
+            display="flex"
+            flexDirection="column"
+            gap={2}
+            m="0 auto"
+            maxWidth="400px"
+        >
+            <Typography component="h1" variant="h5">
+                MTG Booster Builder
+            </Typography>
 
-            <hr />
+            <Divider />
 
-            <h2>Step 1: Import your cards</h2>
+            <Typography component="h2" variant="h6">
+                Step 1: Import your cards
+            </Typography>
             {/* TODO - make this an input so you can upload your .csv file */}
             <CardCount cardCount={data.cards?.length} isLoading={isLoading} />
 
-            <hr />
+            <Divider />
 
-            <h2>Step 2: Choose your setup</h2>
+            <Typography component="h2" variant="h6">
+                Step 2: Choose your setup
+            </Typography>
 
-            <h3 id="format-label">Format</h3>
+            <Typography component="h3" id="format-label">
+                Step 2: Choose your setup
+            </Typography>
             {/* TODO - show format details */}
             <FormatSelect
                 aria-labelledby="format-label"
@@ -68,10 +91,10 @@ export default function Home() {
                 value={format}
             />
 
-            <h3 id="player-count-label">
+            <Typography component="h3" id="player-count-label">
                 Number of{" "}
                 {format?.name === FORMAT_NONE.name ? "boosters" : "players"}
-            </h3>
+            </Typography>
 
             <PlayerCountInput
                 aria-labelledby="player-count-label"
@@ -80,7 +103,7 @@ export default function Home() {
                 value={playerCount}
             />
 
-            <h3>Set(s)</h3>
+            <Typography component="h3">Set(s)</Typography>
 
             <BoosterAllocation
                 boosterCount={boosterRequirements.boosterCount}
@@ -93,9 +116,11 @@ export default function Home() {
                 value={boosterAllocation}
             />
 
-            <hr />
+            <Divider />
 
-            <h2>Step 3: Confirm details</h2>
+            <Typography component="h2" variant="h6">
+                Step 3: Confirm details
+            </Typography>
 
             <ConfirmDetails
                 boosterAllocation={boosterAllocation}
@@ -103,12 +128,14 @@ export default function Home() {
                 cardCountPerSet={boosterRequirements.cardCountPerSet}
             />
 
-            <hr />
+            <Divider />
 
-            <h2>Step 4: Generate boosters</h2>
+            <Typography component="h2" variant="h6">
+                Step 4: Generate boosters
+            </Typography>
 
             {/* TODO - make this its own component */}
-            <button
+            <Button
                 disabled={boosterAllocation.length === 0}
                 onClick={
                     data.cards
@@ -118,35 +145,46 @@ export default function Home() {
                               )
                         : undefined
                 }
+                variant="contained"
             >
                 Generate boosters
-            </button>
+            </Button>
 
             {/* TODO - add error (or lack of) feedback here */}
 
-            <hr />
+            <Divider />
 
-            <h2>Step 5: Enjoy your boosters</h2>
+            <Typography component="h2" variant="h6">
+                Step 5: Enjoy your boosters
+            </Typography>
 
             {/* TODO - save to local host for safe-refreshing! */}
             {/* TODO - allow sort by collectorNumber */}
             {/* TODO - add ability for user to check that they've gathered the cards */}
             {/* TODO - make this its own component */}
-            {generatedBoosters.map((booster, index) => (
-                <details key={index}>
-                    <summary>
-                        Booster {index + 1} ({booster[0].setCode})
-                    </summary>
-                    <ul>
-                        {booster.map((card) => (
-                            <li key={card.scryfallID}>
-                                {card.collectorNumber} - {card.name}
-                                {card.foil === "foil" ? " (foil)" : ""}
-                            </li>
-                        ))}
-                    </ul>
-                </details>
-            ))}
-        </div>
+            <Box>
+                {generatedBoosters.map((booster, index) => (
+                    <Accordion key={index}>
+                        <AccordionSummary
+                            aria-controls={`booster-${index}-content`}
+                            expandIcon={<ExpandMoreIcon />}
+                            id={`booster-${index}-panel`}
+                        >
+                            Booster {index + 1} ({booster[0].setCode})
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <ul>
+                                {booster.map((card) => (
+                                    <li key={card.scryfallID}>
+                                        {card.collectorNumber} - {card.name}
+                                        {card.foil === "foil" ? " (foil)" : ""}
+                                    </li>
+                                ))}
+                            </ul>
+                        </AccordionDetails>
+                    </Accordion>
+                ))}
+            </Box>
+        </Box>
     );
 }

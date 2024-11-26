@@ -66,6 +66,7 @@ export function getBoosters(
                         selectedSlot
                     );
 
+                    // TODO - don't restrict basic land to that type - it can be any type!
                     if (
                         slot[0].superType === "basic" &&
                         slot[0].type === "land"

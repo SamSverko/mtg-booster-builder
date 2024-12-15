@@ -1,237 +1,214 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useMemo } from "react";
+import {
+    Alert,
+    Box,
+    Button,
+    InputLabel,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Tooltip,
+} from "@mui/material";
 
-import { Format, SetCodeWithCardCount } from "@/app/types";
-
-import styles from "@/app/components/BoosterAllocation.module.scss";
+import { CountInput, type OnChangeEvent } from "@/app/components";
+import { CardCountBySet } from "@/app/types";
 
 type SetSelectionProps = {
-    boosterCount: number;
-    cardCountPerSet: number;
-    format: Format;
+    allocatedBoosterCountBySet: CardCountBySet;
+    cardCountBySet: CardCountBySet;
+    onChange: (event: CardCountBySet) => void;
+    requiredBoosterCount: number;
+    requiredCardCountPerSet: number;
     isLoading?: boolean;
-    onChange: (selectedSets: SetCodeWithCardCount[]) => void;
-    playerCount: number;
-    setCodesWithCardCount: SetCodeWithCardCount[];
-    value: SetCodeWithCardCount[];
 };
 
 export default function BoosterAllocation({
-    boosterCount,
-    cardCountPerSet,
+    allocatedBoosterCountBySet,
+    cardCountBySet,
     isLoading,
     onChange,
-    setCodesWithCardCount,
-    value,
+    requiredBoosterCount,
+    requiredCardCountPerSet,
 }: SetSelectionProps) {
-    const prevBoosterCount = useRef(boosterCount);
-
     const totalAllocatedBoosters = useMemo(
-        () => value.reduce((acc, set) => acc + set.allocatedBoosterCount, 0),
-        [value]
+        () =>
+            Object.values(allocatedBoosterCountBySet).reduce(
+                (acc, count) => acc + count,
+                0
+            ),
+        [allocatedBoosterCountBySet]
+    );
+
+    const remainingBoostersToAllocate = useMemo(
+        () => requiredBoosterCount - totalAllocatedBoosters,
+        [requiredBoosterCount, totalAllocatedBoosters]
     );
 
     const resetBoosterAllocation = useCallback(() => {
-        onChange([]);
+        onChange({});
     }, [onChange]);
 
-    const allocateBooster = useCallback(
-        (set: SetCodeWithCardCount, increment: number) => {
-            const updatedValue = value
-                .map((existingSet) => {
-                    if (existingSet.setCode === set.setCode) {
-                        const newCount = Math.max(
-                            0,
-                            Math.min(
-                                boosterCount,
-                                existingSet.allocatedBoosterCount + increment
-                            )
-                        );
-                        return {
-                            ...existingSet,
-                            allocatedBoosterCount: newCount,
-                        };
-                    }
-                    return existingSet;
-                })
-                .filter((existingSet) => existingSet.allocatedBoosterCount > 0);
+    const handleCountChange = useCallback(
+        (setCode: string, event: OnChangeEvent) => {
+            const currentCount = allocatedBoosterCountBySet[setCode] ?? 0;
+            const newCount =
+                {
+                    "decrement-all": 0,
+                    decrement: Math.max(currentCount - 1, 0),
+                    increment: currentCount + 1,
+                    "increment-all": currentCount + remainingBoostersToAllocate,
+                }[event] ?? currentCount;
 
-            if (
-                !updatedValue.find((s) => s.setCode === set.setCode) &&
-                increment > 0
-            ) {
-                updatedValue.push({
-                    ...set,
-                    allocatedBoosterCount: increment,
+            if (newCount !== currentCount) {
+                onChange({
+                    ...allocatedBoosterCountBySet,
+                    [setCode]: newCount,
                 });
             }
-
-            onChange(updatedValue);
         },
-        [value, boosterCount, onChange]
+        [onChange, remainingBoostersToAllocate, allocatedBoosterCountBySet]
     );
-
-    const addAllRemainingAllocations = useCallback(
-        (set: SetCodeWithCardCount) => {
-            const remaining = boosterCount - totalAllocatedBoosters;
-            if (remaining <= 0) return;
-
-            let setExists = false;
-
-            const updatedValue = value
-                .map((existingSet) => {
-                    if (existingSet.setCode === set.setCode) {
-                        setExists = true;
-                        return {
-                            ...existingSet,
-                            allocatedBoosterCount: Math.min(
-                                boosterCount,
-                                existingSet.allocatedBoosterCount + remaining
-                            ),
-                        };
-                    }
-                    return existingSet;
-                })
-                .filter((existingSet) => existingSet.allocatedBoosterCount > 0);
-
-            if (!setExists) {
-                updatedValue.push({
-                    ...set,
-                    allocatedBoosterCount: remaining,
-                });
-            }
-
-            onChange(updatedValue);
-        },
-        [value, boosterCount, totalAllocatedBoosters, onChange]
-    );
-
-    const removeAllAllocations = useCallback(
-        (set: SetCodeWithCardCount) => {
-            const updatedValue = value
-                .map((existingSet) =>
-                    existingSet.setCode === set.setCode
-                        ? { ...existingSet, allocatedBoosterCount: 0 }
-                        : existingSet
-                )
-                .filter((existingSet) => existingSet.allocatedBoosterCount > 0);
-
-            onChange(updatedValue);
-        },
-        [value, onChange]
-    );
-
-    useEffect(() => {
-        if (prevBoosterCount.current !== boosterCount) {
-            prevBoosterCount.current = boosterCount;
-            onChange([]);
-        }
-    }, [boosterCount, onChange]);
 
     if (isLoading) {
         return (
-            <div>
-                <p>Loading sets...</p>
-            </div>
+            <Box display="flex" flexDirection="column" gap={1}>
+                <InputLabel>Sets</InputLabel>
+                <Alert severity="info">Loading sets...</Alert>
+            </Box>
         );
     }
 
-    if (!setCodesWithCardCount?.length) {
+    if (!cardCountBySet) {
         return (
-            <div>
-                <p>No sets available.</p>
-            </div>
+            <Box display="flex" flexDirection="column" gap={1}>
+                <InputLabel>Sets</InputLabel>
+                <Alert severity="error">No sets available.</Alert>
+            </Box>
         );
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.resetSection}>
-                <span>
-                    <b>Boosters to allocate:</b>{" "}
-                    {boosterCount - totalAllocatedBoosters}
-                </span>
-                <button onClick={resetBoosterAllocation}>Reset</button>
-            </div>
+        <Box display="flex" flexDirection="column" gap={1}>
+            <InputLabel>Sets</InputLabel>
 
-            <div className={styles.listHeaders}>
-                <div>Set</div>
-                <div>Total cards</div>
-                <div>Boosters</div>
-            </div>
-
-            <ul className={styles.list}>
-                {setCodesWithCardCount.map((set) => {
-                    const notEnoughCards = set.count < cardCountPerSet;
-                    const allocatedSet = value.find(
-                        (v) => v.setCode === set.setCode
-                    );
-
-                    return (
-                        <li
-                            className={notEnoughCards ? styles.muted : ""}
-                            key={set.setCode}
+            <Alert
+                action={
+                    totalAllocatedBoosters > 0 && (
+                        <Button
+                            color="inherit"
+                            onClick={resetBoosterAllocation}
+                            size="small"
                         >
-                            <div>{set.setCode}</div>
-                            <div>{set.count}</div>
-                            <div>
-                                <button
-                                    aria-label="Remove all remaining allocations"
-                                    onClick={() => removeAllAllocations(set)}
-                                    disabled={
-                                        notEnoughCards ||
-                                        (allocatedSet?.allocatedBoosterCount ??
-                                            0) === 0
-                                    }
-                                >
-                                    --
-                                </button>
-                                <button
-                                    aria-label="Remove one booster allocation"
-                                    onClick={() => allocateBooster(set, -1)}
-                                    disabled={
-                                        notEnoughCards ||
-                                        (allocatedSet?.allocatedBoosterCount ??
-                                            0) <= 0
-                                    }
-                                >
-                                    -
-                                </button>
-                                <span className={styles.allocationCount}>
-                                    {allocatedSet?.allocatedBoosterCount ?? 0}
-                                </span>
-                                <button
-                                    aria-label="Add one booster allocation"
-                                    onClick={() => allocateBooster(set, 1)}
-                                    disabled={
-                                        notEnoughCards ||
-                                        totalAllocatedBoosters >= boosterCount
-                                    }
-                                >
-                                    +
-                                </button>
+                            RESET
+                        </Button>
+                    )
+                }
+                icon={false}
+                severity={
+                    remainingBoostersToAllocate === 0 ? "success" : "info"
+                }
+            >
+                {remainingBoostersToAllocate === 0
+                    ? "All boosters allocated!"
+                    : `${remainingBoostersToAllocate} boosters remaining to allocate.`}
+            </Alert>
 
-                                <button
-                                    aria-label="Add all remaining allocations"
-                                    onClick={() =>
-                                        addAllRemainingAllocations(set)
-                                    }
-                                    disabled={
-                                        notEnoughCards ||
-                                        totalAllocatedBoosters >= boosterCount
-                                    }
-                                >
-                                    ++
-                                </button>
-                            </div>
-                        </li>
-                    );
-                })}
-            </ul>
-
-            <p>
-                <b>Note:</b> Fully disabled sets do not have enough cards for
-                your settings.
-            </p>
-        </div>
+            <TableContainer sx={{ maxHeight: "275px" }}>
+                <Table size="small" stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Set</TableCell>
+                            <TableCell align="right">Total cards</TableCell>
+                            <TableCell align="center">Boosters</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {Object.entries(cardCountBySet).map(
+                            ([setCode, cardCountInSet]) => {
+                                const allocatedBoostersForSet =
+                                    allocatedBoosterCountBySet[setCode] || 0;
+                                const notEnoughCards =
+                                    cardCountInSet < requiredCardCountPerSet;
+                                return (
+                                    <TableRow key={setCode}>
+                                        <TableCell>{setCode}</TableCell>
+                                        <TableCell align="right">
+                                            {cardCountInSet}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Tooltip
+                                                title={
+                                                    notEnoughCards
+                                                        ? "Not enough cards in set"
+                                                        : ""
+                                                }
+                                                placement="top"
+                                                slotProps={{
+                                                    popper: {
+                                                        modifiers: [
+                                                            {
+                                                                name: "offset",
+                                                                options: {
+                                                                    offset: [
+                                                                        0, -14,
+                                                                    ],
+                                                                },
+                                                            },
+                                                        ],
+                                                    },
+                                                }}
+                                            >
+                                                <Box
+                                                    display="flex"
+                                                    justifyContent="center"
+                                                >
+                                                    <CountInput
+                                                        disableDecrementAll={
+                                                            !allocatedBoostersForSet ||
+                                                            allocatedBoostersForSet ===
+                                                                0
+                                                        }
+                                                        disableDecrement={
+                                                            !allocatedBoostersForSet ||
+                                                            allocatedBoostersForSet ===
+                                                                0
+                                                        }
+                                                        disableIncrement={
+                                                            notEnoughCards ||
+                                                            remainingBoostersToAllocate ===
+                                                                0
+                                                        }
+                                                        disableIncrementAll={
+                                                            notEnoughCards ||
+                                                            remainingBoostersToAllocate ===
+                                                                0
+                                                        }
+                                                        onChange={(event) => {
+                                                            handleCountChange(
+                                                                setCode,
+                                                                event
+                                                            );
+                                                        }}
+                                                        showAllControls
+                                                        value={
+                                                            allocatedBoosterCountBySet[
+                                                                setCode
+                                                            ] || 0
+                                                        }
+                                                    />
+                                                </Box>
+                                            </Tooltip>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            }
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     );
 }

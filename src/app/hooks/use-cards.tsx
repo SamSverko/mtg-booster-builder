@@ -1,7 +1,7 @@
 import Papa from "papaparse";
 import { useEffect, useMemo, useState } from "react";
 
-import { ManaBoxCard, SetCodeWithCardCount } from "@/app/types";
+import { ManaBoxCard, CardCountBySet } from "@/app/types";
 
 export default function useCards() {
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);
@@ -34,23 +34,19 @@ export default function useCards() {
         });
     };
 
-    const setCodesWithCardCount = useMemo<SetCodeWithCardCount[]>(
+    const cardCountBySet = useMemo<CardCountBySet>(
         () =>
-            Object.entries(
-                (cards || []).reduce((acc: { [key: string]: number }, card) => {
-                    if (!acc[card.setCode]) {
-                        acc[card.setCode] = 0;
-                    }
-                    acc[card.setCode]++;
-                    return acc;
-                }, {})
-            )
-                .sort(([, countA], [, countB]) => countB - countA)
-                .map(([setCode, count]) => ({
-                    setCode,
-                    count,
-                    allocatedBoosterCount: 0,
-                })),
+            Object.fromEntries(
+                Object.entries(
+                    (cards || []).reduce((acc: CardCountBySet, card) => {
+                        if (!acc[card.setCode]) {
+                            acc[card.setCode] = 0;
+                        }
+                        acc[card.setCode]++;
+                        return acc;
+                    }, {})
+                ).sort(([, countA], [, countB]) => countB - countA) // Sort descending by value
+            ),
         [cards]
     );
 
@@ -75,13 +71,7 @@ export default function useCards() {
     return {
         data: {
             cards,
-            setCodesWithCardCount: setCodesWithCardCount
-                .sort((a, b) => b.count - a.count)
-                .map(({ setCode, count }) => ({
-                    setCode,
-                    count,
-                    allocatedBoosterCount: 0,
-                })),
+            cardCountBySet,
         },
         isLoading,
         error,

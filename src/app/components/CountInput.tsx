@@ -6,19 +6,29 @@ import {
 } from "@mui/icons-material";
 import { Box, IconButton, InputLabel, Typography } from "@mui/material";
 
+export type OnChangeEvent =
+    | "decrement-all"
+    | "decrement"
+    | "increment"
+    | "increment-all";
+
 type CountInputProps = {
-    onChange: (count: number) => void;
+    disableDecrementAll?: boolean;
+    disableDecrement?: boolean;
+    disableIncrement?: boolean;
+    disableIncrementAll?: boolean;
+    onChange: (event: OnChangeEvent) => void;
     value: number;
     label?: string;
-    max?: number;
-    min?: number;
     showAllControls?: boolean;
 };
 
 export default function CountInput({
+    disableDecrementAll = false,
+    disableDecrement = false,
+    disableIncrement = false,
+    disableIncrementAll = false,
     label,
-    max,
-    min = 1,
     onChange,
     showAllControls = false,
     value,
@@ -35,25 +45,33 @@ export default function CountInput({
                 gap={1}
                 width="fit-content"
             >
-                <Box>
+                <Box display="flex" flexWrap="nowrap">
                     {showAllControls && (
                         <IconButton
-                            disabled={value <= min}
-                            onClick={() => onChange(min)}
+                            disabled={disableDecrementAll}
+                            onClick={() => onChange("decrement-all")}
                             size="small"
                         >
                             <KeyboardDoubleArrowLeft />
                         </IconButton>
                     )}
                     <IconButton
-                        disabled={value <= min}
-                        onClick={() => onChange(value - 1)}
+                        disabled={disableDecrement}
+                        onClick={() => onChange("decrement")}
                         size="small"
                     >
                         <KeyboardArrowLeft />
                     </IconButton>
                 </Box>
                 <Typography
+                    color={
+                        disableDecrementAll &&
+                        disableDecrement &&
+                        disableIncrement &&
+                        disableIncrementAll
+                            ? "text.disabled"
+                            : "text.primary"
+                    }
                     sx={{
                         userSelect: "none",
                     }}
@@ -62,19 +80,18 @@ export default function CountInput({
                 >
                     {value}
                 </Typography>
-                <Box>
+                <Box display="flex" flexWrap="nowrap">
                     <IconButton
-                        onClick={() => onChange(value + 1)}
+                        disabled={disableIncrement}
+                        onClick={() => onChange("increment")}
                         size="small"
                     >
                         <KeyboardArrowRight />
                     </IconButton>
                     {showAllControls && (
                         <IconButton
-                            disabled={!max || value >= max}
-                            onClick={() => {
-                                if (max) onChange(max);
-                            }}
+                            disabled={disableIncrementAll}
+                            onClick={() => onChange("increment-all")}
                             size="small"
                         >
                             <KeyboardDoubleArrowRight />

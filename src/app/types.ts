@@ -55,8 +55,6 @@ export type PlayBooster = {
     slots: PlayBoosterSlotItem[];
 };
 
-export type SetCodeWithCardCount = {
-    allocatedBoosterCount: number;
-    count: number;
-    setCode: string;
+export type CardCountBySet = {
+    [key: string]: number;
 };

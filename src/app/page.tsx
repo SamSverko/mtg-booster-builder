@@ -5,24 +5,24 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
+    Alert,
     Box,
     Button,
     Divider,
     Typography,
 } from "@mui/material";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
     BoosterAllocation,
     CardCount,
     ConfirmDetails,
     FormatSelect,
-    CountInput,
 } from "@/app/components";
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
-import { Format, ManaBoxCard, SetCodeWithCardCount } from "@/app/types";
+import { CardCountBySet, Format, ManaBoxCard } from "@/app/types";
 import { getBoosters } from "@/app/utils";
 
 export default function Home() {
@@ -32,9 +32,8 @@ export default function Home() {
     const [playerCount, setPlayerCount] = useState<number>(
         format.minPlayerCount || 1
     );
-    const [boosterAllocation, setBoosterAllocation] = useState<
-        SetCodeWithCardCount[]
-    >([]);
+    const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
+        useState<CardCountBySet>({});
     const [generatedBoosters, setGeneratedBoosters] = useState<ManaBoxCard[][]>(
         []
     );
@@ -55,6 +54,37 @@ export default function Home() {
         return { boosterCount, cardCountPerSet };
     }, [format, playerCount]);
 
+    // TODO - Use loading Skeletons instead?
+    if (isLoading) {
+        return (
+            <Box
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                m="0 auto"
+                maxWidth="400px"
+            >
+                <Alert severity="info">Loading...</Alert>
+            </Box>
+        );
+    }
+
+    if (!data || !data.cardCountBySet || data.cardCountBySet.length === 0) {
+        return (
+            <Box
+                display="flex"
+                flexDirection="column"
+                gap={2}
+                m="0 auto"
+                maxWidth="400px"
+            >
+                <Alert severity="info">
+                    No booster allocation data available.
+                </Alert>
+            </Box>
+        );
+    }
+
     return (
         <Box
             display="flex"
@@ -72,7 +102,6 @@ export default function Home() {
             <Typography component="h2" variant="h6">
                 Step 1: Import your cards
             </Typography>
-            {/* TODO - make this an input so you can upload your .csv file */}
             <CardCount cardCount={data.cards?.length} isLoading={isLoading} />
 
             <Divider />
@@ -83,25 +112,13 @@ export default function Home() {
 
             <FormatSelect onChange={setFormat} value={format} />
 
-            <CountInput
-                label={`Number of ${
-                    format?.name === FORMAT_NONE.name ? "boosters" : "players"
-                }`}
-                onChange={setPlayerCount}
-                value={playerCount}
-            />
-
-            <Typography component="h3">Set(s)</Typography>
-
             <BoosterAllocation
-                boosterCount={boosterRequirements.boosterCount}
-                cardCountPerSet={boosterRequirements.cardCountPerSet}
-                format={format}
+                allocatedBoosterCountBySet={allocatedBoosterCountBySet}
+                cardCountBySet={data.cardCountBySet}
                 isLoading={isLoading}
-                onChange={setBoosterAllocation}
-                playerCount={playerCount}
-                setCodesWithCardCount={data?.setCodesWithCardCount || []}
-                value={boosterAllocation}
+                onChange={setAllocatedBoosterCountBySet}
+                requiredBoosterCount={boosterRequirements.boosterCount}
+                requiredCardCountPerSet={boosterRequirements.cardCountPerSet}
             />
 
             <Divider />
@@ -110,11 +127,11 @@ export default function Home() {
                 Step 3: Confirm details
             </Typography>
 
-            <ConfirmDetails
+            {/* <ConfirmDetails
                 boosterAllocation={boosterAllocation}
                 boosterCount={boosterRequirements.boosterCount}
                 cardCountPerSet={boosterRequirements.cardCountPerSet}
-            />
+            /> */}
 
             <Divider />
 
@@ -122,8 +139,7 @@ export default function Home() {
                 Step 4: Generate boosters
             </Typography>
 
-            {/* TODO - make this its own component */}
-            <Button
+            {/* <Button
                 disabled={boosterAllocation.length === 0}
                 onClick={
                     data.cards
@@ -136,9 +152,7 @@ export default function Home() {
                 variant="contained"
             >
                 Generate boosters
-            </Button>
-
-            {/* TODO - add error (or lack of) feedback here */}
+            </Button> */}
 
             <Divider />
 
@@ -146,11 +160,7 @@ export default function Home() {
                 Step 5: Enjoy your boosters
             </Typography>
 
-            {/* TODO - save to local host for safe-refreshing! */}
-            {/* TODO - allow sort by collectorNumber */}
-            {/* TODO - add ability for user to check that they've gathered the cards */}
-            {/* TODO - make this its own component */}
-            <Box>
+            {/* <Box>
                 {generatedBoosters.map((booster, index) => (
                     <Accordion key={index}>
                         <AccordionSummary
@@ -172,7 +182,7 @@ export default function Home() {
                         </AccordionDetails>
                     </Accordion>
                 ))}
-            </Box>
+            </Box> */}
         </Box>
     );
 }

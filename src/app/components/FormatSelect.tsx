@@ -6,59 +6,54 @@ import {
 import { Format } from "@/app/types";
 import {
     Box,
-    FormControl,
     InputLabel,
-    MenuItem,
-    Select,
-    SelectProps,
+    ToggleButton,
+    ToggleButtonGroup,
+    ToggleButtonGroupProps,
 } from "@mui/material";
 
 type FormatSelectProps = {
     onChange: (format: Format) => void;
     value: Format;
-    id?: string;
 };
 
-export default function FormatSelect({
-    id = "format-select-label",
-    onChange,
-    value,
-}: FormatSelectProps) {
-    const label = "Format";
+// TODO - show format details?
+export default function FormatSelect({ onChange, value }: FormatSelectProps) {
     const formatMap = new Map([
         [FORMAT_NONE.name, FORMAT_NONE],
         [FORMAT_BOOSTER_DRAFT.name, FORMAT_BOOSTER_DRAFT],
         [FORMAT_SEALED_DECK.name, FORMAT_SEALED_DECK],
     ]);
 
-    const handleChange: SelectProps["onChange"] = (event) => {
-        const value = event.target.value;
+    const handleChange: ToggleButtonGroupProps["onChange"] = (_, value) => {
+        const selectedFormat = formatMap.get(value);
 
-        if (typeof value !== "string") return;
-
-        const selectedFormat = formatMap.get(value) || FORMAT_NONE;
-        onChange(selectedFormat);
+        if (selectedFormat) {
+            onChange(selectedFormat);
+        }
     };
 
     return (
-        <FormControl>
-            <InputLabel id={`${id}-label`}>{label}</InputLabel>
-            <Select
-                id={id}
-                label={label}
-                labelId={`${id}-label`}
-                onChange={handleChange}
+        <Box display="flex" flexDirection="column" gap={1}>
+            <InputLabel>Format</InputLabel>
+            <ToggleButtonGroup
+                color="primary"
+                exclusive
+                fullWidth
                 size="small"
+                onChange={handleChange}
                 value={value.name}
             >
-                {[FORMAT_NONE, FORMAT_BOOSTER_DRAFT, FORMAT_SEALED_DECK].map(
-                    (format) => (
-                        <MenuItem key={format.name} value={format.name}>
-                            {format.name}
-                        </MenuItem>
-                    )
-                )}
-            </Select>
-        </FormControl>
+                <ToggleButton value={FORMAT_NONE.name}>
+                    {FORMAT_NONE.name}
+                </ToggleButton>
+                <ToggleButton value={FORMAT_BOOSTER_DRAFT.name}>
+                    {FORMAT_BOOSTER_DRAFT.name}
+                </ToggleButton>
+                <ToggleButton value={FORMAT_SEALED_DECK.name}>
+                    {FORMAT_SEALED_DECK.name}
+                </ToggleButton>
+            </ToggleButtonGroup>
+        </Box>
     );
 }

@@ -81,13 +81,12 @@ export default function Home() {
                 Step 2: Choose your setup
             </Typography>
 
-            {/* TODO - show format details */}
             <FormatSelect onChange={setFormat} value={format} />
 
             <CountInput
-                label={
-                    format?.name === FORMAT_NONE.name ? "Boosters" : "Players"
-                }
+                label={`Number of ${
+                    format?.name === FORMAT_NONE.name ? "boosters" : "players"
+                }`}
                 onChange={setPlayerCount}
                 value={playerCount}
             />

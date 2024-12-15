@@ -24,72 +24,63 @@ export default function CountInput({
     value,
 }: CountInputProps) {
     return (
-        <Box
-            border={(theme) => `1px solid ${theme.palette.grey[400]}`}
-            borderRadius={"4px"}
-            alignItems="center"
-            display="flex"
-            p="2px"
-            position="relative"
-            gap={1}
-            width="fit-content"
-        >
-            {label && (
-                <InputLabel
-                    sx={{
-                        bgcolor: "white",
-                        left: 0,
-                        p: "0 7px",
-                        position: "absolute",
-                        top: 0,
-                        transform: "translate(8px, -9px) scale(0.75)",
-                    }}
-                >
-                    {label}
-                </InputLabel>
-            )}
-            <Box>
-                {showAllControls && (
+        <Box display="flex" flexDirection="column" gap={1}>
+            {label && <InputLabel>{label}</InputLabel>}
+            <Box
+                border={(theme) => `1px solid ${theme.palette.grey[300]}`}
+                borderRadius={"4px"}
+                alignItems="center"
+                display="flex"
+                p="2px"
+                gap={1}
+                width="fit-content"
+            >
+                <Box>
+                    {showAllControls && (
+                        <IconButton
+                            disabled={value <= min}
+                            onClick={() => onChange(min)}
+                            size="small"
+                        >
+                            <KeyboardDoubleArrowLeft />
+                        </IconButton>
+                    )}
                     <IconButton
                         disabled={value <= min}
-                        onClick={() => onChange(min)}
+                        onClick={() => onChange(value - 1)}
                         size="small"
                     >
-                        <KeyboardDoubleArrowLeft />
+                        <KeyboardArrowLeft />
                     </IconButton>
-                )}
-                <IconButton
-                    disabled={value <= min}
-                    onClick={() => onChange(value - 1)}
-                    size="small"
+                </Box>
+                <Typography
+                    sx={{
+                        userSelect: "none",
+                    }}
+                    textAlign="center"
+                    width="2ch"
                 >
-                    <KeyboardArrowLeft />
-                </IconButton>
-            </Box>
-            <Typography
-                sx={{
-                    userSelect: "none",
-                }}
-                textAlign="center"
-                width="2ch"
-            >
-                {value}
-            </Typography>
-            <Box>
-                <IconButton onClick={() => onChange(value + 1)} size="small">
-                    <KeyboardArrowRight />
-                </IconButton>
-                {showAllControls && (
+                    {value}
+                </Typography>
+                <Box>
                     <IconButton
-                        disabled={!max || value >= max}
-                        onClick={() => {
-                            if (max) onChange(max);
-                        }}
+                        onClick={() => onChange(value + 1)}
                         size="small"
                     >
-                        <KeyboardDoubleArrowRight />
+                        <KeyboardArrowRight />
                     </IconButton>
-                )}
+                    {showAllControls && (
+                        <IconButton
+                            disabled={!max || value >= max}
+                            onClick={() => {
+                                if (max) onChange(max);
+                            }}
+                            size="small"
+                        >
+                            <KeyboardDoubleArrowRight />
+                        </IconButton>
+                    )}
+                </Box>
             </Box>
         </Box>
     );

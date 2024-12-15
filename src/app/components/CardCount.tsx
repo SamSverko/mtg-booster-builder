@@ -1,3 +1,5 @@
+import { Box, Typography } from "@mui/material";
+
 type CardCountProps = {
     cardCount?: number;
     isLoading?: boolean;
@@ -10,9 +12,5 @@ export default function CardCount({ cardCount, isLoading }: CardCountProps) {
         ? "No cards found."
         : `${cardCount} cards found.`;
 
-    return (
-        <div>
-            <p>{text}</p>
-        </div>
-    );
+    return <Typography>{text}</Typography>;
 }

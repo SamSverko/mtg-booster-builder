@@ -18,7 +18,7 @@ import {
     CardCount,
     ConfirmDetails,
     FormatSelect,
-    PlayerCountInput,
+    CountInput,
 } from "@/app/components";
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
@@ -81,24 +81,13 @@ export default function Home() {
                 Step 2: Choose your setup
             </Typography>
 
-            <Typography component="h3" id="format-label">
-                Step 2: Choose your setup
-            </Typography>
             {/* TODO - show format details */}
-            <FormatSelect
-                aria-labelledby="format-label"
-                onChange={setFormat}
-                value={format}
-            />
+            <FormatSelect onChange={setFormat} value={format} />
 
-            <Typography component="h3" id="player-count-label">
-                Number of{" "}
-                {format?.name === FORMAT_NONE.name ? "boosters" : "players"}
-            </Typography>
-
-            <PlayerCountInput
-                aria-labelledby="player-count-label"
-                format={format}
+            <CountInput
+                label={
+                    format?.name === FORMAT_NONE.name ? "Boosters" : "Players"
+                }
                 onChange={setPlayerCount}
                 value={playerCount}
             />

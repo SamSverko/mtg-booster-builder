@@ -71,7 +71,6 @@ export default function Home() {
         }
     };
 
-    // reset player count and allocatedBoosterCountBySet if format changes
     useEffect(() => {
         setPlayerCount(format.minPlayerCount || 1);
         setAllocatedBoosterCountBySet({});
@@ -83,7 +82,7 @@ export default function Home() {
             <Box
                 display="flex"
                 flexDirection="column"
-                gap={2}
+                gap={3}
                 m="0 auto"
                 maxWidth="400px"
             >
@@ -97,7 +96,7 @@ export default function Home() {
             <Box
                 display="flex"
                 flexDirection="column"
-                gap={2}
+                gap={3}
                 m="0 auto"
                 maxWidth="400px"
             >
@@ -112,7 +111,7 @@ export default function Home() {
         <Box
             display="flex"
             flexDirection="column"
-            gap={2}
+            gap={3}
             m="0 auto"
             maxWidth="400px"
         >
@@ -162,11 +161,11 @@ export default function Home() {
                 Step 3: Confirm details
             </Typography>
 
-            {/* <ConfirmDetails
-                boosterAllocation={boosterAllocation}
-                boosterCount={boosterRequirements.boosterCount}
-                cardCountPerSet={boosterRequirements.cardCountPerSet}
-            /> */}
+            <ConfirmDetails
+                allocatedBoosterCountBySet={allocatedBoosterCountBySet}
+                requiredBoosterCount={boosterRequirements.boosterCount}
+                requiredCardCountPerSet={boosterRequirements.cardCountPerSet}
+            />
 
             <Divider />
 

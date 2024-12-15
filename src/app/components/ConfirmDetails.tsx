@@ -1,44 +1,63 @@
-import { SetCodeWithCardCount } from "@/app/types";
+import { Box, Divider, List, ListItem, Typography } from "@mui/material";
 
-import styles from "@/app/components/ConfirmDetails.module.scss";
+import { CardCountBySet } from "@/app/types";
 
 type ConfirmDetailsProps = {
-    boosterAllocation: SetCodeWithCardCount[];
-    cardCountPerSet: number;
-    boosterCount: number;
+    allocatedBoosterCountBySet: CardCountBySet;
+    requiredBoosterCount: number;
+    requiredCardCountPerSet: number;
 };
 
 export default function ConfirmDetails({
-    boosterAllocation,
-    cardCountPerSet,
-    boosterCount,
+    allocatedBoosterCountBySet,
+    requiredBoosterCount,
+    requiredCardCountPerSet,
 }: ConfirmDetailsProps) {
     return (
-        <div>
-            <ul className={styles.list}>
-                <li>
-                    <b># cards required:</b> <span>{cardCountPerSet}</span>
-                </li>
-                <li>
-                    <b># boosters to be generated:</b>{" "}
-                    <span>{boosterCount}</span>
-                </li>
-                <li>
-                    <b># boosters per set:</b>
-                    <ul>
-                        {boosterAllocation.length === 0 ? (
-                            <li>None allocated</li>
-                        ) : (
-                            boosterAllocation.map((setCodeWithCardCount) => (
-                                <li key={setCodeWithCardCount.setCode}>
-                                    {setCodeWithCardCount.setCode}:{" "}
-                                    {setCodeWithCardCount.allocatedBoosterCount}
-                                </li>
-                            ))
-                        )}
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <List disablePadding>
+            <ListItem
+                disableGutters
+                secondaryAction={
+                    <Typography>{requiredBoosterCount}</Typography>
+                }
+            >
+                <Typography>
+                    <Box component="b">Boosters to be generated</Box>
+                </Typography>
+            </ListItem>
+            <Divider />
+            <List disablePadding>
+                {!Object.keys(allocatedBoosterCountBySet).length ? (
+                    <ListItem disableGutters>
+                        <Typography>No boosters allocated</Typography>
+                    </ListItem>
+                ) : (
+                    Object.entries(allocatedBoosterCountBySet).map(
+                        ([setCode, allocatedBoosterCount]) => (
+                            <ListItem
+                                disableGutters
+                                key={setCode}
+                                secondaryAction={
+                                    <Typography>
+                                        {allocatedBoosterCount}
+                                    </Typography>
+                                }
+                            >
+                                <Typography>{setCode}</Typography>
+                            </ListItem>
+                        )
+                    )
+                )}
+            </List>
+            <Divider />
+            <ListItem
+                disableGutters
+                secondaryAction={
+                    <Typography>{requiredCardCountPerSet}</Typography>
+                }
+            >
+                <Typography fontWeight="bold">Total cards needed</Typography>
+            </ListItem>
+        </List>
     );
 }

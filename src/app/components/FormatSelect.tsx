@@ -1,16 +1,17 @@
 import {
-    FORMAT_BOOSTER_DRAFT,
-    FORMAT_NONE,
-    FORMAT_SEALED_DECK,
-} from "@/app/constants";
-import { Format } from "@/app/types";
-import {
     Box,
     InputLabel,
     ToggleButton,
     ToggleButtonGroup,
     ToggleButtonGroupProps,
 } from "@mui/material";
+
+import {
+    FORMAT_BOOSTER_DRAFT,
+    FORMAT_NONE,
+    FORMAT_SEALED_DECK,
+} from "@/app/constants";
+import { Format } from "@/app/types";
 
 type FormatSelectProps = {
     onChange: (format: Format) => void;

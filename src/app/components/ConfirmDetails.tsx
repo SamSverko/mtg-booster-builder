@@ -1,6 +1,6 @@
-import { Box, Divider, List, ListItem, Typography } from "@mui/material";
+import { List, ListItem, Typography } from "@mui/material";
 
-import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
+import { PLAY_BOOSTER } from "@/app/constants";
 import { CardCountBySet } from "@/app/types";
 
 type ConfirmDetailsProps = {

@@ -1,16 +1,6 @@
 "use client";
 
-import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Alert,
-    Box,
-    Button,
-    Divider,
-    Typography,
-} from "@mui/material";
+import { Alert, Box, Button, Divider, Typography } from "@mui/material";
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -20,6 +10,7 @@ import {
     ConfirmDetails,
     CountInput,
     FormatSelect,
+    GeneratedBoosters,
     type OnChangeEvent,
 } from "@/app/components";
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
@@ -71,9 +62,11 @@ export default function Home() {
         }
     };
 
+    // TODO - Fix double render on format change
     useEffect(() => {
         setPlayerCount(format.minPlayerCount || 1);
         setAllocatedBoosterCountBySet({});
+        setGeneratedBoosters([]);
     }, [format]);
 
     // TODO - Use loading Skeletons instead?
@@ -197,29 +190,7 @@ export default function Home() {
                 Step 5: Enjoy your boosters
             </Typography>
 
-            {/* <Box>
-                {generatedBoosters.map((booster, index) => (
-                    <Accordion key={index}>
-                        <AccordionSummary
-                            aria-controls={`booster-${index}-content`}
-                            expandIcon={<ExpandMoreIcon />}
-                            id={`booster-${index}-panel`}
-                        >
-                            Booster {index + 1} ({booster[0].setCode})
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <ul>
-                                {booster.map((card) => (
-                                    <li key={card.scryfallID}>
-                                        {card.collectorNumber} - {card.name}
-                                        {card.foil === "foil" ? " (foil)" : ""}
-                                    </li>
-                                ))}
-                            </ul>
-                        </AccordionDetails>
-                    </Accordion>
-                ))}
-            </Box> */}
+            <GeneratedBoosters generatedBoosters={generatedBoosters} />
         </Box>
     );
 }

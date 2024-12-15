@@ -173,20 +173,23 @@ export default function Home() {
                 Step 4: Generate boosters
             </Typography>
 
-            {/* <Button
-                disabled={boosterAllocation.length === 0}
+            <Button
+                disabled={!Object.keys(allocatedBoosterCountBySet).length}
                 onClick={
                     data.cards
                         ? () =>
                               setGeneratedBoosters(
-                                  getBoosters(data.cards, boosterAllocation)
+                                  getBoosters(
+                                      data.cards,
+                                      allocatedBoosterCountBySet
+                                  )
                               )
                         : undefined
                 }
                 variant="contained"
             >
                 Generate boosters
-            </Button> */}
+            </Button>
 
             <Divider />
 

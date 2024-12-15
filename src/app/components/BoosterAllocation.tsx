@@ -199,9 +199,8 @@ export default function BoosterAllocation({
                                                         }}
                                                         showAllControls
                                                         value={
-                                                            allocatedBoosterCountBySet[
-                                                                setCode
-                                                            ] || 0
+                                                            allocatedBoostersForSet ||
+                                                            0
                                                         }
                                                     />
                                                 </Box>

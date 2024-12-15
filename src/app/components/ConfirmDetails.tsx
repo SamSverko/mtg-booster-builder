@@ -27,30 +27,24 @@ export default function ConfirmDetails({
                 <Typography>Boosters to be generated</Typography>
             </ListItem>
             <List disablePadding>
-                {!Object.keys(allocatedBoosterCountBySet).length ? (
-                    <ListItem disableGutters>
-                        <Typography>No boosters allocated</Typography>
-                    </ListItem>
-                ) : (
-                    Object.entries(allocatedBoosterCountBySet).map(
-                        ([setCode, allocatedBoosterCount]) => (
-                            <ListItem
-                                disableGutters
-                                key={setCode}
-                                secondaryAction={
-                                    <Typography color="text.secondary">
-                                        {allocatedBoosterCount}
-                                    </Typography>
-                                }
-                                sx={{
-                                    pl: 2,
-                                }}
-                            >
+                {Object.entries(allocatedBoosterCountBySet).map(
+                    ([setCode, allocatedBoosterCount]) => (
+                        <ListItem
+                            disableGutters
+                            key={setCode}
+                            secondaryAction={
                                 <Typography color="text.secondary">
-                                    {setCode}
+                                    {allocatedBoosterCount}
                                 </Typography>
-                            </ListItem>
-                        )
+                            }
+                            sx={{
+                                pl: 2,
+                            }}
+                        >
+                            <Typography color="text.secondary">
+                                {setCode}
+                            </Typography>
+                        </ListItem>
                     )
                 )}
             </List>

@@ -63,10 +63,15 @@ export default function BoosterAllocation({
                 }[event] ?? currentCount;
 
             if (newCount !== currentCount) {
-                onChange({
-                    ...allocatedBoosterCountBySet,
-                    [setCode]: newCount,
-                });
+                const updatedAllocation = { ...allocatedBoosterCountBySet };
+
+                if (newCount === 0) {
+                    delete updatedAllocation[setCode];
+                } else {
+                    updatedAllocation[setCode] = newCount;
+                }
+
+                onChange(updatedAllocation);
             }
         },
         [onChange, remainingBoostersToAllocate, allocatedBoosterCountBySet]

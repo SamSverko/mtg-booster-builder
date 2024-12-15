@@ -42,20 +42,20 @@ export default function Home() {
     );
 
     const boosterRequirements = useMemo(() => {
-        const slotsLength = PLAY_BOOSTER.slots.length;
+        const cardCountPerBooster = PLAY_BOOSTER.slots.length;
         if (!format || !format.boosterPerPlayerCount) {
             return {
                 boosterCount: playerCount,
-                cardCountPerSet: playerCount * slotsLength,
+                totalCardCount: playerCount * cardCountPerBooster,
             };
         }
 
         const boosterCount = Math.ceil(
             playerCount * format.boosterPerPlayerCount
         );
-        const cardCountPerSet = boosterCount * slotsLength;
+        const totalCardCount = boosterCount * cardCountPerBooster;
 
-        return { boosterCount, cardCountPerSet };
+        return { boosterCount, totalCardCount };
     }, [format, playerCount, PLAY_BOOSTER.slots.length]);
 
     const handlePlayerChange = (event: OnChangeEvent) => {
@@ -152,7 +152,7 @@ export default function Home() {
                 isLoading={isLoading}
                 onChange={setAllocatedBoosterCountBySet}
                 requiredBoosterCount={boosterRequirements.boosterCount}
-                requiredCardCountPerSet={boosterRequirements.cardCountPerSet}
+                requiredTotalCardCount={boosterRequirements.totalCardCount}
             />
 
             <Divider />
@@ -164,7 +164,7 @@ export default function Home() {
             <ConfirmDetails
                 allocatedBoosterCountBySet={allocatedBoosterCountBySet}
                 requiredBoosterCount={boosterRequirements.boosterCount}
-                requiredCardCountPerSet={boosterRequirements.cardCountPerSet}
+                requiredTotalCardCount={boosterRequirements.totalCardCount}
             />
 
             <Divider />

@@ -1,18 +1,21 @@
 import { Box, Divider, List, ListItem, Typography } from "@mui/material";
 
+import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { CardCountBySet } from "@/app/types";
 
 type ConfirmDetailsProps = {
     allocatedBoosterCountBySet: CardCountBySet;
     requiredBoosterCount: number;
-    requiredCardCountPerSet: number;
+    requiredTotalCardCount: number;
 };
 
 export default function ConfirmDetails({
     allocatedBoosterCountBySet,
     requiredBoosterCount,
-    requiredCardCountPerSet,
+    requiredTotalCardCount,
 }: ConfirmDetailsProps) {
+    const cardCountPerBooster = PLAY_BOOSTER.slots.length;
+
     return (
         <List disablePadding>
             <ListItem
@@ -21,11 +24,8 @@ export default function ConfirmDetails({
                     <Typography>{requiredBoosterCount}</Typography>
                 }
             >
-                <Typography>
-                    <Box component="b">Boosters to be generated</Box>
-                </Typography>
+                <Typography>Boosters to be generated</Typography>
             </ListItem>
-            <Divider />
             <List disablePadding>
                 {!Object.keys(allocatedBoosterCountBySet).length ? (
                     <ListItem disableGutters>
@@ -38,25 +38,35 @@ export default function ConfirmDetails({
                                 disableGutters
                                 key={setCode}
                                 secondaryAction={
-                                    <Typography>
+                                    <Typography color="text.secondary">
                                         {allocatedBoosterCount}
                                     </Typography>
                                 }
+                                sx={{
+                                    pl: 2,
+                                }}
                             >
-                                <Typography>{setCode}</Typography>
+                                <Typography color="text.secondary">
+                                    {setCode}
+                                </Typography>
                             </ListItem>
                         )
                     )
                 )}
             </List>
-            <Divider />
+            <ListItem
+                disableGutters
+                secondaryAction={<Typography>{cardCountPerBooster}</Typography>}
+            >
+                <Typography>Cards needed per booster</Typography>
+            </ListItem>
             <ListItem
                 disableGutters
                 secondaryAction={
-                    <Typography>{requiredCardCountPerSet}</Typography>
+                    <Typography>{requiredTotalCardCount}</Typography>
                 }
             >
-                <Typography fontWeight="bold">Total cards needed</Typography>
+                <Typography>Total cards needed</Typography>
             </ListItem>
         </List>
     );

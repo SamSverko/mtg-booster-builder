@@ -21,7 +21,7 @@ type SetSelectionProps = {
     cardCountBySet: CardCountBySet;
     onChange: (event: CardCountBySet) => void;
     requiredBoosterCount: number;
-    requiredCardCountPerSet: number;
+    requiredTotalCardCount: number;
     isLoading?: boolean;
 };
 
@@ -31,7 +31,7 @@ export default function BoosterAllocation({
     isLoading,
     onChange,
     requiredBoosterCount,
-    requiredCardCountPerSet,
+    requiredTotalCardCount,
 }: SetSelectionProps) {
     const totalAllocatedBoosters = useMemo(
         () =>
@@ -131,7 +131,7 @@ export default function BoosterAllocation({
                                 const allocatedBoostersForSet =
                                     allocatedBoosterCountBySet[setCode] || 0;
                                 const notEnoughCards =
-                                    cardCountInSet < requiredCardCountPerSet;
+                                    cardCountInSet < requiredTotalCardCount;
                                 return (
                                     <TableRow key={setCode}>
                                         <TableCell>{setCode}</TableCell>

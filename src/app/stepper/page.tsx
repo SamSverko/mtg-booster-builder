@@ -3,16 +3,41 @@
 import {
     Box,
     Button,
+    Chip,
+    Divider,
     Step,
     StepContent,
     StepLabel,
     Stepper,
     Typography,
+    styled,
 } from "@mui/material";
 import { useState } from "react";
 
 import { CardImport } from "@/app/components";
 import { OnChangeEvent } from "@/app/components/CardImport";
+
+type StepNavigationProps = {
+    disableBack?: boolean;
+    disableNext?: boolean;
+};
+
+const StepLabelStyled = styled(StepLabel)(({ theme }) => ({
+    ".MuiStepLabel-label": {
+        display: "flex",
+        alignItems: "center",
+        gap: theme.spacing(1),
+    },
+}));
+
+const StepContentStyled = styled(StepContent)(({ theme }) => ({
+    ".MuiCollapse-wrapperInner": {
+        display: "flex",
+        flexDirection: "column",
+        gap: theme.spacing(2),
+        marginTop: theme.spacing(3),
+    },
+}));
 
 export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
@@ -31,43 +56,87 @@ export default function Home() {
         setActiveStep(0);
     };
 
-    console.log("cardData", cardData);
+    const StepCompleteChip = ({ label }: { label: string }) => {
+        if (!label) return null;
+
+        return (
+            <Chip color="info" label={label} size="small" variant="outlined" />
+        );
+    };
+
+    const StepNavigation = ({
+        disableBack,
+        disableNext,
+    }: StepNavigationProps) => (
+        <Box alignItems="center" display="flex" gap={2}>
+            <Button
+                disabled={disableBack}
+                onClick={handleBack}
+                variant="outlined"
+            >
+                Back
+            </Button>
+            <Button
+                disabled={disableNext}
+                onClick={handleNext}
+                variant="contained"
+            >
+                Next
+            </Button>
+        </Box>
+    );
 
     return (
-        <Box>
+        <Box
+            display="flex"
+            flexDirection="column"
+            gap={2}
+            m="0 auto"
+            maxWidth="600px"
+            p={1}
+        >
             <Typography component="h1" variant="h5">
                 MTG Booster Builder
             </Typography>
 
+            <Divider />
+
             <Stepper activeStep={activeStep} orientation="vertical">
                 <Step>
-                    <StepLabel>Import your cards</StepLabel>
-                    <StepContent>
+                    <StepLabelStyled>
+                        Import your cards
+                        <StepCompleteChip
+                            label={
+                                cardData
+                                    ? cardData.cards.length.toLocaleString()
+                                    : ""
+                            }
+                        />
+                    </StepLabelStyled>
+                    <StepContentStyled
+                        TransitionProps={{ unmountOnExit: false }}
+                    >
                         <CardImport onChange={setCardData} />
-
-                        <Button onClick={handleNext}>Next</Button>
-                        <Button
-                            disabled={activeStep === 0}
-                            onClick={handleBack}
-                        >
-                            Back
-                        </Button>
-                    </StepContent>
+                        <StepNavigation
+                            disableBack
+                            disableNext={
+                                !cardData || cardData.cards.length === 0
+                            }
+                        />
+                    </StepContentStyled>
                 </Step>
                 <Step>
                     <StepLabel>Step 2</StepLabel>
                     <StepContent>
                         <Typography>Step 2 Content</Typography>
-                        <Button onClick={handleNext}>Next</Button>
-                        <Button onClick={handleBack}>Back</Button>
+                        <StepNavigation />
                     </StepContent>
                 </Step>
                 <Step>
                     <StepLabel>Step 3</StepLabel>
                     <StepContent>
                         <Typography>Step 3 Content</Typography>
-                        <Button onClick={handleNext}>Finish</Button>
-                        <Button onClick={handleBack}>Back</Button>
+                        <StepNavigation />
                     </StepContent>
                 </Step>
             </Stepper>

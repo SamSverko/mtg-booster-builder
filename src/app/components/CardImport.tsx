@@ -1,7 +1,7 @@
 import { Delete, FileUpload } from "@mui/icons-material";
 import { Box, Button, IconButton, styled, Typography } from "@mui/material";
 import Papa from "papaparse";
-import { use, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CardCountBySet, ManaBoxCard } from "@/app/types";
 
@@ -26,10 +26,12 @@ type CardImportProps = {
     onChange: (event: OnChangeEvent) => void;
 };
 
-// TODO - handle file error
 export default function CardImport({ onChange }: CardImportProps) {
-    const [file, setFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const [cardCount, setCardCount] = useState<number | null>(null);
+    const [file, setFile] = useState<File | null>(null);
+    const [parseError, setParseError] = useState<string | null>(null);
 
     const saveFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -40,16 +42,26 @@ export default function CardImport({ onChange }: CardImportProps) {
 
     const deleteFile = () => {
         setFile(null);
+        setCardCount(null);
+        setParseError(null);
+
         if (inputRef.current) {
             inputRef.current.value = "";
         }
+
+        onChange({ cards: [], cardCountBySet: {} });
     };
 
     const parseFile = useCallback(
         async (file: File) => {
             return Papa.parse<ManaBoxCard>(file, {
-                complete: (results, file) => {
-                    console.log("Parsing complete:", results, file);
+                complete: (results) => {
+                    if (results.errors.length > 0) {
+                        setParseError(results.errors[0].message);
+                        return;
+                    }
+
+                    setCardCount(results.data.length);
                     onChange({
                         cards: results.data,
                         cardCountBySet: Object.fromEntries(
@@ -69,6 +81,9 @@ export default function CardImport({ onChange }: CardImportProps) {
                     });
                 },
                 dynamicTyping: true,
+                error(error) {
+                    setParseError(error.message);
+                },
                 header: true,
                 skipEmptyLines: true,
                 transformHeader(header) {
@@ -104,9 +119,9 @@ export default function CardImport({ onChange }: CardImportProps) {
                 role={undefined}
                 startIcon={<FileUpload />}
                 tabIndex={-1}
-                variant="contained"
+                variant={file ? "outlined" : "contained"}
             >
-                Upload files
+                {file ? "Re-" : ""}Upload file
                 <HiddenInput
                     onChange={saveFile}
                     ref={inputRef}
@@ -129,6 +144,14 @@ export default function CardImport({ onChange }: CardImportProps) {
                 <IconButton onClick={deleteFile} size="small">
                     <Delete />
                 </IconButton>
+            </Box>
+            <Typography display={parseError ? "block" : "none"} color="error">
+                {parseError}
+            </Typography>
+            <Box visibility={cardCount ? "visible" : "hidden"}>
+                <Typography>
+                    {cardCount ? cardCount?.toLocaleString() : ""} cards found.
+                </Typography>
             </Box>
         </Box>
     );

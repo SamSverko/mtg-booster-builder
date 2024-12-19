@@ -5,25 +5,45 @@ import { useState } from "react";
 
 import {
     CardImport,
+    CardImportOnChangeEvent,
+    CountInput,
+    CountInputOnChangeEvent,
     FormatSelect,
     StepContent,
     StepLabel,
 } from "@/app/components";
-import { OnChangeEvent } from "@/app/components/CardImport";
+import { FORMAT_NONE } from "@/app/constants";
 import { Format } from "@/app/types";
 
 export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
 
-    const [cardData, setCardData] = useState<OnChangeEvent | undefined>(
-        undefined
-    );
+    const [cardData, setCardData] = useState<
+        CardImportOnChangeEvent | undefined
+    >(undefined);
     const [format, setFormat] = useState<Format | undefined>(undefined);
+    const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
 
-    const nextStep = () =>
+    const nextStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    const prevStep = () =>
+    };
+
+    const prevStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const updatePlayerOrBoosterCount = (event: CountInputOnChangeEvent) => {
+        switch (event) {
+            case "decrement":
+                setPlayerOrBoosterCount(Math.max(playerOrBoosterCount - 1, 1));
+                break;
+            case "increment":
+                setPlayerOrBoosterCount(playerOrBoosterCount + 1);
+                break;
+            default:
+                break;
+        }
+    };
 
     return (
         <Box
@@ -69,19 +89,37 @@ export default function Home() {
                     </StepContent>
                 </Step>
                 <Step>
-                    <StepLabel label="Step 3" />
+                    <StepLabel
+                        chipLabel={
+                            playerOrBoosterCount > 0
+                                ? playerOrBoosterCount.toLocaleString()
+                                : undefined
+                        }
+                        label={`Enter ${
+                            format?.name === FORMAT_NONE.name
+                                ? "booster"
+                                : "player"
+                        } count`}
+                    />
                     <StepContent onBack={prevStep} onNext={nextStep}>
-                        <Typography>Step 3 Content</Typography>
+                        <CountInput
+                            onChange={updatePlayerOrBoosterCount}
+                            value={playerOrBoosterCount}
+                        />
                     </StepContent>
                 </Step>
+                <Step>
+                    <StepLabel label="Allocate boosters" />
+                    <StepContent onBack={prevStep}>Coming soon!</StepContent>
+                </Step>
             </Stepper>
-            {activeStep === 3 && (
+            {activeStep === 4 && (
                 <Box>
                     <Typography>
                         All steps completed - you&apos;re finished
                     </Typography>
                     <Button
-                        onClick={() => setActiveStep(0)}
+                        onClick={() => setActiveStep(0)} // TODO - reset states, not just step
                         sx={{ mt: 1, mr: 1 }}
                     >
                         Reset

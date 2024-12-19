@@ -17,6 +17,9 @@ export default function StepLabel({ chipLabel, label }: StepLabelProps) {
                     alignItems: "center",
                     gap: (theme) => theme.spacing(1),
                 },
+                ".Mui-disabled .MuiChip-root": {
+                    opacity: (theme) => theme.palette.action.disabledOpacity,
+                },
             }}
         >
             {label}

@@ -25,13 +25,13 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 
-export type OnChangeEvent = {
+export type CardImportOnChangeEvent = {
     cards: ManaBoxCard[];
     cardCountBySet: CardCountBySet;
 };
 
 type CardImportProps = {
-    onChange: (event: OnChangeEvent) => void;
+    onChange: (event: CardImportOnChangeEvent) => void;
 };
 
 /**

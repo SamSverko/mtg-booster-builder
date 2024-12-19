@@ -34,7 +34,7 @@ export const FORMAT_SEALED_DECK: Format = {
 
 export const FORMAT_NONE: Format = {
     minPlayerCount: 1,
-    name: "No format",
+    name: "No Format",
 };
 
 /**
@@ -159,7 +159,7 @@ export const PLAY_BOOSTER: PlayBooster = {
                 foil: "normal",
                 percentage: 80,
                 rarity: "common",
-                superType: "basic",
+                superType: "basic", // TODO - I think nonbasic lands can also appear here?
                 type: "land",
             },
             {

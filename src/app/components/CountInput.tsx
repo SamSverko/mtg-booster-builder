@@ -6,7 +6,7 @@ import {
 } from "@mui/icons-material";
 import { Box, IconButton, InputLabel, Typography } from "@mui/material";
 
-export type OnChangeEvent =
+export type CountInputOnChangeEvent =
     | "decrement-all"
     | "decrement"
     | "increment"
@@ -17,7 +17,7 @@ type CountInputProps = {
     disableDecrement?: boolean;
     disableIncrement?: boolean;
     disableIncrementAll?: boolean;
-    onChange: (event: OnChangeEvent) => void;
+    onChange: (event: CountInputOnChangeEvent) => void;
     value: number;
     label?: string;
     showAllControls?: boolean;

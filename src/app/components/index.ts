@@ -1,9 +1,15 @@
 export { default as AppLink } from "./AppLink";
 export { default as BoosterAllocation } from "./BoosterAllocation";
 export { default as CardCount } from "./CardCount";
-export { default as CardImport } from "./CardImport";
+export {
+    default as CardImport,
+    type CardImportOnChangeEvent,
+} from "./CardImport";
 export { default as ConfirmDetails } from "./ConfirmDetails";
-export { default as CountInput, type OnChangeEvent } from "./CountInput";
+export {
+    default as CountInput,
+    type CountInputOnChangeEvent,
+} from "./CountInput";
 export { default as FormatSelect } from "./FormatSelect";
 export { default as GeneratedBoosters } from "./GeneratedBoosters";
 export { default as StepContent } from "./StepContent";

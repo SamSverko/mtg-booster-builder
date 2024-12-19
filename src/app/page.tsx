@@ -9,9 +9,9 @@ import {
     CardCount,
     ConfirmDetails,
     CountInput,
+    CountInputOnChangeEvent,
     FormatSelect,
     GeneratedBoosters,
-    type OnChangeEvent,
 } from "@/app/components";
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
@@ -49,7 +49,7 @@ export default function Home() {
         return { boosterCount, totalCardCount };
     }, [format, playerCount, PLAY_BOOSTER.slots.length]);
 
-    const handlePlayerChange = (event: OnChangeEvent) => {
+    const handlePlayerChange = (event: CountInputOnChangeEvent) => {
         switch (event) {
             case "decrement":
                 setPlayerCount(Math.max(playerCount - 1, 1));

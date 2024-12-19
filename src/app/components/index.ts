@@ -6,3 +6,5 @@ export { default as ConfirmDetails } from "./ConfirmDetails";
 export { default as CountInput, type OnChangeEvent } from "./CountInput";
 export { default as FormatSelect } from "./FormatSelect";
 export { default as GeneratedBoosters } from "./GeneratedBoosters";
+export { default as StepContent } from "./StepContent";
+export { default as StepLabel } from "./StepLabel";

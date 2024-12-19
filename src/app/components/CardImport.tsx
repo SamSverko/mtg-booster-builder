@@ -1,8 +1,16 @@
 import { Delete, FileUpload } from "@mui/icons-material";
-import { Box, Button, IconButton, styled, Typography } from "@mui/material";
+import {
+    Alert,
+    Box,
+    Button,
+    IconButton,
+    styled,
+    Typography,
+} from "@mui/material";
 import Papa from "papaparse";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { AppLink } from "@/app/components";
 import { CardCountBySet, ManaBoxCard } from "@/app/types";
 
 const HiddenInput = styled("input")({
@@ -26,6 +34,11 @@ type CardImportProps = {
     onChange: (event: OnChangeEvent) => void;
 };
 
+/**
+ * A component that allows users to upload a CSV file of cards.
+ *
+ * Supported: ManaBox export files (.csv).
+ */
 export default function CardImport({ onChange }: CardImportProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -114,6 +127,16 @@ export default function CardImport({ onChange }: CardImportProps) {
             flexDirection="column"
             gap={2}
         >
+            <Alert severity="info">
+                At this time, only{" "}
+                <AppLink
+                    appHref="manabox://"
+                    href="https://apps.apple.com/us/app/manabox/id1460407674"
+                >
+                    ManaBox
+                </AppLink>{" "}
+                export files (.csv) are supported.
+            </Alert>
             <Button
                 component="label"
                 role={undefined}

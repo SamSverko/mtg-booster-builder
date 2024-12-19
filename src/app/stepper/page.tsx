@@ -1,91 +1,20 @@
 "use client";
 
-import {
-    Alert,
-    Box,
-    Button,
-    Chip,
-    Divider,
-    Step,
-    StepContent,
-    StepLabel,
-    Stepper,
-    Typography,
-    styled,
-} from "@mui/material";
+import { Box, Button, Divider, Step, Stepper, Typography } from "@mui/material";
 import { useState } from "react";
 
-import { AppLink, CardImport } from "@/app/components";
+import { CardImport, StepContent, StepLabel } from "@/app/components";
 import { OnChangeEvent } from "@/app/components/CardImport";
-
-type StepNavigationProps = {
-    disableBack?: boolean;
-    disableNext?: boolean;
-};
-
-const StepLabelStyled = styled(StepLabel)(({ theme }) => ({
-    ".MuiStepLabel-label": {
-        display: "flex",
-        alignItems: "center",
-        gap: theme.spacing(1),
-    },
-}));
-
-const StepContentStyled = styled(StepContent)(({ theme }) => ({
-    ".MuiCollapse-wrapperInner": {
-        display: "flex",
-        flexDirection: "column",
-        gap: theme.spacing(2),
-        marginTop: theme.spacing(3),
-    },
-}));
 
 export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
 
     const [cardData, setCardData] = useState<OnChangeEvent | null>(null);
 
-    const handleNext = () => {
+    const nextStep = () =>
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
+    const prevStep = () =>
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
-
-    const StepCompleteChip = ({ label }: { label: string }) => {
-        if (!label) return null;
-
-        return (
-            <Chip color="info" label={label} size="small" variant="outlined" />
-        );
-    };
-
-    const StepNavigation = ({
-        disableBack,
-        disableNext,
-    }: StepNavigationProps) => (
-        <Box alignItems="center" display="flex" gap={2}>
-            <Button
-                disabled={disableBack}
-                onClick={handleBack}
-                variant="outlined"
-            >
-                Back
-            </Button>
-            <Button
-                disabled={disableNext}
-                onClick={handleNext}
-                variant="contained"
-            >
-                Next
-            </Button>
-        </Box>
-    );
 
     return (
         <Box
@@ -104,50 +33,28 @@ export default function Home() {
 
             <Stepper activeStep={activeStep} orientation="vertical">
                 <Step>
-                    <StepLabelStyled>
-                        Import your cards
-                        <StepCompleteChip
-                            label={
-                                cardData
-                                    ? cardData.cards.length.toLocaleString()
-                                    : ""
-                            }
-                        />
-                    </StepLabelStyled>
-                    <StepContentStyled
-                        TransitionProps={{ unmountOnExit: false }}
-                    >
-                        <Alert severity="info">
-                            At this time, only{" "}
-                            <AppLink
-                                appHref="manabox://"
-                                href="https://apps.apple.com/us/app/manabox/id1460407674"
-                            >
-                                ManaBox
-                            </AppLink>{" "}
-                            export files (.csv) are supported.
-                        </Alert>
+                    <StepLabel
+                        chipLabel={
+                            cardData
+                                ? cardData.cards.length.toLocaleString()
+                                : undefined
+                        }
+                        label="Import cards"
+                    />
+                    <StepContent onNext={nextStep}>
                         <CardImport onChange={setCardData} />
-                        <StepNavigation
-                            disableBack
-                            disableNext={
-                                !cardData || cardData.cards.length === 0
-                            }
-                        />
-                    </StepContentStyled>
-                </Step>
-                <Step>
-                    <StepLabel>Step 2</StepLabel>
-                    <StepContent>
-                        <Typography>Step 2 Content</Typography>
-                        <StepNavigation />
                     </StepContent>
                 </Step>
                 <Step>
-                    <StepLabel>Step 3</StepLabel>
-                    <StepContent>
+                    <StepLabel label="Select format" />
+                    <StepContent onBack={prevStep} onNext={nextStep}>
+                        <Typography>Step 2 Content</Typography>
+                    </StepContent>
+                </Step>
+                <Step>
+                    <StepLabel label="Step 3" />
+                    <StepContent onBack={prevStep} onNext={nextStep}>
                         <Typography>Step 3 Content</Typography>
-                        <StepNavigation />
                     </StepContent>
                 </Step>
             </Stepper>
@@ -156,7 +63,10 @@ export default function Home() {
                     <Typography>
                         All steps completed - you&apos;re finished
                     </Typography>
-                    <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                    <Button
+                        onClick={() => setActiveStep(0)}
+                        sx={{ mt: 1, mr: 1 }}
+                    >
                         Reset
                     </Button>
                 </Box>

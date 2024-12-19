@@ -16,11 +16,7 @@ import {
 
 import { CountInput, CountInputOnChangeEvent } from "@/app/components";
 import { PLAY_BOOSTER } from "@/app/constants";
-import {
-    AllocatedBoosterCountBySet,
-    CardCountBySet,
-    Format,
-} from "@/app/types";
+import { AllocatedBoosterCountBySet, CardCountBySet } from "@/app/types";
 
 type SetSelectionProps = {
     allocatedBoosterCountBySet: AllocatedBoosterCountBySet;
@@ -66,12 +62,19 @@ export default function BoosterAllocation({
     const handleCountChange = useCallback(
         (setCode: string, event: CountInputOnChangeEvent) => {
             const currentCount = allocatedBoosterCountBySet[setCode] ?? 0;
+            const maxBoostersForSet = Math.floor(
+                cardCountBySet[setCode] / PLAY_BOOSTER.slots.length
+            ); // Calculate max boosters this set can handle based on card count
+
             const newCount =
                 {
                     "decrement-all": 0,
                     decrement: Math.max(currentCount - 1, 0),
                     increment: currentCount + 1,
-                    "increment-all": currentCount + remainingBoostersToAllocate,
+                    "increment-all": Math.min(
+                        currentCount + remainingBoostersToAllocate, // Allocate remaining boosters
+                        maxBoostersForSet // But don't exceed the max boosters the set can handle
+                    ),
                 }[event] ?? currentCount;
 
             if (newCount !== currentCount) {
@@ -86,7 +89,12 @@ export default function BoosterAllocation({
                 onChange(updatedAllocation);
             }
         },
-        [onChange, remainingBoostersToAllocate, allocatedBoosterCountBySet]
+        [
+            onChange,
+            remainingBoostersToAllocate,
+            allocatedBoosterCountBySet,
+            cardCountBySet,
+        ]
     );
 
     return (

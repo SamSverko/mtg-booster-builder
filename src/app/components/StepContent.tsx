@@ -21,7 +21,6 @@ export default function StepContent({
                     display: "flex",
                     flexDirection: "column",
                     gap: (theme) => theme.spacing(2),
-                    marginTop: (theme) => theme.spacing(3),
                 },
             }}
             TransitionProps={{ unmountOnExit: false }}

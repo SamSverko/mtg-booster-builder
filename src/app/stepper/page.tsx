@@ -126,7 +126,7 @@ export default function Home() {
                                 ? playerOrBoosterCount.toLocaleString()
                                 : undefined
                         }
-                        label={`Enter ${
+                        label={`Set ${
                             format?.name === FORMAT_NONE.name
                                 ? "booster"
                                 : "player"

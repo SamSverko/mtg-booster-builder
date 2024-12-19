@@ -7,6 +7,7 @@ import {
     BoosterAllocation,
     CardImport,
     CardImportOnChangeEvent,
+    ConfirmDetails,
     CountInput,
     CountInputOnChangeEvent,
     FormatSelect,
@@ -44,7 +45,12 @@ export default function Home() {
         [allocatedBoosterCountBySet]
     );
 
-    // Reset allocated booster count when player count changes
+    // Reset playerOrBoosterCount when format changes
+    useEffect(() => {
+        setPlayerOrBoosterCount(0);
+    }, [format]);
+
+    // Reset allocatedBoosterCountBySet when playerOrBoosterCount changes
     useEffect(() => {
         setAllocatedBoosterCountBySet({});
     }, [playerOrBoosterCount]);
@@ -157,20 +163,30 @@ export default function Home() {
                         />
                     </StepContent>
                 </Step>
+                <Step>
+                    <StepLabel label="Generate boosters" />
+                    <StepContent onBack={prevStep}>
+                        <ConfirmDetails
+                            allocatedBoosterCountBySet={
+                                allocatedBoosterCountBySet
+                            }
+                            requiredBoosterCount={requiredBoosterCount}
+                        />
+                        <Button
+                            disabled={
+                                totalAllocatedBoosters < requiredBoosterCount
+                            }
+                            fullWidth
+                            onClick={() => {
+                                window.alert("COMING SOON I PROMISE 😭");
+                            }}
+                            variant="contained"
+                        >
+                            Generate boosters
+                        </Button>
+                    </StepContent>
+                </Step>
             </Stepper>
-            {activeStep === 4 && (
-                <Box>
-                    <Typography>
-                        All steps completed - you&apos;re finished
-                    </Typography>
-                    <Button
-                        onClick={() => setActiveStep(0)} // TODO - reset states, not just step
-                        sx={{ mt: 1, mr: 1 }}
-                    >
-                        Reset
-                    </Button>
-                </Box>
-            )}
         </Box>
     );
 }

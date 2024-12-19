@@ -6,18 +6,17 @@ import { CardCountBySet } from "@/app/types";
 type ConfirmDetailsProps = {
     allocatedBoosterCountBySet: CardCountBySet;
     requiredBoosterCount: number;
-    requiredTotalCardCount: number;
 };
 
 export default function ConfirmDetails({
     allocatedBoosterCountBySet,
     requiredBoosterCount,
-    requiredTotalCardCount,
 }: ConfirmDetailsProps) {
     const cardCountPerBooster = PLAY_BOOSTER.slots.length;
+    const requiredTotalCardCount = requiredBoosterCount * cardCountPerBooster;
 
     return (
-        <List disablePadding>
+        <List dense disablePadding>
             <ListItem
                 disableGutters
                 secondaryAction={

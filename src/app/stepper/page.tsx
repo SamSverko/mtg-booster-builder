@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Alert,
     Box,
     Button,
     Chip,
@@ -14,7 +15,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { CardImport } from "@/app/components";
+import { AppLink, CardImport } from "@/app/components";
 import { OnChangeEvent } from "@/app/components/CardImport";
 
 type StepNavigationProps = {
@@ -116,6 +117,16 @@ export default function Home() {
                     <StepContentStyled
                         TransitionProps={{ unmountOnExit: false }}
                     >
+                        <Alert severity="info">
+                            At this time, only{" "}
+                            <AppLink
+                                appHref="manabox://"
+                                href="https://apps.apple.com/us/app/manabox/id1460407674"
+                            >
+                                ManaBox
+                            </AppLink>{" "}
+                            export files (.csv) are supported.
+                        </Alert>
                         <CardImport onChange={setCardData} />
                         <StepNavigation
                             disableBack

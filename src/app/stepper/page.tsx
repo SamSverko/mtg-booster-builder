@@ -3,13 +3,22 @@
 import { Box, Button, Divider, Step, Stepper, Typography } from "@mui/material";
 import { useState } from "react";
 
-import { CardImport, StepContent, StepLabel } from "@/app/components";
+import {
+    CardImport,
+    FormatSelect,
+    StepContent,
+    StepLabel,
+} from "@/app/components";
 import { OnChangeEvent } from "@/app/components/CardImport";
+import { Format } from "@/app/types";
 
 export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
 
-    const [cardData, setCardData] = useState<OnChangeEvent | null>(null);
+    const [cardData, setCardData] = useState<OnChangeEvent | undefined>(
+        undefined
+    );
+    const [format, setFormat] = useState<Format | undefined>(undefined);
 
     const nextStep = () =>
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -41,14 +50,22 @@ export default function Home() {
                         }
                         label="Import cards"
                     />
-                    <StepContent onNext={nextStep}>
+                    <StepContent
+                        onNext={cardData?.cards.length ? nextStep : undefined}
+                    >
                         <CardImport onChange={setCardData} />
                     </StepContent>
                 </Step>
                 <Step>
-                    <StepLabel label="Select format" />
-                    <StepContent onBack={prevStep} onNext={nextStep}>
-                        <Typography>Step 2 Content</Typography>
+                    <StepLabel
+                        chipLabel={format ? format.name : undefined}
+                        label="Select format"
+                    />
+                    <StepContent
+                        onBack={prevStep}
+                        onNext={format ? nextStep : undefined}
+                    >
+                        <FormatSelect onChange={setFormat} value={format} />
                     </StepContent>
                 </Step>
                 <Step>

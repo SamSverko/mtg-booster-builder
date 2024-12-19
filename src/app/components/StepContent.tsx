@@ -28,10 +28,20 @@ export default function StepContent({
         >
             {children}
             <Box alignItems="center" display="flex" gap={2}>
-                <Button disabled={!onBack} onClick={onBack} variant="outlined">
+                <Button
+                    disabled={!onBack}
+                    fullWidth
+                    onClick={onBack}
+                    variant="outlined"
+                >
                     Back
                 </Button>
-                <Button disabled={!onNext} onClick={onNext} variant="contained">
+                <Button
+                    disabled={!onNext}
+                    fullWidth
+                    onClick={onNext}
+                    variant="contained"
+                >
                     Next
                 </Button>
             </Box>

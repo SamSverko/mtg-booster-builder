@@ -1,9 +1,10 @@
 "use client";
 
 import { Box, Button, Divider, Step, Stepper, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
+    BoosterAllocation,
     CardImport,
     CardImportOnChangeEvent,
     CountInput,
@@ -13,7 +14,7 @@ import {
     StepLabel,
 } from "@/app/components";
 import { FORMAT_NONE } from "@/app/constants";
-import { Format } from "@/app/types";
+import { AllocatedBoosterCountBySet, Format } from "@/app/types";
 
 export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
@@ -23,6 +24,30 @@ export default function Home() {
     >(undefined);
     const [format, setFormat] = useState<Format | undefined>(undefined);
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
+    const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
+        useState<AllocatedBoosterCountBySet>({});
+
+    const requiredBoosterCount = useMemo(() => {
+        if (format?.boosterPerPlayerCount) {
+            return playerOrBoosterCount * format.boosterPerPlayerCount;
+        }
+
+        return playerOrBoosterCount;
+    }, [format, playerOrBoosterCount]);
+
+    const totalAllocatedBoosters = useMemo(
+        () =>
+            Object.values(allocatedBoosterCountBySet).reduce(
+                (acc, count) => acc + count,
+                0
+            ),
+        [allocatedBoosterCountBySet]
+    );
+
+    // Reset allocated booster count when player count changes
+    useEffect(() => {
+        setAllocatedBoosterCountBySet({});
+    }, [playerOrBoosterCount]);
 
     const nextStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -109,8 +134,28 @@ export default function Home() {
                     </StepContent>
                 </Step>
                 <Step>
-                    <StepLabel label="Allocate boosters" />
-                    <StepContent onBack={prevStep}>Coming soon!</StepContent>
+                    <StepLabel
+                        chipLabel={
+                            requiredBoosterCount > 0
+                                ? `${totalAllocatedBoosters} of ${requiredBoosterCount}`
+                                : undefined
+                        }
+                        label="Allocate boosters"
+                    />
+                    <StepContent
+                        onBack={prevStep}
+                        onNext={totalAllocatedBoosters ? nextStep : undefined}
+                    >
+                        <BoosterAllocation
+                            allocatedBoosterCountBySet={
+                                allocatedBoosterCountBySet
+                            }
+                            cardCountBySet={cardData?.cardCountBySet}
+                            onChange={setAllocatedBoosterCountBySet}
+                            requiredBoosterCount={requiredBoosterCount}
+                            totalAllocatedBoosters={totalAllocatedBoosters}
+                        />
+                    </StepContent>
                 </Step>
             </Stepper>
             {activeStep === 4 && (

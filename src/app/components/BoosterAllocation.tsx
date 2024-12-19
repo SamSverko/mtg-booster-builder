@@ -11,36 +11,48 @@ import {
     TableHead,
     TableRow,
     Tooltip,
+    Typography,
 } from "@mui/material";
 
-import { CountInput, type OnChangeEvent } from "@/app/components";
-import { CardCountBySet } from "@/app/types";
+import { CountInput, CountInputOnChangeEvent } from "@/app/components";
+import { PLAY_BOOSTER } from "@/app/constants";
+import {
+    AllocatedBoosterCountBySet,
+    CardCountBySet,
+    Format,
+} from "@/app/types";
 
 type SetSelectionProps = {
-    allocatedBoosterCountBySet: CardCountBySet;
-    cardCountBySet: CardCountBySet;
-    onChange: (event: CardCountBySet) => void;
+    allocatedBoosterCountBySet: AllocatedBoosterCountBySet;
+    onChange: (allocatedBoosterCountBySet: AllocatedBoosterCountBySet) => void;
+    cardCountBySet?: CardCountBySet;
     requiredBoosterCount: number;
-    requiredTotalCardCount: number;
-    isLoading?: boolean;
+    totalAllocatedBoosters: number;
 };
 
 export default function BoosterAllocation({
     allocatedBoosterCountBySet,
     cardCountBySet,
-    isLoading,
     onChange,
     requiredBoosterCount,
-    requiredTotalCardCount,
+    totalAllocatedBoosters,
 }: SetSelectionProps) {
-    const totalAllocatedBoosters = useMemo(
-        () =>
-            Object.values(allocatedBoosterCountBySet).reduce(
-                (acc, count) => acc + count,
-                0
-            ),
-        [allocatedBoosterCountBySet]
-    );
+    if (!cardCountBySet) {
+        return (
+            <Box display="flex" flexDirection="column" gap={1}>
+                <Typography>Missing card data!</Typography>
+            </Box>
+        );
+    }
+
+    if (!cardCountBySet) {
+        return (
+            <Box display="flex" flexDirection="column" gap={1}>
+                <InputLabel>Sets</InputLabel>
+                <Alert severity="error">No sets available.</Alert>
+            </Box>
+        );
+    }
 
     const remainingBoostersToAllocate = useMemo(
         () => requiredBoosterCount - totalAllocatedBoosters,
@@ -52,7 +64,7 @@ export default function BoosterAllocation({
     }, [onChange]);
 
     const handleCountChange = useCallback(
-        (setCode: string, event: OnChangeEvent) => {
+        (setCode: string, event: CountInputOnChangeEvent) => {
             const currentCount = allocatedBoosterCountBySet[setCode] ?? 0;
             const newCount =
                 {
@@ -77,52 +89,20 @@ export default function BoosterAllocation({
         [onChange, remainingBoostersToAllocate, allocatedBoosterCountBySet]
     );
 
-    if (isLoading) {
-        return (
-            <Box display="flex" flexDirection="column" gap={1}>
-                <InputLabel>Sets</InputLabel>
-                <Alert severity="info">Loading sets...</Alert>
-            </Box>
-        );
-    }
-
-    if (!cardCountBySet) {
-        return (
-            <Box display="flex" flexDirection="column" gap={1}>
-                <InputLabel>Sets</InputLabel>
-                <Alert severity="error">No sets available.</Alert>
-            </Box>
-        );
-    }
-
     return (
         <Box display="flex" flexDirection="column" gap={1}>
-            <InputLabel>Sets</InputLabel>
-
-            <Alert
-                action={
-                    totalAllocatedBoosters > 0 && (
-                        <Button
-                            color="inherit"
-                            onClick={resetBoosterAllocation}
-                            size="small"
-                        >
-                            RESET
-                        </Button>
-                    )
-                }
-                icon={false}
-                severity={
-                    remainingBoostersToAllocate === 0 ? "success" : "info"
-                }
+            <Button
+                color="info"
+                onClick={resetBoosterAllocation}
+                size="small"
+                variant="outlined"
+                fullWidth
             >
-                {remainingBoostersToAllocate === 0
-                    ? "All boosters allocated!"
-                    : `${remainingBoostersToAllocate} boosters remaining to allocate.`}
-            </Alert>
+                Reset booster allocation
+            </Button>
 
             <TableContainer sx={{ maxHeight: "275px" }}>
-                <Table size="small" stickyHeader>
+                <Table padding="none" size="small" stickyHeader>
                     <TableHead>
                         <TableRow>
                             <TableCell>Set</TableCell>
@@ -135,8 +115,12 @@ export default function BoosterAllocation({
                             ([setCode, cardCountInSet]) => {
                                 const allocatedBoostersForSet =
                                     allocatedBoosterCountBySet[setCode] || 0;
+
                                 const notEnoughCards =
-                                    cardCountInSet < requiredTotalCardCount;
+                                    cardCountInSet <
+                                    (allocatedBoostersForSet + 1) *
+                                        PLAY_BOOSTER.slots.length;
+
                                 return (
                                     <TableRow key={setCode}>
                                         <TableCell>{setCode}</TableCell>
@@ -147,7 +131,7 @@ export default function BoosterAllocation({
                                             <Tooltip
                                                 title={
                                                     notEnoughCards
-                                                        ? "Not enough cards in set"
+                                                        ? "Maximum boosters allocated for this set."
                                                         : ""
                                                 }
                                                 placement="top"

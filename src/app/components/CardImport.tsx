@@ -139,6 +139,7 @@ export default function CardImport({ onChange }: CardImportProps) {
             </Alert>
             <Button
                 component="label"
+                fullWidth
                 role={undefined}
                 startIcon={<FileUpload />}
                 tabIndex={-1}

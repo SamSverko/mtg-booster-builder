@@ -58,3 +58,5 @@ export type PlayBooster = {
 export type CardCountBySet = {
     [key: string]: number;
 };
+
+export type AllocatedBoosterCountBySet = CardCountBySet;

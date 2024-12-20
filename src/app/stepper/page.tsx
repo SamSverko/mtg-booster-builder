@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Button, Divider, Step, Stepper, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import {
@@ -19,6 +20,8 @@ import { AllocatedBoosterCountBySet, Format, ManaBoxCard } from "@/app/types";
 import { generateBoosters } from "@/app/utils";
 
 export default function Home() {
+    const router = useRouter();
+
     const [activeStep, setActiveStep] = useState(0);
 
     const [cardData, setCardData] = useState<
@@ -28,9 +31,9 @@ export default function Home() {
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
         useState<AllocatedBoosterCountBySet>({});
-    const [generatedBoosters, setGeneratedBoosters] = useState<ManaBoxCard[][]>(
-        []
-    );
+    const [generatedBoosters, setGeneratedBoosters] = useState<
+        string | undefined
+    >(undefined);
 
     const requiredBoosterCount = useMemo(() => {
         if (format?.boosterPerPlayerCount) {
@@ -59,6 +62,12 @@ export default function Home() {
         setAllocatedBoosterCountBySet({});
     }, [playerOrBoosterCount]);
 
+    useEffect(() => {
+        if (generatedBoosters) {
+            router.push(`/boosters?serializedBoosters=${generatedBoosters}`);
+        }
+    }, [generatedBoosters]);
+
     const nextStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
@@ -79,6 +88,8 @@ export default function Home() {
                 break;
         }
     };
+
+    console.log("generatedBoosters", generatedBoosters);
 
     return (
         <Box

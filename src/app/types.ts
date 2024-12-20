@@ -42,6 +42,11 @@ export type ManaBoxCard = {
     purchasePriceCurrency: string;
 };
 
+export type ManaBoxCardSerialized = Pick<
+    ManaBoxCard,
+    "collectorNumber" | "foil" | "name" | "setCode"
+>;
+
 export type PlayBoosterSlotItem = {
     foil: CardFoil;
     percentage: number;

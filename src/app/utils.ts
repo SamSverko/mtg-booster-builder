@@ -1,6 +1,9 @@
+import LZString from "lz-string";
+
 import {
     AllocatedBoosterCountBySet,
     ManaBoxCard,
+    ManaBoxCardSerialized,
     PlayBoosterSlotItem,
 } from "@/app/types";
 import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
@@ -8,10 +11,10 @@ import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
 export function generateBoosters(
     cards: ManaBoxCard[] | undefined,
     allocatedBoosterCountBySet: AllocatedBoosterCountBySet
-): ManaBoxCard[][] {
+) {
     if (!cards || cards.length === 0) {
         console.warn("No cards available to generate boosters.");
-        return []; // Return an empty array if no cards are available
+        return undefined;
     }
 
     const generatedBoosters: ManaBoxCard[][] = [];
@@ -127,7 +130,7 @@ export function generateBoosters(
         }
     );
 
-    return generatedBoosters;
+    return serializeBoosters(generatedBoosters);
 }
 
 function getRandomSlotItem(slot: PlayBoosterSlotItem) {
@@ -186,3 +189,61 @@ function removeCardFromAvailableCards(
         }
     }
 }
+
+const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
+    const minimalBoosters = boosters.map((booster) =>
+        booster.map(({ collectorNumber, foil, name, setCode }) => ({
+            c: collectorNumber,
+            f: foil,
+            n: name,
+            s: setCode,
+        }))
+    );
+
+    const json = JSON.stringify(minimalBoosters);
+
+    const compressed = LZString.compressToEncodedURIComponent(json);
+
+    return compressed;
+};
+
+export const deserializeBoosters = (
+    query: string
+): ManaBoxCardSerialized[][] => {
+    if (!query) return [];
+
+    try {
+        const decompressed = LZString.decompressFromEncodedURIComponent(query);
+
+        const parsed: {
+            boosters: {
+                c: ManaBoxCard["collectorNumber"];
+                f: ManaBoxCard["foil"];
+                n: ManaBoxCard["name"];
+                s: ManaBoxCard["setCode"];
+            }[][];
+        } = JSON.parse(decompressed || "{}");
+
+        const { boosters: parsedBoosters } = parsed;
+
+        if (!parsedBoosters) {
+            console.error("Invalid data structure for boosters");
+            return [];
+        }
+
+        const boosters: ManaBoxCardSerialized[][] = parsedBoosters.map(
+            (booster) =>
+                booster.map((card) => ({
+                    collectorNumber: card.c,
+                    foil: card.f,
+                    name: card.n,
+                    setCode: card.s,
+                }))
+        );
+
+        return boosters;
+    } catch (error) {
+        console.error("Failed to parse boosters from URL:", error);
+        return [];
+    }
+};

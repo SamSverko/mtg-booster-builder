@@ -1,16 +1,20 @@
-import { CardCountBySet, ManaBoxCard, PlayBoosterSlotItem } from "@/app/types";
+import {
+    AllocatedBoosterCountBySet,
+    ManaBoxCard,
+    PlayBoosterSlotItem,
+} from "@/app/types";
 import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
 
-export function getBoosters(
-    cards: ManaBoxCard[] | null,
-    allocatedBoosterCountBySet: CardCountBySet
+export function generateBoosters(
+    cards: ManaBoxCard[] | undefined,
+    allocatedBoosterCountBySet: AllocatedBoosterCountBySet
 ): ManaBoxCard[][] {
     if (!cards || cards.length === 0) {
         console.warn("No cards available to generate boosters.");
         return []; // Return an empty array if no cards are available
     }
 
-    const generatedBoosters: ManaBoxCard[][] = []; // Initialize as an array of arrays
+    const generatedBoosters: ManaBoxCard[][] = [];
 
     Object.entries(allocatedBoosterCountBySet).map(
         ([setCode, allocatedBoosterCount]) => {
@@ -61,7 +65,6 @@ export function getBoosters(
                             selectedSlot
                         );
 
-                        // TODO - don't restrict basic land to that type - it can be any type!
                         if (
                             slot[0].superType === "basic" &&
                             slot[0].type === "land"

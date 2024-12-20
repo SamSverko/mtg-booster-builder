@@ -15,7 +15,8 @@ import {
     StepLabel,
 } from "@/app/components";
 import { FORMAT_NONE } from "@/app/constants";
-import { AllocatedBoosterCountBySet, Format } from "@/app/types";
+import { AllocatedBoosterCountBySet, Format, ManaBoxCard } from "@/app/types";
+import { generateBoosters } from "@/app/utils";
 
 export default function Home() {
     const [activeStep, setActiveStep] = useState(0);
@@ -27,6 +28,9 @@ export default function Home() {
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
         useState<AllocatedBoosterCountBySet>({});
+    const [generatedBoosters, setGeneratedBoosters] = useState<ManaBoxCard[][]>(
+        []
+    );
 
     const requiredBoosterCount = useMemo(() => {
         if (format?.boosterPerPlayerCount) {
@@ -177,9 +181,14 @@ export default function Home() {
                                 totalAllocatedBoosters < requiredBoosterCount
                             }
                             fullWidth
-                            onClick={() => {
-                                window.alert("COMING SOON I PROMISE 😭");
-                            }}
+                            onClick={() =>
+                                setGeneratedBoosters(
+                                    generateBoosters(
+                                        cardData?.cards,
+                                        allocatedBoosterCountBySet
+                                    )
+                                )
+                            }
                             variant="contained"
                         >
                             Generate boosters

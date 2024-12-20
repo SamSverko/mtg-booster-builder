@@ -1,10 +1,10 @@
 import { List, ListItem, Typography } from "@mui/material";
 
 import { PLAY_BOOSTER } from "@/app/constants";
-import { CardCountBySet } from "@/app/types";
+import { AllocatedBoosterCountBySet } from "@/app/types";
 
 type ConfirmDetailsProps = {
-    allocatedBoosterCountBySet: CardCountBySet;
+    allocatedBoosterCountBySet: AllocatedBoosterCountBySet;
     requiredBoosterCount: number;
 };
 

@@ -16,7 +16,7 @@ import {
 import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
 import { useCards } from "@/app/hooks";
 import { CardCountBySet, Format, ManaBoxCard } from "@/app/types";
-import { getBoosters } from "@/app/utils";
+import { generateBoosters } from "@/app/utils";
 
 export default function Home() {
     const { data, isLoading } = useCards();

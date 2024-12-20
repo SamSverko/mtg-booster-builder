@@ -1,48 +1,24 @@
-import { ManaBoxCardSerialized } from "@/app/types";
+import BoosterDisplay from "@/app/components/BoosterDisplay";
 import { deserializeBoosters } from "@/app/utils";
+import { Alert, Box, Typography } from "@mui/material";
 
-interface BoostersPageProps {
+type BoostersPageProps = {
     searchParams: Promise<{ [key: string]: string }>;
-}
-
-interface BoosterDisplayProps {
-    cards: ManaBoxCardSerialized[];
-    index: number;
-}
-
-const BoosterDisplay = ({ cards, index }: BoosterDisplayProps) => {
-    return (
-        <div
-            style={{
-                border: "1px solid #ccc",
-                padding: "10px",
-                borderRadius: "8px",
-            }}
-        >
-            <h2>
-                Booster {index} [{cards[0].setCode}]
-            </h2>
-            {cards.map((card, index) => (
-                <div key={index} style={{ marginBottom: "8px" }}>
-                    #{card.collectorNumber} <strong>{card.name}</strong>
-                </div>
-            ))}
-        </div>
-    );
 };
 
 export default async function BoostersPage({
     searchParams,
 }: BoostersPageProps) {
     const query = await searchParams;
-
     const serializedBoosters = query.serializedBoosters;
-
     const boosters = deserializeBoosters(serializedBoosters);
 
     return (
-        <div>
-            <h1>Deserialized Boosters</h1>
+        <Box alignItems="center" display="flex" flexDirection="column" gap={2}>
+            <Typography component="h2" variant="h6">
+                Boosters
+            </Typography>
+
             {boosters.length > 0 ? (
                 boosters.map((cards, index) => (
                     <BoosterDisplay
@@ -52,11 +28,11 @@ export default async function BoostersPage({
                     />
                 ))
             ) : (
-                <p>
+                <Alert severity="error">
                     No boosters found in the URL. Please provide a
                     serializedBoosters query param.
-                </p>
+                </Alert>
             )}
-        </div>
+        </Box>
     );
 }

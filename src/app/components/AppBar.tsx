@@ -7,6 +7,7 @@ export default function AppBar() {
             <Toolbar sx={{ justifyContent: "center" }} variant="dense">
                 <Link href="/" passHref style={{ textDecoration: "none" }}>
                     <Typography
+                        component="h1"
                         variant="h6"
                         sx={{
                             color: "white",

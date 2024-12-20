@@ -35,7 +35,8 @@ export default function RootLayout({
                         justifyContent="center"
                         margin="0 auto"
                         maxWidth="600px"
-                        p={1}
+                        px={1}
+                        py={2}
                     >
                         {children}
                     </Box>

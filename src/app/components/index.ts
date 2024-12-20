@@ -1,5 +1,6 @@
 export { default as AppLink } from "./AppLink";
 export { default as BoosterAllocation } from "./BoosterAllocation";
+export { default as BoosterDisplay } from "./BoosterDisplay";
 export { default as CardCount } from "./CardCount";
 export {
     default as CardImport,
@@ -11,6 +12,5 @@ export {
     type CountInputOnChangeEvent,
 } from "./CountInput";
 export { default as FormatSelect } from "./FormatSelect";
-export { default as GeneratedBoosters } from "./GeneratedBoosters";
 export { default as StepContent } from "./StepContent";
 export { default as StepLabel } from "./StepLabel";

@@ -1,112 +1,102 @@
 "use client";
 
-import { Alert, Box, Button, Divider, Typography } from "@mui/material";
-
+import { Box, Button, Divider, Step, Stepper, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import {
     BoosterAllocation,
-    CardCount,
+    CardImport,
+    CardImportOnChangeEvent,
     ConfirmDetails,
     CountInput,
     CountInputOnChangeEvent,
     FormatSelect,
-    GeneratedBoosters,
+    StepContent,
+    StepLabel,
 } from "@/app/components";
-import { FORMAT_NONE, PLAY_BOOSTER } from "@/app/constants";
-import { useCards } from "@/app/hooks";
-import { CardCountBySet, Format, ManaBoxCard } from "@/app/types";
+import { FORMAT_NONE } from "@/app/constants";
+import { AllocatedBoosterCountBySet, Format } from "@/app/types";
 import { generateBoosters } from "@/app/utils";
 
 export default function Home() {
-    const { data, isLoading } = useCards();
+    const router = useRouter();
 
-    const [format, setFormat] = useState<Format>(() => FORMAT_NONE);
-    const [playerCount, setPlayerCount] = useState<number>(
-        () => format.minPlayerCount || 1
-    );
+    const [activeStep, setActiveStep] = useState(0);
 
+    const [cardData, setCardData] = useState<
+        CardImportOnChangeEvent | undefined
+    >(undefined);
+    const [format, setFormat] = useState<Format | undefined>(undefined);
+    const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
-        useState<CardCountBySet>({});
-    const [generatedBoosters, setGeneratedBoosters] = useState<ManaBoxCard[][]>(
-        []
-    );
+        useState<AllocatedBoosterCountBySet>({});
+    const [generatedBoosters, setGeneratedBoosters] = useState<
+        string | undefined
+    >(undefined);
 
-    const boosterRequirements = useMemo(() => {
-        const cardCountPerBooster = PLAY_BOOSTER.slots.length;
-        if (!format || !format.boosterPerPlayerCount) {
-            return {
-                boosterCount: playerCount,
-                totalCardCount: playerCount * cardCountPerBooster,
-            };
+    const requiredBoosterCount = useMemo(() => {
+        if (format?.boosterPerPlayerCount) {
+            return playerOrBoosterCount * format.boosterPerPlayerCount;
         }
 
-        const boosterCount = Math.ceil(
-            playerCount * format.boosterPerPlayerCount
-        );
-        const totalCardCount = boosterCount * cardCountPerBooster;
+        return playerOrBoosterCount;
+    }, [format, playerOrBoosterCount]);
 
-        return { boosterCount, totalCardCount };
-    }, [format, playerCount, PLAY_BOOSTER.slots.length]);
+    const totalAllocatedBoosters = useMemo(
+        () =>
+            Object.values(allocatedBoosterCountBySet).reduce(
+                (acc, count) => acc + count,
+                0
+            ),
+        [allocatedBoosterCountBySet]
+    );
 
-    const handlePlayerChange = (event: CountInputOnChangeEvent) => {
+    // Reset playerOrBoosterCount when format changes
+    useEffect(() => {
+        setPlayerOrBoosterCount(0);
+    }, [format]);
+
+    // Reset allocatedBoosterCountBySet when playerOrBoosterCount changes
+    useEffect(() => {
+        setAllocatedBoosterCountBySet({});
+    }, [playerOrBoosterCount]);
+
+    useEffect(() => {
+        if (generatedBoosters) {
+            router.push(`/boosters?serializedBoosters=${generatedBoosters}`);
+        }
+    }, [generatedBoosters]);
+
+    const nextStep = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const prevStep = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const updatePlayerOrBoosterCount = (event: CountInputOnChangeEvent) => {
         switch (event) {
             case "decrement":
-                setPlayerCount(Math.max(playerCount - 1, 1));
+                setPlayerOrBoosterCount(Math.max(playerOrBoosterCount - 1, 1));
                 break;
             case "increment":
-                setPlayerCount(playerCount + 1);
+                setPlayerOrBoosterCount(playerOrBoosterCount + 1);
                 break;
             default:
                 break;
         }
     };
 
-    // TODO - Fix double render on format change
-    useEffect(() => {
-        setPlayerCount(format.minPlayerCount || 1);
-        setAllocatedBoosterCountBySet({});
-        setGeneratedBoosters([]);
-    }, [format]);
-
-    // TODO - Use loading Skeletons instead?
-    if (isLoading) {
-        return (
-            <Box
-                display="flex"
-                flexDirection="column"
-                gap={3}
-                m="0 auto"
-                maxWidth="400px"
-            >
-                <Alert severity="info">Loading...</Alert>
-            </Box>
-        );
-    }
-
-    if (!data || !data.cardCountBySet || data.cardCountBySet.length === 0) {
-        return (
-            <Box
-                display="flex"
-                flexDirection="column"
-                gap={3}
-                m="0 auto"
-                maxWidth="400px"
-            >
-                <Alert severity="info">
-                    No booster allocation data available.
-                </Alert>
-            </Box>
-        );
-    }
-
     return (
         <Box
             display="flex"
             flexDirection="column"
-            gap={3}
+            gap={2}
             m="0 auto"
-            maxWidth="400px"
+            maxWidth="600px"
+            p={1}
         >
             <Typography component="h1" variant="h5">
                 MTG Booster Builder
@@ -114,83 +104,107 @@ export default function Home() {
 
             <Divider />
 
-            <Typography component="h2" variant="h6">
-                Step 1: Import your cards
-            </Typography>
-            <CardCount cardCount={data.cards?.length} isLoading={isLoading} />
-
-            <Divider />
-
-            <Typography component="h2" variant="h6">
-                Step 2: Choose your setup
-            </Typography>
-
-            <FormatSelect onChange={setFormat} value={format} />
-
-            <CountInput
-                disableDecrement={playerCount <= format.minPlayerCount}
-                disableIncrement={
-                    format.maxPlayerCount
-                        ? playerCount >= format.maxPlayerCount
-                        : false
-                }
-                label="Players"
-                onChange={handlePlayerChange}
-                value={playerCount}
-            />
-
-            <BoosterAllocation
-                allocatedBoosterCountBySet={allocatedBoosterCountBySet}
-                cardCountBySet={data.cardCountBySet}
-                isLoading={isLoading}
-                onChange={setAllocatedBoosterCountBySet}
-                requiredBoosterCount={boosterRequirements.boosterCount}
-                requiredTotalCardCount={boosterRequirements.totalCardCount}
-            />
-
-            <Divider />
-
-            <Typography component="h2" variant="h6">
-                Step 3: Confirm details
-            </Typography>
-
-            <ConfirmDetails
-                allocatedBoosterCountBySet={allocatedBoosterCountBySet}
-                requiredBoosterCount={boosterRequirements.boosterCount}
-                requiredTotalCardCount={boosterRequirements.totalCardCount}
-            />
-
-            <Divider />
-
-            <Typography component="h2" variant="h6">
-                Step 4: Generate boosters
-            </Typography>
-
-            <Button
-                disabled={!Object.keys(allocatedBoosterCountBySet).length}
-                onClick={
-                    data.cards
-                        ? () =>
-                              setGeneratedBoosters(
-                                  getBoosters(
-                                      data.cards,
-                                      allocatedBoosterCountBySet
-                                  )
-                              )
-                        : undefined
-                }
-                variant="contained"
-            >
-                Generate boosters
-            </Button>
-
-            <Divider />
-
-            <Typography component="h2" variant="h6">
-                Step 5: Enjoy your boosters
-            </Typography>
-
-            <GeneratedBoosters generatedBoosters={generatedBoosters} />
+            <Stepper activeStep={activeStep} orientation="vertical">
+                <Step>
+                    <StepLabel
+                        chipLabel={
+                            cardData
+                                ? cardData.cards.length.toLocaleString()
+                                : undefined
+                        }
+                        label="Import cards"
+                    />
+                    <StepContent
+                        onNext={cardData?.cards.length ? nextStep : undefined}
+                    >
+                        <CardImport onChange={setCardData} />
+                    </StepContent>
+                </Step>
+                <Step>
+                    <StepLabel
+                        chipLabel={format ? format.name : undefined}
+                        label="Select format"
+                    />
+                    <StepContent
+                        onBack={prevStep}
+                        onNext={format ? nextStep : undefined}
+                    >
+                        <FormatSelect onChange={setFormat} value={format} />
+                    </StepContent>
+                </Step>
+                <Step>
+                    <StepLabel
+                        chipLabel={
+                            playerOrBoosterCount > 0
+                                ? playerOrBoosterCount.toLocaleString()
+                                : undefined
+                        }
+                        label={`Set ${
+                            format?.name === FORMAT_NONE.name
+                                ? "booster"
+                                : "player"
+                        } count`}
+                    />
+                    <StepContent onBack={prevStep} onNext={nextStep}>
+                        <CountInput
+                            onChange={updatePlayerOrBoosterCount}
+                            value={playerOrBoosterCount}
+                        />
+                    </StepContent>
+                </Step>
+                <Step>
+                    <StepLabel
+                        chipLabel={
+                            requiredBoosterCount > 0
+                                ? `${totalAllocatedBoosters} of ${requiredBoosterCount}`
+                                : undefined
+                        }
+                        label="Allocate boosters"
+                    />
+                    <StepContent
+                        onBack={prevStep}
+                        onNext={totalAllocatedBoosters ? nextStep : undefined}
+                    >
+                        <BoosterAllocation
+                            allocatedBoosterCountBySet={
+                                allocatedBoosterCountBySet
+                            }
+                            cardCountBySet={cardData?.cardCountBySet}
+                            onChange={setAllocatedBoosterCountBySet}
+                            requiredBoosterCount={requiredBoosterCount}
+                            totalAllocatedBoosters={totalAllocatedBoosters}
+                        />
+                    </StepContent>
+                </Step>
+                <Step>
+                    <StepLabel label="Generate boosters" />
+                    <StepContent onBack={prevStep}>
+                        <ConfirmDetails
+                            allocatedBoosterCountBySet={
+                                allocatedBoosterCountBySet
+                            }
+                            requiredBoosterCount={requiredBoosterCount}
+                        />
+                        <Button
+                            disabled={
+                                totalAllocatedBoosters < requiredBoosterCount
+                            }
+                            fullWidth
+                            onClick={() =>
+                                setGeneratedBoosters(
+                                    generateBoosters(
+                                        cardData?.cards,
+                                        allocatedBoosterCountBySet
+                                    )
+                                )
+                            }
+                            variant="contained"
+                        >
+                            Generate boosters
+                        </Button>
+                    </StepContent>
+                </Step>
+            </Stepper>
         </Box>
     );
 }

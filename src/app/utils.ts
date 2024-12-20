@@ -191,7 +191,7 @@ function removeCardFromAvailableCards(
 }
 
 const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
-    const minimalBoosters = boosters.map((booster) =>
+    const serializedBoosters = boosters.map((booster) =>
         booster.map(({ collectorNumber, foil, name, setCode }) => ({
             c: collectorNumber,
             f: foil,
@@ -200,7 +200,7 @@ const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
         }))
     );
 
-    const json = JSON.stringify(minimalBoosters);
+    const json = JSON.stringify(serializedBoosters);
 
     const compressed = LZString.compressToEncodedURIComponent(json);
 
@@ -216,29 +216,19 @@ export const deserializeBoosters = (
         const decompressed = LZString.decompressFromEncodedURIComponent(query);
 
         const parsed: {
-            boosters: {
-                c: ManaBoxCard["collectorNumber"];
-                f: ManaBoxCard["foil"];
-                n: ManaBoxCard["name"];
-                s: ManaBoxCard["setCode"];
-            }[][];
-        } = JSON.parse(decompressed || "{}");
+            c: ManaBoxCard["collectorNumber"];
+            f: ManaBoxCard["foil"];
+            n: ManaBoxCard["name"];
+            s: ManaBoxCard["setCode"];
+        }[][] = JSON.parse(decompressed || "{}");
 
-        const { boosters: parsedBoosters } = parsed;
-
-        if (!parsedBoosters) {
-            console.error("Invalid data structure for boosters");
-            return [];
-        }
-
-        const boosters: ManaBoxCardSerialized[][] = parsedBoosters.map(
-            (booster) =>
-                booster.map((card) => ({
-                    collectorNumber: card.c,
-                    foil: card.f,
-                    name: card.n,
-                    setCode: card.s,
-                }))
+        const boosters: ManaBoxCardSerialized[][] = parsed.map((booster) =>
+            booster.map((card) => ({
+                collectorNumber: card.c,
+                foil: card.f,
+                name: card.n,
+                setCode: card.s,
+            }))
         );
 
         return boosters;

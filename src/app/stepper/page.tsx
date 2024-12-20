@@ -89,8 +89,6 @@ export default function Home() {
         }
     };
 
-    console.log("generatedBoosters", generatedBoosters);
-
     return (
         <Box
             display="flex"

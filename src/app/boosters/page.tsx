@@ -2,14 +2,15 @@ import { ManaBoxCardSerialized } from "@/app/types";
 import { deserializeBoosters } from "@/app/utils";
 
 interface BoostersPageProps {
-    searchParams: { [key: string]: string };
+    searchParams: Promise<{ [key: string]: string }>;
 }
 
 interface BoosterDisplayProps {
-    booster: ManaBoxCardSerialized[];
+    cards: ManaBoxCardSerialized[];
+    index: number;
 }
 
-const BoosterDisplay = ({ booster }: BoosterDisplayProps) => {
+const BoosterDisplay = ({ cards, index }: BoosterDisplayProps) => {
     return (
         <div
             style={{
@@ -18,7 +19,10 @@ const BoosterDisplay = ({ booster }: BoosterDisplayProps) => {
                 borderRadius: "8px",
             }}
         >
-            {booster.map((card, index) => (
+            <h2>
+                Booster {index} [{cards[0].setCode}]
+            </h2>
+            {cards.map((card, index) => (
                 <div key={index} style={{ marginBottom: "8px" }}>
                     #{card.collectorNumber} <strong>{card.name}</strong>
                 </div>
@@ -30,24 +34,22 @@ const BoosterDisplay = ({ booster }: BoosterDisplayProps) => {
 export default async function BoostersPage({
     searchParams,
 }: BoostersPageProps) {
-    const { serializedBoosters } = searchParams;
+    const query = await searchParams;
 
-    // Parse the boosters from the URL query param
-    const boosters = serializedBoosters
-        ? deserializeBoosters(serializedBoosters)
-        : [];
+    const serializedBoosters = query.serializedBoosters;
+
+    const boosters = deserializeBoosters(serializedBoosters);
 
     return (
         <div>
             <h1>Deserialized Boosters</h1>
             {boosters.length > 0 ? (
-                boosters.map((booster, index) => (
-                    <div key={index} style={{ marginBottom: "20px" }}>
-                        <h2>
-                            Booster {index + 1} {booster[index].setCode}
-                        </h2>
-                        <BoosterDisplay booster={booster} />
-                    </div>
+                boosters.map((cards, index) => (
+                    <BoosterDisplay
+                        cards={cards}
+                        index={index + 1}
+                        key={`booster-${cards[0].collectorNumber}-${index}`}
+                    />
                 ))
             ) : (
                 <p>

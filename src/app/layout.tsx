@@ -1,6 +1,9 @@
+import { Box } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+
+import AppBar from "@/app/components/AppBar";
 
 const roboto = Roboto({
     subsets: ["latin"],
@@ -20,10 +23,24 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html className={roboto.className} lang="en">
-            <body>
-                <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-            </body>
-        </html>
+        <Box className={roboto.className} component="html" lang="en">
+            <Box component="body" m={0}>
+                <AppRouterCacheProvider>
+                    <AppBar />
+                    <Box
+                        boxSizing="border-box"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justifyContent="center"
+                        margin="0 auto"
+                        maxWidth="600px"
+                        p={1}
+                    >
+                        {children}
+                    </Box>
+                </AppRouterCacheProvider>
+            </Box>
+        </Box>
     );
 }

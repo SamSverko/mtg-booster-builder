@@ -2,6 +2,8 @@ import { Box, Button, StepContent as StepContentMUI } from "@mui/material";
 
 type StepContentProps = {
     children: React.ReactNode | React.ReactNode[];
+    hideBack?: boolean;
+    hideNext?: boolean;
     onBack?: () => void;
     onNext?: () => void;
 };
@@ -11,6 +13,8 @@ type StepContentProps = {
  */
 export default function StepContent({
     children,
+    hideBack,
+    hideNext,
     onBack,
     onNext,
 }: StepContentProps) {
@@ -31,6 +35,9 @@ export default function StepContent({
                     disabled={!onBack}
                     fullWidth
                     onClick={onBack}
+                    sx={{
+                        visibility: hideBack ? "hidden" : "visible",
+                    }}
                     variant="outlined"
                 >
                     Back
@@ -39,6 +46,9 @@ export default function StepContent({
                     disabled={!onNext}
                     fullWidth
                     onClick={onNext}
+                    sx={{
+                        visibility: hideNext ? "hidden" : "visible",
+                    }}
                     variant="contained"
                 >
                     Next

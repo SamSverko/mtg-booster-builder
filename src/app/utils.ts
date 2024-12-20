@@ -33,10 +33,6 @@ export function generateBoosters(
             if (setCards.length === 0) {
                 console.warn(`No cards found for set code: ${setCode}`);
             } else {
-                console.log(
-                    `Found ${setCards.length} cards for set code: ${setCode}`
-                );
-
                 // Create a map to track available cards with quantities
                 const availableCards = new Map<string, ManaBoxCard[]>();
 
@@ -114,10 +110,6 @@ export function generateBoosters(
                     // If a booster was successfully generated, add it to the final boosters array
                     if (booster.length === 14) {
                         generatedBoosters.push(booster);
-                        console.log(
-                            `Booster ${i + 1} generated for set ${setCode}:`,
-                            booster
-                        );
                     } else {
                         console.warn(
                             `Booster ${

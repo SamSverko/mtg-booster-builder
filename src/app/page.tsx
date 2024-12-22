@@ -77,16 +77,11 @@ export default function Home() {
     };
 
     const updatePlayerOrBoosterCount = (event: CountInputOnChangeEvent) => {
-        switch (event) {
-            case "decrement":
-                setPlayerOrBoosterCount(Math.max(playerOrBoosterCount - 1, 1));
-                break;
-            case "increment":
-                setPlayerOrBoosterCount(playerOrBoosterCount + 1);
-                break;
-            default:
-                break;
-        }
+        setPlayerOrBoosterCount((prevCount) => {
+            if (event === "decrement") return Math.max(prevCount - 1, 1);
+            if (event === "increment") return prevCount + 1;
+            return prevCount;
+        });
     };
 
     return (

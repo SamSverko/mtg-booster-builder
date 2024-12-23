@@ -1,6 +1,6 @@
 import { Alert, Box, Typography } from "@mui/material";
 
-import BoosterDisplay from "@/app/components/BoosterDisplay";
+import { BoosterDisplay } from "@/app/components";
 import { deserializeBoosters } from "@/app/utils";
 
 type BoostersPageProps = {

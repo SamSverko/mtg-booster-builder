@@ -17,6 +17,5 @@ export {
     default as FormatSelect,
     type FormatSelectProps,
 } from "./FormatSelect";
-export { default as StepContent } from "./Stepper/StepContent";
-export { default as StepLabel } from "./Stepper/StepLabel";
-export { type StepProps } from "./Stepper/types";
+export { default as StepContent } from "./StepContent";
+export { default as StepLabel } from "./StepLabel";

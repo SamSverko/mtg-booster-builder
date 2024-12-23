@@ -1,6 +1,6 @@
 export { default as AppLink } from "@/app/components/AppLink";
 export { default as BoosterAllocation } from "@/app/components/BoosterAllocation";
-export { default as BoosterDisplay } from "@/app/components/BoosterDisplay";
+export { default as BoostersTable } from "@/app/components/BoostersTable";
 export { default as CardCount } from "@/app/components/CardCount";
 export {
     default as CardImport,

@@ -19,7 +19,7 @@ import { FORMAT_NONE } from "@/app/constants";
 import { AllocatedBoosterCountBySet, Format } from "@/app/types";
 import { generateBoosters } from "@/app/utils";
 
-export default function Home() {
+export default function HomePage() {
     const router = useRouter();
 
     const [activeStep, setActiveStep] = useState(0);

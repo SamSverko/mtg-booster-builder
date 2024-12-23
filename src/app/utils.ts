@@ -200,7 +200,7 @@ const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
 };
 
 export const deserializeBoosters = (
-    query: string
+    query?: string | null
 ): ManaBoxCardSerialized[][] => {
     if (!query) return [];
 

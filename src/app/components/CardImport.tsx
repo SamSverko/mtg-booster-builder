@@ -31,7 +31,7 @@ export type CardImportOnChangeEvent = {
     cardCountBySet: CardCountBySet;
 };
 
-type CardImportProps = {
+export type CardImportProps = {
     onChange: (event: CardImportOnChangeEvent) => void;
 };
 

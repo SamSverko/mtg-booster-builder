@@ -1,6 +1,7 @@
+import { Alert, Box, Typography } from "@mui/material";
+
 import BoosterDisplay from "@/app/components/BoosterDisplay";
 import { deserializeBoosters } from "@/app/utils";
-import { Alert, Box, Typography } from "@mui/material";
 
 type BoostersPageProps = {
     searchParams: Promise<{ [key: string]: string }>;

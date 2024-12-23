@@ -12,7 +12,7 @@ export type CountInputOnChangeEvent =
     | "increment"
     | "increment-all";
 
-type CountInputProps = {
+export type CountInputProps = {
     disableDecrementAll?: boolean;
     disableDecrement?: boolean;
     disableIncrement?: boolean;

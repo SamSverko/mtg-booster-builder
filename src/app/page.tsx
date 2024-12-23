@@ -111,7 +111,7 @@ export default function Home() {
                     onBack={prevStep}
                     onNext={format ? nextStep : undefined}
                 >
-                    <FormatSelect onChange={setFormat} value={format} />
+                    <FormatSelect onChange={setFormat} format={format} />
                 </StepContent>
             </Step>
             <Step>

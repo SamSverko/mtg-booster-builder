@@ -10,23 +10,28 @@ import {
     Tooltip,
 } from "@mui/material";
 import { useState } from "react";
-import { PlayBoosterSerialized } from "@/app/types";
+import { CardRarity, PlayBoosterSerialized } from "@/app/types";
 import { FoilChip } from "@/app/components";
+import { COMPARE_RARITY_ORDER } from "@/app/constants";
 
 type BoostersTableProps = {
     boosters: PlayBoosterSerialized[];
 };
 
+type Order = "asc" | "desc";
+type OrderBy =
+    | "boosterIndex"
+    | "collectorNumber"
+    | "name"
+    | "rarity"
+    | "setCode";
+
 // TODO - Allow hide name and rarity
 export default function BoostersTable({ boosters }: BoostersTableProps) {
-    const [order, setOrder] = useState<"asc" | "desc">("asc");
-    const [orderBy, setOrderBy] = useState<
-        "boosterIndex" | "collectorNumber" | "name" | "rarity"
-    >("boosterIndex");
+    const [order, setOrder] = useState<Order>("asc");
+    const [orderBy, setOrderBy] = useState<OrderBy>("boosterIndex");
 
-    const handleSort = (
-        property: "boosterIndex" | "collectorNumber" | "name" | "rarity"
-    ) => {
+    const handleSort = (property: OrderBy) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
@@ -40,26 +45,49 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
             name: card.n,
             foil: card.f,
             rarity: card.r,
+            setCode: booster.s,
         }))
     );
 
-    // Sort the flattened list dynamically by the selected column
     const sortedCards = [...flattenedCards].sort((a, b) => {
-        const aValue = a[orderBy];
-        const bValue = b[orderBy];
-
-        if (aValue === bValue && orderBy !== "collectorNumber") {
-            // Secondary sort by collector number for ties
-            return order === "asc"
-                ? a.collectorNumber - b.collectorNumber
-                : b.collectorNumber - a.collectorNumber;
-        }
-
-        if (order === "asc") {
-            return aValue < bValue ? -1 : 1;
+        if (orderBy === "rarity") {
+            // Compare using COMPARE_RARITY_ORDER for rarity
+            const primaryComparison = COMPARE_RARITY_ORDER(
+                a.rarity as CardRarity,
+                b.rarity as CardRarity
+            );
+            if (primaryComparison !== 0) {
+                return order === "asc" ? primaryComparison : -primaryComparison;
+            }
         } else {
-            return aValue > bValue ? -1 : 1;
+            // Default comparison for other fields (boosterIndex, collectorNumber, etc.)
+            const primaryValueA = a[orderBy];
+            const primaryValueB = b[orderBy];
+
+            if (primaryValueA < primaryValueB) {
+                return order === "asc" ? -1 : 1;
+            }
+            if (primaryValueA > primaryValueB) {
+                return order === "asc" ? 1 : -1;
+            }
         }
+
+        // Secondary sorting logic (Set Code or Collector Number) for other fields
+        if (orderBy !== "rarity") {
+            const secondaryKey =
+                orderBy === "setCode" ? "collectorNumber" : "setCode";
+            const secondaryValueA = a[secondaryKey];
+            const secondaryValueB = b[secondaryKey];
+
+            if (secondaryValueA < secondaryValueB) {
+                return order === "asc" ? -1 : 1;
+            }
+            if (secondaryValueA > secondaryValueB) {
+                return order === "asc" ? 1 : -1;
+            }
+        }
+
+        return 0;
     });
 
     return (
@@ -76,7 +104,18 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
                     overflow: "auto",
                 }}
             >
-                <Table size="small" stickyHeader>
+                <Table
+                    size="small"
+                    stickyHeader
+                    sx={{
+                        th: {
+                            padding: 0,
+                        },
+                        td: {
+                            padding: "4px",
+                        },
+                    }}
+                >
                     <TableHead>
                         <TableRow>
                             <TableCell>
@@ -90,7 +129,18 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
                                     </Tooltip>
                                 </TableSortLabel>
                             </TableCell>
-                            <TableCell align="right">
+                            <TableCell>
+                                <TableSortLabel
+                                    active={orderBy === "setCode"}
+                                    direction={order}
+                                    onClick={() => handleSort("setCode")}
+                                >
+                                    <Tooltip placement="top" title="Set Code">
+                                        <Box component="span">S</Box>
+                                    </Tooltip>
+                                </TableSortLabel>
+                            </TableCell>
+                            <TableCell>
                                 <TableSortLabel
                                     active={orderBy === "collectorNumber"}
                                     direction={order}
@@ -131,9 +181,10 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
                     <TableBody>
                         {sortedCards.map((card, index) => (
                             <TableRow key={index}>
-                                <TableCell align="center">
+                                <TableCell align="right">
                                     {card.boosterIndex + 1}
                                 </TableCell>
+                                <TableCell>{card.setCode}</TableCell>
                                 <TableCell align="right">
                                     {card.collectorNumber}
                                 </TableCell>

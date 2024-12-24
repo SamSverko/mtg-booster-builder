@@ -1,4 +1,4 @@
-import { Format, PlayBooster } from "@/app/types";
+import { CardRarity, Format, PlayBooster } from "@/app/types";
 
 export const BASIC_LAND_NAMES = [
     "Plains",
@@ -194,4 +194,15 @@ export const RARITY_COLOR = {
     uncommon: "#b9dceb",
     rare: "#e6cd8c",
     mythic: "#f59105",
+};
+
+export const RARITY_ORDER: Record<CardRarity, number> = {
+    common: 0,
+    uncommon: 1,
+    rare: 2,
+    mythic: 3,
+};
+
+export const COMPARE_RARITY_ORDER = (a: CardRarity, b: CardRarity): number => {
+    return RARITY_ORDER[a] - RARITY_ORDER[b];
 };

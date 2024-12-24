@@ -7,7 +7,7 @@ type CardCondition =
     | "played"
     | "poor";
 type CardFoil = "normal" | "foil" | "etched";
-type CardRarity = "common" | "uncommon" | "rare" | "mythic";
+export type CardRarity = "common" | "uncommon" | "rare" | "mythic";
 export type CardSupertype = "basic"; // add more as needed
 export type CardType = "land"; // add more as needed
 

@@ -23,11 +23,8 @@ function BoostersPageClient() {
                 `calc(100dvh - ${TOOLBAR_HEIGHT} - ${theme.spacing(4)})`
             }
             gap={2}
+            width="100%"
         >
-            <Typography component="h2" variant="h6">
-                Boosters
-            </Typography>
-
             {boosters.length > 0 ? (
                 <BoostersTable boosters={boosters} />
             ) : (

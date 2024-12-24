@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
 import { AppBar } from "@/app/components/AppBar";
+import { APP_MAX_WIDTH } from "@/app/constants";
 
 const roboto = Roboto({
     subsets: ["latin"],
@@ -34,7 +35,7 @@ export default function RootLayout({
                         alignItems="center"
                         justifyContent="center"
                         margin="0 auto"
-                        maxWidth="600px"
+                        maxWidth={APP_MAX_WIDTH}
                         px={1}
                         py={2}
                     >

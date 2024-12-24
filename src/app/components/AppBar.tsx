@@ -10,12 +10,26 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { APP_MAX_WIDTH } from "@/app/constants";
+
 export function AppBar() {
     const pathname = usePathname();
 
     return (
         <AppBarMUI position="sticky">
-            <Toolbar sx={{ justifyContent: "center" }} variant="dense">
+            <Toolbar
+                sx={{
+                    boxSizing: "border-box",
+                    justifyContent: "center",
+                    margin: "0 auto",
+                    maxWidth: APP_MAX_WIDTH,
+                    width: "100%",
+                    "@media (min-width: 600px)": {
+                        paddingInline: (theme) => theme.spacing(2),
+                    },
+                }}
+                variant="dense"
+            >
                 <Typography
                     component="h1"
                     sx={{

@@ -187,6 +187,7 @@ export const PLAY_BOOSTER: PlayBooster = {
     ],
 };
 
+export const APP_MAX_WIDTH = "600px";
 export const TOOLBAR_HEIGHT = "48px";
 
 export const RARITY_COLOR = {

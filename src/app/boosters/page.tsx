@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 
 import { BoostersTable } from "@/app/components";
 import { deserializeBoosters } from "@/app/utils";
+import { TOOLBAR_HEIGHT } from "../constants";
 
 export default function BoostersPage() {
     const searchParams = useSearchParams();
@@ -13,7 +14,15 @@ export default function BoostersPage() {
     const boosters = deserializeBoosters(serializedBoosters);
 
     return (
-        <Box alignItems="center" display="flex" flexDirection="column" gap={2}>
+        <Box
+            alignItems="center"
+            display="flex"
+            flexDirection="column"
+            height={(theme) =>
+                `calc(100dvh - ${TOOLBAR_HEIGHT} - ${theme.spacing(4)})`
+            }
+            gap={2}
+        >
             <Typography component="h2" variant="h6">
                 Boosters
             </Typography>

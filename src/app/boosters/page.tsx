@@ -2,12 +2,13 @@
 
 import { Alert, Box, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 import { BoostersTable } from "@/app/components";
 import { deserializeBoosters } from "@/app/utils";
 import { TOOLBAR_HEIGHT } from "../constants";
 
-export default function BoostersPage() {
+function BoostersPageClient() {
     const searchParams = useSearchParams();
     const serializedBoosters = searchParams.get("serializedBoosters");
 
@@ -36,5 +37,13 @@ export default function BoostersPage() {
                 </Alert>
             )}
         </Box>
+    );
+}
+
+export default function BoostersPage() {
+    return (
+        <Suspense>
+            <BoostersPageClient />
+        </Suspense>
     );
 }

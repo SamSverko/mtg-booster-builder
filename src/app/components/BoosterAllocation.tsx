@@ -33,23 +33,6 @@ export default function BoosterAllocation({
     requiredBoosterCount,
     totalAllocatedBoosters,
 }: SetSelectionProps) {
-    if (!cardCountBySet) {
-        return (
-            <Box display="flex" flexDirection="column" gap={1}>
-                <Typography>Missing card data!</Typography>
-            </Box>
-        );
-    }
-
-    if (!cardCountBySet) {
-        return (
-            <Box display="flex" flexDirection="column" gap={1}>
-                <InputLabel>Sets</InputLabel>
-                <Alert severity="error">No sets available.</Alert>
-            </Box>
-        );
-    }
-
     const remainingBoostersToAllocate = useMemo(
         () => requiredBoosterCount - totalAllocatedBoosters,
         [requiredBoosterCount, totalAllocatedBoosters]
@@ -61,6 +44,8 @@ export default function BoosterAllocation({
 
     const handleCountChange = useCallback(
         (setCode: string, event: CountInputOnChangeEvent) => {
+            if (!cardCountBySet) return;
+
             const currentCount = allocatedBoosterCountBySet[setCode] ?? 0;
             const maxBoostersForSet = Math.floor(
                 cardCountBySet[setCode] / PLAY_BOOSTER.slots.length
@@ -96,6 +81,23 @@ export default function BoosterAllocation({
             cardCountBySet,
         ]
     );
+
+    if (!cardCountBySet) {
+        return (
+            <Box display="flex" flexDirection="column" gap={1}>
+                <Typography>Missing card data!</Typography>
+            </Box>
+        );
+    }
+
+    if (!cardCountBySet) {
+        return (
+            <Box display="flex" flexDirection="column" gap={1}>
+                <InputLabel>Sets</InputLabel>
+                <Alert severity="error">No sets available.</Alert>
+            </Box>
+        );
+    }
 
     return (
         <Box display="flex" flexDirection="column" gap={1}>

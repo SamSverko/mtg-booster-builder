@@ -66,7 +66,7 @@ export default function HomePage() {
         if (generatedBoosters) {
             router.push(`/boosters?serializedBoosters=${generatedBoosters}`);
         }
-    }, [generatedBoosters]);
+    }, [generatedBoosters, router]);
 
     const nextStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);

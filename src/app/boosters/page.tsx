@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Box, Typography } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 

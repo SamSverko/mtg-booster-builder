@@ -187,6 +187,12 @@ export const PLAY_BOOSTER: PlayBooster = {
     ],
 };
 
+export const APP_TITLE = "MTG Booster Builder";
+export const APP_DESCRIPTION =
+    'Generate custom "Magic: The Gathering" Play Booster Packs from your library.';
+export const APP_URL = "https://mtg-booster-builder.vercel.app";
+export const APP_AUTHOR = "Sam Sverko";
+
 export const APP_MAX_WIDTH = "600px";
 export const TOOLBAR_HEIGHT = "48px";
 

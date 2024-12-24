@@ -17,7 +17,7 @@ export type FormatSelectProps = {
 };
 
 // TODO - show format details?
-export default function FormatSelect({ onChange, format }: FormatSelectProps) {
+export function FormatSelect({ onChange, format }: FormatSelectProps) {
     const formatMap = new Map([
         [FORMAT_NONE.name, FORMAT_NONE],
         [FORMAT_BOOSTER_DRAFT.name, FORMAT_BOOSTER_DRAFT],

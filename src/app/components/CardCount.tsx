@@ -5,7 +5,7 @@ type CardCountProps = {
     isLoading?: boolean;
 };
 
-export default function CardCount({ cardCount, isLoading }: CardCountProps) {
+export function CardCount({ cardCount, isLoading }: CardCountProps) {
     const text = isLoading
         ? "Loading..."
         : cardCount === undefined

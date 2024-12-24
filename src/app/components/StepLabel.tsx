@@ -8,7 +8,7 @@ type StepLabelProps = {
 /**
  * A wrapper around MUI's StepLabel component that adds a chip label.
  */
-export default function StepLabel({ chipLabel, label }: StepLabelProps) {
+export function StepLabel({ chipLabel, label }: StepLabelProps) {
     return (
         <StepLabelMUI
             sx={{

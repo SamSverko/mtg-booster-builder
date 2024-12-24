@@ -8,7 +8,7 @@ type ConfirmDetailsProps = {
     requiredBoosterCount: number;
 };
 
-export default function ConfirmDetails({
+export function ConfirmDetails({
     allocatedBoosterCountBySet,
     requiredBoosterCount,
 }: ConfirmDetailsProps) {

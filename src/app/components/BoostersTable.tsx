@@ -32,7 +32,7 @@ type OrderBy =
     | "rarity"
     | "setCode";
 
-export default function BoostersTable({ boosters }: BoostersTableProps) {
+export function BoostersTable({ boosters }: BoostersTableProps) {
     const [order, setOrder] = useState<Order>("asc");
     const [orderBy, setOrderBy] = useState<OrderBy>("boosterIndex");
     const [areSpoilersHidden, setAreSpoilersHidden] = useState(true);

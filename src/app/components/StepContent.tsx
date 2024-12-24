@@ -11,7 +11,7 @@ type StepContentProps = {
 /**
  * A wrapper around MUI's StepContent component that adds a back and next button.
  */
-export default function StepContent({
+export function StepContent({
     children,
     hideBack,
     hideNext,

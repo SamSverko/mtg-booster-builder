@@ -23,7 +23,7 @@ export type CountInputProps = {
     showAllControls?: boolean;
 };
 
-export default function CountInput({
+export function CountInput({
     disableDecrementAll = false,
     disableDecrement = false,
     disableIncrement = false,

@@ -10,7 +10,7 @@ type AppLinkProps = {
 /**
  * A link that opens an app if on mobile, otherwise opens a new tab.
  */
-export default function AppLink({ appHref, children, href }: AppLinkProps) {
+export function AppLink({ appHref, children, href }: AppLinkProps) {
     const openApp: MouseEventHandler<HTMLButtonElement> = (event) => {
         event.preventDefault();
 

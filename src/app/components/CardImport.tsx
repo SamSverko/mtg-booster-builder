@@ -40,7 +40,7 @@ export type CardImportProps = {
  *
  * Supported: ManaBox export files (.csv).
  */
-export default function CardImport({ onChange }: CardImportProps) {
+export function CardImport({ onChange }: CardImportProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     const [cardCount, setCardCount] = useState<number | null>(null);

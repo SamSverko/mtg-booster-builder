@@ -77,10 +77,18 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
             const primaryValueA = a[orderBy];
             const primaryValueB = b[orderBy];
 
-            if (!primaryValueA || !primaryValueB) {
+            if (primaryValueA === undefined || primaryValueB === undefined) {
                 return 0;
             }
 
+            // Numeric sorting for `boosterIndex` and `collectorNumber`
+            if (orderBy === "boosterIndex" || orderBy === "collectorNumber") {
+                const comparison =
+                    Number(primaryValueA) - Number(primaryValueB);
+                return order === "asc" ? comparison : -comparison;
+            }
+
+            // Lexicographic sorting for other fields
             if (primaryValueA < primaryValueB) {
                 return order === "asc" ? -1 : 1;
             }

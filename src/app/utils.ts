@@ -8,7 +8,7 @@ import {
     PlayBoosterSerialized,
 } from "@/app/types";
 
-export function generateBoosters(
+export function getSerializedBoostersUrl(
     cards: ManaBoxCard[] | undefined,
     allocatedBoosterCountBySet: AllocatedBoosterCountBySet
 ) {
@@ -122,7 +122,9 @@ export function generateBoosters(
         }
     );
 
-    return serializeBoosters(generatedBoosters);
+    return `/boosters/?serializedBoosters=${serializeBoosters(
+        generatedBoosters
+    )}`;
 }
 
 function getRandomSlotItem(slot: PlayBoosterSlotItem) {

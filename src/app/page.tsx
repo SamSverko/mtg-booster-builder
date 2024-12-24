@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Step, Stepper } from "@mui/material";
+import { Button, CircularProgress, Step, Stepper } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -17,7 +17,7 @@ import {
 } from "@/app/components";
 import { FORMAT_NONE } from "@/app/constants";
 import { AllocatedBoosterCountBySet, Format } from "@/app/types";
-import { generateBoosters } from "@/app/utils";
+import { getSerializedBoostersUrl } from "@/app/utils";
 
 export default function HomePage() {
     const router = useRouter();
@@ -31,9 +31,7 @@ export default function HomePage() {
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
         useState<AllocatedBoosterCountBySet>({});
-    const [generatedBoosters, setGeneratedBoosters] = useState<
-        string | undefined
-    >(undefined);
+    const [isGenerating, setIsGenerating] = useState(false);
 
     const requiredBoosterCount = useMemo(() => {
         if (format?.boosterPerPlayerCount) {
@@ -61,12 +59,6 @@ export default function HomePage() {
     useEffect(() => {
         setAllocatedBoosterCountBySet({});
     }, [playerOrBoosterCount]);
-
-    useEffect(() => {
-        if (generatedBoosters) {
-            router.push(`/boosters?serializedBoosters=${generatedBoosters}`);
-        }
-    }, [generatedBoosters, router]);
 
     const nextStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -159,25 +151,39 @@ export default function HomePage() {
             </Step>
             <Step>
                 <StepLabel label="Generate boosters" />
-                <StepContent hideNext onBack={prevStep}>
+                <StepContent
+                    hideNext
+                    onBack={!isGenerating ? prevStep : undefined}
+                >
                     <ConfirmDetails
                         allocatedBoosterCountBySet={allocatedBoosterCountBySet}
                         requiredBoosterCount={requiredBoosterCount}
                     />
                     <Button
-                        disabled={totalAllocatedBoosters < requiredBoosterCount}
+                        disabled={
+                            isGenerating ||
+                            totalAllocatedBoosters < requiredBoosterCount
+                        }
                         fullWidth
-                        onClick={() =>
-                            setGeneratedBoosters(
-                                generateBoosters(
+                        onClick={() => {
+                            setIsGenerating(true);
+
+                            const serializedBoostersUrl =
+                                getSerializedBoostersUrl(
                                     cardData?.cards,
                                     allocatedBoosterCountBySet
-                                )
-                            )
+                                );
+
+                            if (serializedBoostersUrl) {
+                                router.push(serializedBoostersUrl);
+                            }
+                        }}
+                        startIcon={
+                            isGenerating && <CircularProgress size={20} />
                         }
                         variant="contained"
                     >
-                        Generate boosters
+                        {isGenerating ? "Generating" : "Generate"} boosters
                     </Button>
                 </StepContent>
             </Step>

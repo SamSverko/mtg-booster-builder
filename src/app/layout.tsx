@@ -3,7 +3,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
-import AppBar from "@/app/components/AppBar";
+import { AppBar } from "@/app/components/AppBar";
 
 const roboto = Roboto({
     subsets: ["latin"],

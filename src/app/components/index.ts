@@ -1,3 +1,4 @@
+export { AppBar } from "@/app/components/AppBar";
 export { default as AppLink } from "@/app/components/AppLink";
 export { default as BoosterAllocation } from "@/app/components/BoosterAllocation";
 export { default as BoostersTable } from "@/app/components/BoostersTable";

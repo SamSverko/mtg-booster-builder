@@ -199,7 +199,23 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
                                     </Box>
                                 </TableCell>
                                 <TableCell align="center">
-                                    {card.rarity.charAt(0).toUpperCase()}
+                                    <Tooltip
+                                        placement="top"
+                                        slotProps={{
+                                            tooltip: {
+                                                sx: {
+                                                    textTransform: "capitalize",
+                                                },
+                                            },
+                                        }}
+                                        title={card.rarity}
+                                    >
+                                        <Box component="span">
+                                            {card.rarity
+                                                .charAt(0)
+                                                .toUpperCase()}
+                                        </Box>
+                                    </Tooltip>
                                 </TableCell>
                             </TableRow>
                         ))}

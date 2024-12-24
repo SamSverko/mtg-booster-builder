@@ -4,7 +4,7 @@ import { Alert, Box, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-import { BoostersTable } from "@/app/components";
+import { BoostersTable } from "@/components";
 import { deserializeBoosters } from "@/app/utils";
 import { TOOLBAR_HEIGHT } from "../constants";
 

@@ -14,7 +14,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import { CountInput, CountInputOnChangeEvent } from "@/app/components";
+import { CountInput, CountInputOnChangeEvent } from "@/components";
 import { PLAY_BOOSTER } from "@/app/constants";
 import { AllocatedBoosterCountBySet, CardCountBySet } from "@/app/types";
 

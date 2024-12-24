@@ -11,7 +11,7 @@ import {
 import Papa from "papaparse";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { AppLink } from "@/app/components";
+import { AppLink } from "@/components";
 import { CardCountBySet, ManaBoxCard } from "@/app/types";
 
 const HiddenInput = styled("input")({

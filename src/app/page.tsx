@@ -14,7 +14,7 @@ import {
     FormatSelect,
     StepContent,
     StepLabel,
-} from "@/app/components";
+} from "@/components";
 import { FORMAT_NONE } from "@/app/constants";
 import { AllocatedBoosterCountBySet, Format } from "@/app/types";
 import { getSerializedBoostersUrl } from "@/app/utils";

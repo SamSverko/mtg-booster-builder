@@ -1,1 +1,1 @@
-export { default as useCards } from "@/app/hooks/use-cards";
+export { default as useCards } from "@/hooks/use-cards";

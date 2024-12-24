@@ -1,6 +1,12 @@
 "use client";
 
-import { Home, HomeOutlined, WebStories } from "@mui/icons-material";
+import {
+    Home,
+    HomeOutlined,
+    TableRows,
+    TableRowsOutlined,
+    WebStories,
+} from "@mui/icons-material";
 import {
     AppBar as AppBarMUI,
     Box,
@@ -10,11 +16,23 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { APP_MAX_WIDTH } from "@/constants";
+import { APP_MAX_WIDTH, SERIALIZED_BOOSTERS_LS_KEY } from "@/constants";
 
 export function AppBar() {
     const pathname = usePathname();
+
+    const [localSerializedBoosters, setLocalSerializedBoosters] = useState<
+        string | null
+    >(null);
+
+    useEffect(() => {
+        window.setTimeout(() => {
+            const boosters = localStorage?.getItem(SERIALIZED_BOOSTERS_LS_KEY);
+            setLocalSerializedBoosters(boosters);
+        }, 250);
+    }, [pathname]);
 
     return (
         <AppBarMUI position="sticky">
@@ -42,6 +60,27 @@ export function AppBar() {
                     >
                         MTG Booster Builder
                     </Typography>
+                    {localSerializedBoosters && (
+                        <Link
+                            href={`/boosters?serializedBoosters=${localSerializedBoosters}`}
+                            passHref
+                            style={{ textDecoration: "none" }}
+                        >
+                            <IconButton
+                                edge="end"
+                                size="small"
+                                sx={{
+                                    color: "white",
+                                }}
+                            >
+                                {pathname === "/boosters" ? (
+                                    <TableRows />
+                                ) : (
+                                    <TableRowsOutlined />
+                                )}
+                            </IconButton>
+                        </Link>
+                    )}
                     <Link href="/" passHref style={{ textDecoration: "none" }}>
                         <IconButton
                             edge="end"

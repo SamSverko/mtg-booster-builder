@@ -196,6 +196,8 @@ export const APP_AUTHOR = "Sam Sverko";
 export const APP_MAX_WIDTH = "600px";
 export const TOOLBAR_HEIGHT = "48px";
 
+export const SERIALIZED_BOOSTERS_LS_KEY = "serializedBoosters";
+
 export const RARITY_COLOR = {
     common: "#212121",
     uncommon: "#b9dceb",

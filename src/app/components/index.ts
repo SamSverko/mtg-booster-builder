@@ -19,3 +19,4 @@ export {
 } from "@/app/components/FormatSelect";
 export { default as StepContent } from "@/app/components/StepContent";
 export { default as StepLabel } from "@/app/components/StepLabel";
+export { FoilChip } from "@/app/components/FoilChip";

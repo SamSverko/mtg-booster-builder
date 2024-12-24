@@ -12,7 +12,7 @@ import Papa from "papaparse";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppLink } from "@/components";
-import { CardCountBySet, ManaBoxCard } from "@/app/types";
+import { CardCountBySet, ManaBoxCard } from "@/types";
 
 const HiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",

@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { APP_MAX_WIDTH } from "@/app/constants";
+import { APP_MAX_WIDTH } from "@/constants";
 
 export function AppBar() {
     const pathname = usePathname();

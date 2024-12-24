@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 
 import { AppBar } from "@/components/AppBar";
-import { APP_MAX_WIDTH } from "@/app/constants";
+import { APP_MAX_WIDTH } from "@/constants";
 
 const roboto = Roboto({
     subsets: ["latin"],

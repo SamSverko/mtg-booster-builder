@@ -15,9 +15,9 @@ import {
     StepContent,
     StepLabel,
 } from "@/components";
-import { FORMAT_NONE } from "@/app/constants";
-import { AllocatedBoosterCountBySet, Format } from "@/app/types";
-import { getSerializedBoostersUrl } from "@/app/utils";
+import { FORMAT_NONE } from "@/constants";
+import { AllocatedBoosterCountBySet, Format } from "@/types";
+import { getSerializedBoostersUrl } from "@/utils";
 
 export default function HomePage() {
     const router = useRouter();

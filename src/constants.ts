@@ -1,4 +1,4 @@
-import { CardRarity, Format, PlayBooster } from "@/app/types";
+import { CardRarity, Format, PlayBooster } from "@/types";
 
 export const BASIC_LAND_NAMES = [
     "Plains",

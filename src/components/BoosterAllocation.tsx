@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 
 import { CountInput, CountInputOnChangeEvent } from "@/components";
-import { PLAY_BOOSTER } from "@/app/constants";
-import { AllocatedBoosterCountBySet, CardCountBySet } from "@/app/types";
+import { PLAY_BOOSTER } from "@/constants";
+import { AllocatedBoosterCountBySet, CardCountBySet } from "@/types";
 
 type SetSelectionProps = {
     allocatedBoosterCountBySet: AllocatedBoosterCountBySet;

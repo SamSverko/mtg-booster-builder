@@ -1,7 +1,7 @@
 import { List, ListItem, Typography } from "@mui/material";
 
-import { PLAY_BOOSTER } from "@/app/constants";
-import { AllocatedBoosterCountBySet } from "@/app/types";
+import { PLAY_BOOSTER } from "@/constants";
+import { AllocatedBoosterCountBySet } from "@/types";
 
 type ConfirmDetailsProps = {
     allocatedBoosterCountBySet: AllocatedBoosterCountBySet;

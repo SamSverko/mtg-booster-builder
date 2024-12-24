@@ -5,8 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 import { BoostersTable } from "@/components";
-import { deserializeBoosters } from "@/app/utils";
-import { TOOLBAR_HEIGHT } from "../constants";
+import { deserializeBoosters } from "@/utils";
+import { TOOLBAR_HEIGHT } from "@/constants";
 
 function BoostersPageClient() {
     const searchParams = useSearchParams();

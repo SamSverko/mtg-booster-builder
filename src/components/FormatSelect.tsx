@@ -8,8 +8,8 @@ import {
     FORMAT_BOOSTER_DRAFT,
     FORMAT_NONE,
     FORMAT_SEALED_DECK,
-} from "@/app/constants";
-import { Format } from "@/app/types";
+} from "@/constants";
+import { Format } from "@/types";
 
 export type FormatSelectProps = {
     onChange: (format: Format) => void;

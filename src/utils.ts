@@ -1,12 +1,12 @@
 import LZString from "lz-string";
 
-import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
+import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/constants";
 import {
     AllocatedBoosterCountBySet,
     ManaBoxCard,
     PlayBoosterSlotItem,
     PlayBoosterSerialized,
-} from "@/app/types";
+} from "@/types";
 
 export function getSerializedBoostersUrl(
     cards: ManaBoxCard[] | undefined,

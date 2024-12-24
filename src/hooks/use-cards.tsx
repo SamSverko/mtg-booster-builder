@@ -1,7 +1,7 @@
 import Papa from "papaparse";
 import { useEffect, useMemo, useState } from "react";
 
-import { ManaBoxCard, CardCountBySet } from "@/app/types";
+import { ManaBoxCard, CardCountBySet } from "@/types";
 
 export default function useCards() {
     const [cards, setCards] = useState<ManaBoxCard[] | null>(null);

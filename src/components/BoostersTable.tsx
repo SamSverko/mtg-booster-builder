@@ -16,9 +16,9 @@ import {
     CardRarity,
     PlayBoosterSerialized,
     PlayBoosterCardSerialized,
-} from "@/app/types";
+} from "@/types";
 import { FoilChip } from "@/components";
-import { COMPARE_RARITY_ORDER } from "@/app/constants";
+import { COMPARE_RARITY_ORDER } from "@/constants";
 
 type BoostersTableProps = {
     boosters: PlayBoosterSerialized[];

@@ -1,8 +1,9 @@
 "use client";
 
-import { Home, HomeOutlined } from "@mui/icons-material";
+import { Home, HomeOutlined, WebStories } from "@mui/icons-material";
 import {
     AppBar as AppBarMUI,
+    Box,
     IconButton,
     Toolbar,
     Typography,
@@ -30,26 +31,29 @@ export function AppBar() {
                 }}
                 variant="dense"
             >
-                <Typography
-                    component="h1"
-                    sx={{
-                        flexGrow: 1,
-                    }}
-                    variant="h6"
-                >
-                    MTG Booster Builder
-                </Typography>
-                <Link href="/" passHref style={{ textDecoration: "none" }}>
-                    <IconButton
-                        edge="end"
-                        size="small"
+                <Box alignItems="center" display="flex" gap={1} width="100%">
+                    <WebStories />
+                    <Typography
+                        component="h1"
                         sx={{
-                            color: "white",
+                            flexGrow: 1,
                         }}
+                        variant="body1"
                     >
-                        {pathname === "/" ? <Home /> : <HomeOutlined />}
-                    </IconButton>
-                </Link>
+                        MTG Booster Builder
+                    </Typography>
+                    <Link href="/" passHref style={{ textDecoration: "none" }}>
+                        <IconButton
+                            edge="end"
+                            size="small"
+                            sx={{
+                                color: "white",
+                            }}
+                        >
+                            {pathname === "/" ? <Home /> : <HomeOutlined />}
+                        </IconButton>
+                    </Link>
+                </Box>
             </Toolbar>
         </AppBarMUI>
     );

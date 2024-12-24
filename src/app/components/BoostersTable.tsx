@@ -7,8 +7,10 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Tooltip,
 } from "@mui/material";
 import { PlayBoosterSerialized } from "@/app/types";
+import { FoilChip } from "@/app/components";
 import { PLAY_BOOSTER } from "@/app/constants";
 
 type BoostersTableProps = {
@@ -37,9 +39,20 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
                     <TableHead>
                         <TableRow>
                             <TableCell />
-                            <TableCell align="right">#</TableCell>
+                            <TableCell align="right">
+                                <Tooltip
+                                    placement="top"
+                                    title="Collector Number"
+                                >
+                                    <Box component="span">#</Box>
+                                </Tooltip>
+                            </TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell align="center">R</TableCell>
+                            <TableCell align="center">
+                                <Tooltip placement="top" title="Rarity">
+                                    <Box component="span">R</Box>
+                                </Tooltip>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -77,23 +90,7 @@ export default function BoostersTable({ boosters }: BoostersTableProps) {
                                             >
                                                 {card.n}
                                                 {card.f !== "normal" && (
-                                                    <Chip
-                                                        color="secondary"
-                                                        label="F"
-                                                        sx={{
-                                                            height: (theme) =>
-                                                                theme.spacing(
-                                                                    2
-                                                                ),
-                                                            span: {
-                                                                padding: "4px",
-                                                                paddingTop:
-                                                                    "4px",
-                                                                paddingBottom:
-                                                                    "2px",
-                                                            },
-                                                        }}
-                                                    />
+                                                    <FoilChip />
                                                 )}
                                             </Box>
                                         </TableCell>

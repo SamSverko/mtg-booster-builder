@@ -42,11 +42,6 @@ export type ManaBoxCard = {
     purchasePriceCurrency: string;
 };
 
-export type ManaBoxCardSerialized = Pick<
-    ManaBoxCard,
-    "collectorNumber" | "foil" | "name" | "setCode"
->;
-
 export type PlayBoosterSlotItem = {
     foil: CardFoil;
     percentage: number;
@@ -58,6 +53,36 @@ export type PlayBoosterSlotItem = {
 export type PlayBooster = {
     setCode?: string;
     slots: PlayBoosterSlotItem[];
+};
+
+export type PlayBoosterCardSerialized = {
+    /**
+     * Collector Number
+     */
+    c: ManaBoxCard["collectorNumber"];
+    /**
+     * Foil
+     */
+    f: ManaBoxCard["foil"];
+    /**
+     * Name
+     */
+    n: ManaBoxCard["name"];
+    /**
+     * Rarity
+     */
+    r: ManaBoxCard["rarity"];
+};
+
+export type PlayBoosterSerialized = {
+    /**
+     * Set Code
+     */
+    s: ManaBoxCard["setCode"];
+    /**
+     * Cards
+     */
+    c: PlayBoosterCardSerialized[];
 };
 
 export type CardCountBySet = {

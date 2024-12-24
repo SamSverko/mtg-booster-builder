@@ -1,12 +1,12 @@
 import LZString from "lz-string";
 
+import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
 import {
     AllocatedBoosterCountBySet,
     ManaBoxCard,
-    ManaBoxCardSerialized,
     PlayBoosterSlotItem,
+    PlayBoosterSerialized,
 } from "@/app/types";
-import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/app/constants";
 
 export function generateBoosters(
     cards: ManaBoxCard[] | undefined,
@@ -183,13 +183,16 @@ function removeCardFromAvailableCards(
 }
 
 const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
-    const serializedBoosters = boosters.map((booster) =>
-        booster.map(({ collectorNumber, foil, name, setCode }) => ({
-            c: collectorNumber,
-            f: foil,
-            n: name,
-            s: setCode,
-        }))
+    const serializedBoosters: PlayBoosterSerialized[] = boosters.map(
+        (booster) => ({
+            s: booster[0].setCode,
+            c: booster.map((card) => ({
+                c: card.collectorNumber,
+                f: card.foil,
+                n: card.name,
+                r: card.rarity,
+            })),
+        })
     );
 
     const json = JSON.stringify(serializedBoosters);
@@ -200,30 +203,18 @@ const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
 };
 
 export const deserializeBoosters = (
-    query: string
-): ManaBoxCardSerialized[][] => {
+    query?: string | null
+): PlayBoosterSerialized[] => {
     if (!query) return [];
 
     try {
         const decompressed = LZString.decompressFromEncodedURIComponent(query);
 
-        const parsed: {
-            c: ManaBoxCard["collectorNumber"];
-            f: ManaBoxCard["foil"];
-            n: ManaBoxCard["name"];
-            s: ManaBoxCard["setCode"];
-        }[][] = JSON.parse(decompressed || "{}");
-
-        const boosters: ManaBoxCardSerialized[][] = parsed.map((booster) =>
-            booster.map((card) => ({
-                collectorNumber: card.c,
-                foil: card.f,
-                name: card.n,
-                setCode: card.s,
-            }))
+        const parsed: PlayBoosterSerialized[] = JSON.parse(
+            decompressed || "{}"
         );
 
-        return boosters;
+        return parsed;
     } catch (error) {
         console.error("Failed to parse boosters from URL:", error);
         return [];

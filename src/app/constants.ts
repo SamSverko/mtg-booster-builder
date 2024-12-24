@@ -186,3 +186,12 @@ export const PLAY_BOOSTER: PlayBooster = {
         ],
     ],
 };
+
+export const TOOLBAR_HEIGHT = "48px";
+
+export const RARITY_COLOR = {
+    common: "#212121",
+    uncommon: "#b9dceb",
+    rare: "#e6cd8c",
+    mythic: "#f59105",
+};

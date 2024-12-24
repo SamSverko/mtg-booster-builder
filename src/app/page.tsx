@@ -19,7 +19,7 @@ import { FORMAT_NONE } from "@/app/constants";
 import { AllocatedBoosterCountBySet, Format } from "@/app/types";
 import { generateBoosters } from "@/app/utils";
 
-export default function Home() {
+export default function HomePage() {
     const router = useRouter();
 
     const [activeStep, setActiveStep] = useState(0);
@@ -66,7 +66,7 @@ export default function Home() {
         if (generatedBoosters) {
             router.push(`/boosters?serializedBoosters=${generatedBoosters}`);
         }
-    }, [generatedBoosters]);
+    }, [generatedBoosters, router]);
 
     const nextStep = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -77,16 +77,11 @@ export default function Home() {
     };
 
     const updatePlayerOrBoosterCount = (event: CountInputOnChangeEvent) => {
-        switch (event) {
-            case "decrement":
-                setPlayerOrBoosterCount(Math.max(playerOrBoosterCount - 1, 1));
-                break;
-            case "increment":
-                setPlayerOrBoosterCount(playerOrBoosterCount + 1);
-                break;
-            default:
-                break;
-        }
+        setPlayerOrBoosterCount((prevCount) => {
+            if (event === "decrement") return Math.max(prevCount - 1, 1);
+            if (event === "increment") return prevCount + 1;
+            return prevCount;
+        });
     };
 
     return (
@@ -116,7 +111,7 @@ export default function Home() {
                     onBack={prevStep}
                     onNext={format ? nextStep : undefined}
                 >
-                    <FormatSelect onChange={setFormat} value={format} />
+                    <FormatSelect onChange={setFormat} format={format} />
                 </StepContent>
             </Step>
             <Step>

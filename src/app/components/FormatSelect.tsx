@@ -11,21 +11,21 @@ import {
 } from "@/app/constants";
 import { Format } from "@/app/types";
 
-type FormatSelectProps = {
+export type FormatSelectProps = {
     onChange: (format: Format) => void;
-    value?: Format;
+    format?: Format;
 };
 
 // TODO - show format details?
-export default function FormatSelect({ onChange, value }: FormatSelectProps) {
+export default function FormatSelect({ onChange, format }: FormatSelectProps) {
     const formatMap = new Map([
         [FORMAT_NONE.name, FORMAT_NONE],
         [FORMAT_BOOSTER_DRAFT.name, FORMAT_BOOSTER_DRAFT],
         [FORMAT_SEALED_DECK.name, FORMAT_SEALED_DECK],
     ]);
 
-    const handleChange: ToggleButtonGroupProps["onChange"] = (_, value) => {
-        const selectedFormat = formatMap.get(value);
+    const handleChange: ToggleButtonGroupProps["onChange"] = (_, format) => {
+        const selectedFormat = formatMap.get(format);
 
         if (selectedFormat) {
             onChange(selectedFormat);
@@ -39,7 +39,7 @@ export default function FormatSelect({ onChange, value }: FormatSelectProps) {
             fullWidth
             size="small"
             onChange={handleChange}
-            value={value?.name}
+            value={format?.name}
         >
             <ToggleButton value={FORMAT_NONE.name}>
                 {FORMAT_NONE.name}

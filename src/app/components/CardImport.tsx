@@ -3,6 +3,7 @@ import {
     Alert,
     Box,
     Button,
+    CircularProgress,
     IconButton,
     styled,
     Typography,
@@ -30,7 +31,7 @@ export type CardImportOnChangeEvent = {
     cardCountBySet: CardCountBySet;
 };
 
-type CardImportProps = {
+export type CardImportProps = {
     onChange: (event: CardImportOnChangeEvent) => void;
 };
 
@@ -44,12 +45,27 @@ export default function CardImport({ onChange }: CardImportProps) {
 
     const [cardCount, setCardCount] = useState<number | null>(null);
     const [file, setFile] = useState<File | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [parseError, setParseError] = useState<string | null>(null);
 
     const saveFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsLoading(true);
         const files = event.target.files;
+
         if (files && files.length > 0) {
-            setFile(files[0]);
+            const uploadedFile = files[0];
+
+            if (!uploadedFile.name.endsWith(".csv")) {
+                setParseError("Only .csv files are allowed.");
+                setIsLoading(false);
+                return;
+            }
+
+            setFile(uploadedFile);
+            setParseError(null);
+        } else {
+            setIsLoading(false);
+            setParseError("No file selected.");
         }
     };
 
@@ -66,38 +82,42 @@ export default function CardImport({ onChange }: CardImportProps) {
     };
 
     const parseFile = useCallback(
-        async (file: File) => {
-            return Papa.parse<ManaBoxCard>(file, {
+        (file: File) => {
+            Papa.parse<ManaBoxCard>(file, {
+                header: true,
                 complete: (results) => {
+                    setIsLoading(false);
+
                     if (results.errors.length > 0) {
-                        setParseError(results.errors[0].message);
+                        setParseError(
+                            results.errors
+                                .map((error) => error.message)
+                                .join(", ")
+                        );
+                        setCardCount(null);
                         return;
                     }
 
-                    setCardCount(results.data.length);
-                    onChange({
-                        cards: results.data,
-                        cardCountBySet: Object.fromEntries(
-                            Object.entries(
-                                results.data.reduce(
-                                    (acc: CardCountBySet, card) => {
-                                        if (!acc[card.setCode]) {
-                                            acc[card.setCode] = 0;
-                                        }
-                                        acc[card.setCode]++;
-                                        return acc;
-                                    },
-                                    {}
-                                )
-                            ).sort(([, countA], [, countB]) => countB - countA)
-                        ),
-                    });
+                    const cards = results.data;
+                    const cardCountBySet = Object.fromEntries(
+                        Object.entries(
+                            cards.reduce((acc: CardCountBySet, card) => {
+                                acc[card.setCode] =
+                                    (acc[card.setCode] || 0) + 1;
+                                return acc;
+                            }, {})
+                        ).sort(([, countA], [, countB]) => countB - countA)
+                    );
+
+                    setCardCount(cards.length);
+                    setParseError(null);
+                    onChange({ cards, cardCountBySet });
                 },
                 dynamicTyping: true,
-                error(error) {
+                error: (error) => {
+                    setIsLoading(false);
                     setParseError(error.message);
                 },
-                header: true,
                 skipEmptyLines: true,
                 transformHeader(header) {
                     return header
@@ -120,6 +140,18 @@ export default function CardImport({ onChange }: CardImportProps) {
         }
     }, [file, parseFile]);
 
+    const resultsText = () => {
+        if (cardCount) {
+            return `${cardCount.toLocaleString()} cards found.`;
+        }
+
+        if (parseError) {
+            return "Parsing error occurred, please check your file.";
+        }
+
+        return "No file uploaded";
+    };
+
     return (
         <Box
             alignItems="flex-start"
@@ -139,14 +171,18 @@ export default function CardImport({ onChange }: CardImportProps) {
             </Alert>
             <Button
                 component="label"
+                disabled={isLoading}
                 fullWidth
                 role={undefined}
-                startIcon={<FileUpload />}
+                startIcon={
+                    isLoading ? <CircularProgress size={20} /> : <FileUpload />
+                }
                 tabIndex={-1}
                 variant={file ? "outlined" : "contained"}
             >
-                {file ? "Re-" : ""}Upload file
+                {isLoading ? "Uploading..." : `${file ? "Re-" : ""}Upload file`}
                 <HiddenInput
+                    aria-label="Upload CSV file"
                     onChange={saveFile}
                     ref={inputRef}
                     type="file"
@@ -172,10 +208,8 @@ export default function CardImport({ onChange }: CardImportProps) {
             <Typography display={parseError ? "block" : "none"} color="error">
                 {parseError}
             </Typography>
-            <Box visibility={cardCount ? "visible" : "hidden"}>
-                <Typography>
-                    {cardCount ? cardCount?.toLocaleString() : ""} cards found.
-                </Typography>
+            <Box visibility={cardCount || parseError ? "visible" : "hidden"}>
+                <Typography>{resultsText()}</Typography>
             </Box>
         </Box>
     );

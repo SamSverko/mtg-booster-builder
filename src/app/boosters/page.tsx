@@ -1,32 +1,35 @@
-import BoosterDisplay from "@/app/components/BoosterDisplay";
-import { deserializeBoosters } from "@/app/utils";
+"use client";
+
 import { Alert, Box, Typography } from "@mui/material";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-type BoostersPageProps = {
-    searchParams: Promise<{ [key: string]: string }>;
-};
+import { BoostersTable } from "@/app/components";
+import { deserializeBoosters } from "@/app/utils";
+import { TOOLBAR_HEIGHT } from "../constants";
 
-export default async function BoostersPage({
-    searchParams,
-}: BoostersPageProps) {
-    const query = await searchParams;
-    const serializedBoosters = query.serializedBoosters;
+function BoostersPageClient() {
+    const searchParams = useSearchParams();
+    const serializedBoosters = searchParams.get("serializedBoosters");
+
     const boosters = deserializeBoosters(serializedBoosters);
 
     return (
-        <Box alignItems="center" display="flex" flexDirection="column" gap={2}>
+        <Box
+            alignItems="center"
+            display="flex"
+            flexDirection="column"
+            height={(theme) =>
+                `calc(100dvh - ${TOOLBAR_HEIGHT} - ${theme.spacing(4)})`
+            }
+            gap={2}
+        >
             <Typography component="h2" variant="h6">
                 Boosters
             </Typography>
 
             {boosters.length > 0 ? (
-                boosters.map((cards, index) => (
-                    <BoosterDisplay
-                        cards={cards}
-                        index={index + 1}
-                        key={`booster-${cards[0].collectorNumber}-${index}`}
-                    />
-                ))
+                <BoostersTable boosters={boosters} />
             ) : (
                 <Alert severity="error">
                     No boosters found in the URL. Please provide a
@@ -34,5 +37,13 @@ export default async function BoostersPage({
                 </Alert>
             )}
         </Box>
+    );
+}
+
+export default function BoostersPage() {
+    return (
+        <Suspense>
+            <BoostersPageClient />
+        </Suspense>
     );
 }

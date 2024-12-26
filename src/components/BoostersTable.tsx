@@ -36,7 +36,7 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     const [order, setOrder] = useState<Order>("asc");
     const [orderBy, setOrderBy] = useState<OrderBy>("boosterIndex");
     const [areSpoilersHidden, setAreSpoilersHidden] = useState(true);
-    const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+    const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
     const handleSort = (property: OrderBy) => {
         const isAsc = orderBy === property && order === "asc";
@@ -44,20 +44,21 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
         setOrderBy(property);
     };
 
-    const handleRowSelect = (index: number) => {
+    const handleRowSelect = (id: string) => {
         setSelectedRows((prevSelectedRows) => {
-            const newStruckRows = new Set(prevSelectedRows);
-            if (newStruckRows.has(index)) {
-                newStruckRows.delete(index);
+            const newSelectedRows = new Set(prevSelectedRows);
+            if (newSelectedRows.has(id)) {
+                newSelectedRows.delete(id);
             } else {
-                newStruckRows.add(index);
+                newSelectedRows.add(id);
             }
-            return newStruckRows;
+            return newSelectedRows;
         });
     };
 
     // Flatten all cards with their booster index
     const flattenedCards: {
+        id: string;
         boosterIndex: number;
         binderType: App.PlayBoosterCardSerialized["b"];
         collectorNumber: App.PlayBoosterCardSerialized["c"];
@@ -67,6 +68,7 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
         setCode: App.PlayBoosterSerialized["s"];
     }[] = boosters.flatMap((booster, boosterIndex) =>
         booster.c.map((card) => ({
+            id: `${boosterIndex}-${card.c}-${card.n}`,
             boosterIndex,
             binderType: card.b,
             collectorNumber: card.c,
@@ -279,14 +281,12 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedCards.map((card, index) => (
+                        {sortedCards.map((card) => (
                             <TableRow
-                                key={index}
-                                onClick={() => handleRowSelect(index)}
-                                selected={selectedRows.has(index)}
-                                sx={{
-                                    cursor: "pointer",
-                                }}
+                                key={card.id}
+                                onClick={() => handleRowSelect(card.id)}
+                                selected={selectedRows.has(card.id)}
+                                sx={{ cursor: "pointer" }}
                             >
                                 {/* BOOSTER */}
                                 <TableCell align="right">

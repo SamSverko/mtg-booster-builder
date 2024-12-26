@@ -65,7 +65,7 @@ export function getSerializedBoostersUrl(
 
     const generatedBoosters: ManaBox.Card[][] = [];
 
-    Object.entries(allocatedBoosterCountBySet).map(
+    Object.entries(allocatedBoosterCountBySet).forEach(
         ([setCode, allocatedBoosterCount]) => {
             if (allocatedBoosterCount <= 0) {
                 console.warn(
@@ -78,92 +78,81 @@ export function getSerializedBoostersUrl(
 
             if (setCards.length === 0) {
                 console.warn(`No cards found for set code: ${setCode}`);
-            } else {
-                // Create a map to track available cards with quantities
-                const availableCards = new Map<string, ManaBox.Card[]>();
+                return;
+            }
 
-                // Populate the available cards map based on card quantities
-                setCards.forEach((card) => {
-                    if (!availableCards.has(card.scryfallID)) {
-                        availableCards.set(card.scryfallID, []);
+            // Create a map to track available cards with their quantities
+            const availableCards = new Map<string, ManaBox.Card[]>();
+
+            setCards.forEach((card) => {
+                if (!availableCards.has(card.scryfallID)) {
+                    availableCards.set(card.scryfallID, []);
+                }
+
+                // Push card copies into the map based on quantity
+                for (let i = 0; i < card.quantity; i++) {
+                    availableCards.get(card.scryfallID)?.push(card);
+                }
+            });
+
+            for (let i = 0; i < allocatedBoosterCount; i++) {
+                const usedScryfallIDs = new Set<string>();
+                const booster: ManaBox.Card[] = [];
+
+                MTG.PLAY_BOOSTER.slots.forEach((slot) => {
+                    const selectedSlot = getRandomSlotItem(slot);
+
+                    // Filter matching cards
+                    let matchingCards = filterMatchingCards(
+                        availableCards,
+                        selectedSlot
+                    );
+
+                    if (
+                        slot[0].superType === "basic" &&
+                        slot[0].type === "land"
+                    ) {
+                        matchingCards = matchingCards.filter((card) =>
+                            MTG.BASIC_LAND_NAMES.includes(card.name)
+                        );
+                    } else {
+                        matchingCards = matchingCards.filter(
+                            (card) => !MTG.BASIC_LAND_NAMES.includes(card.name)
+                        );
                     }
 
-                    // Push the card into the map according to its quantity
-                    for (let i = 0; i < card.quantity; i++) {
-                        availableCards.get(card.scryfallID)?.push(card);
+                    matchingCards.sort(() => Math.random() - 0.5);
+
+                    if (matchingCards.length > 0) {
+                        const selectedCard = matchingCards.find(
+                            (card) => !usedScryfallIDs.has(card.scryfallID)
+                        );
+
+                        if (selectedCard) {
+                            usedScryfallIDs.add(selectedCard.scryfallID);
+                            removeCardFromAvailableCards(
+                                availableCards,
+                                selectedCard
+                            );
+                            booster.push(selectedCard);
+                        } else {
+                            console.warn(
+                                `Could not find a unique card for rarity ${selectedSlot.rarity} and foil ${selectedSlot.foil} in set ${setCode}`
+                            );
+                        }
+                    } else {
+                        console.warn(
+                            `No cards available for ${slot[0].superType} ${slot[0].type} in set ${setCode}`
+                        );
                     }
                 });
 
-                // Generate the required number of boosters
-                for (let i = 0; i < allocatedBoosterCount; i++) {
-                    const usedScryfallIDs = new Set<string>(); // Track scryfallIDs for this booster
-                    const booster: ManaBox.Card[] = [];
-
-                    // Generate booster with unique scryfallIDs
-                    MTG.PLAY_BOOSTER.slots.forEach((slot) => {
-                        // Select a card for each slot
-                        const selectedSlot = getRandomSlotItem(slot);
-
-                        // Filter matching cards first
-                        let matchingCards = filterMatchingCards(
-                            availableCards,
-                            selectedSlot
-                        );
-
-                        if (
-                            slot[0].superType === "basic" &&
-                            slot[0].type === "land"
-                        ) {
-                            // Include only basic lands
-                            matchingCards = matchingCards.filter((card) =>
-                                MTG.BASIC_LAND_NAMES.includes(card.name)
-                            );
-                        } else {
-                            // Exclude basic lands
-                            matchingCards = matchingCards.filter(
-                                (card) =>
-                                    !MTG.BASIC_LAND_NAMES.includes(card.name)
-                            );
-                        }
-
-                        // Shuffle matching cards
-                        matchingCards.sort(() => Math.random() - 0.5);
-
-                        if (matchingCards.length > 0) {
-                            // Select the first available card
-                            const selectedCard = matchingCards.find(
-                                (card) => !usedScryfallIDs.has(card.scryfallID)
-                            );
-
-                            if (selectedCard) {
-                                usedScryfallIDs.add(selectedCard.scryfallID);
-                                removeCardFromAvailableCards(
-                                    availableCards,
-                                    selectedCard
-                                );
-                                booster.push(selectedCard);
-                            } else {
-                                console.warn(
-                                    `Could not find a unique card for rarity ${selectedSlot.rarity} and foil ${selectedSlot.foil} in set ${setCode}`
-                                );
-                            }
-                        } else {
-                            console.warn(
-                                `No cards available for ${slot[0].superType} ${slot[0].type} in set ${setCode}`
-                            );
-                        }
-                    });
-
-                    // If a booster was successfully generated, add it to the final boosters array
-                    if (booster.length === 14) {
-                        generatedBoosters.push(booster);
-                    } else {
-                        console.warn(
-                            `Booster ${
-                                i + 1
-                            } failed to generate for set ${setCode}`
-                        );
-                    }
+                if (booster.length === 14) {
+                    generatedBoosters.push(booster);
+                } else {
+                    console.warn(
+                        `Booster ${i + 1} failed to generate for set ${setCode}`
+                    );
                 }
             }
         }
@@ -204,7 +193,7 @@ function filterMatchingCards(
     availableCards: Map<string, ManaBox.Card[]>,
     selectedSlot: App.PlayBoosterSlotItem[0]
 ) {
-    // Filter cards by rarity and foil
+    // Filter cards by rarity and foil, and also account for quantity
     const matchingCards: ManaBox.Card[] = [];
 
     availableCards.forEach((cards) => {
@@ -213,7 +202,10 @@ function filterMatchingCards(
                 card.rarity === selectedSlot.rarity &&
                 card.foil === selectedSlot.foil
             ) {
-                matchingCards.push(card);
+                // Add the card to matchingCards based on its quantity
+                for (let i = 0; i < card.quantity; i++) {
+                    matchingCards.push(card);
+                }
             }
         });
     });
@@ -230,11 +222,16 @@ function removeCardFromAvailableCards(
 ) {
     const cardList = availableCards.get(selectedCard.scryfallID);
     if (cardList) {
+        // Find the index of the selected card
         const index = cardList.findIndex((card) => card === selectedCard);
+
         if (index !== -1) {
-            cardList.splice(index, 1); // Remove the card from the list
+            // Remove the selected card from the list
+            cardList.splice(index, 1);
+
+            // If there are still copies of this card left, no need to delete it from the map
             if (cardList.length === 0) {
-                availableCards.delete(selectedCard.scryfallID); // If no more copies are left, remove the card from the map
+                availableCards.delete(selectedCard.scryfallID); // Remove the card from the map if no copies are left
             }
         }
     }

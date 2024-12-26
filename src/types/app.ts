@@ -9,6 +9,7 @@ export type CardCountBySet = {
 
 export type CardData = {
     cards: ManaBox.Card[];
+    cardCount: number;
     cardCountBySet: CardCountBySet;
 };
 

@@ -14,13 +14,20 @@ export const compareRarityOrder = (
 };
 
 /**
+ * Get the total card count.
+ */
+export function getCardCount(cards: ManaBox.Card[]): number {
+    return cards.reduce((acc, card) => acc + card.quantity, 0);
+}
+
+/**
  * Get the total card count by set.
  */
 export function getCardCountBySet(cards: ManaBox.Card[]): App.CardCountBySet {
     return Object.fromEntries(
         Object.entries(
             cards.reduce((acc: App.CardCountBySet, card) => {
-                acc[card.setCode] = (acc[card.setCode] || 0) + 1;
+                acc[card.setCode] = (acc[card.setCode] || 0) + card.quantity;
                 return acc;
             }, {})
         ).sort(([, countA], [, countB]) => countB - countA)
@@ -36,7 +43,8 @@ export function getCardCountByLocation(
     return Object.fromEntries(
         Object.entries(
             cards.reduce((acc: App.CardCountByLocation, card) => {
-                acc[card.binderType] = (acc[card.binderType] || 0) + 1;
+                acc[card.binderType] =
+                    (acc[card.binderType] || 0) + card.quantity;
                 return acc;
             }, {})
         ).sort(([, countA], [, countB]) => countB - countA)

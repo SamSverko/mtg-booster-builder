@@ -13,7 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppLink } from "@/components";
 import { App, ManaBox } from "@/types";
-import { getCardCountBySet } from "@/utils";
+import { getCardCount, getCardCountBySet } from "@/utils";
 
 const HiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -74,12 +74,9 @@ export function CardImport({ onChange }: CardImportProps) {
             inputRef.current.value = "";
         }
 
-        onChange({ cards: [], cardCountBySet: {} });
+        onChange({ cards: [], cardCount: 0, cardCountBySet: {} });
     };
 
-    /**
-     * TODO - Take into account the card quantity!! However, a card can appear multiple times in the export (e.g. binderType or foil), all those card quantities should be counted!
-     */
     const parseFile = useCallback(
         (file: File) => {
             Papa.parse<ManaBox.Card>(file, {
@@ -98,11 +95,12 @@ export function CardImport({ onChange }: CardImportProps) {
                     }
 
                     const cards = results.data;
+                    const cardCount = getCardCount(cards);
                     const cardCountBySet = getCardCountBySet(cards);
 
-                    setCardCount(cards.length);
                     setParseError(null);
-                    onChange({ cards, cardCountBySet });
+                    setCardCount(cardCount);
+                    onChange({ cards, cardCount, cardCountBySet });
                 },
                 dynamicTyping: true,
                 error: (error) => {

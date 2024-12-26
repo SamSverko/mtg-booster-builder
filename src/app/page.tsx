@@ -84,8 +84,8 @@ export default function HomePage() {
             <Step>
                 <StepLabel
                     chipLabel={
-                        cardData
-                            ? `${cardData.cards.length.toLocaleString()} total`
+                        cardData && cardData.cardCount
+                            ? `${cardData.cardCount.toLocaleString()} total`
                             : undefined
                     }
                     label="Import cards"
@@ -100,8 +100,8 @@ export default function HomePage() {
             <Step>
                 <StepLabel
                     chipLabel={
-                        cardDataFiltered
-                            ? `${cardDataFiltered.cards.length.toLocaleString()} selected`
+                        cardDataFiltered && cardDataFiltered.cardCount
+                            ? `${cardDataFiltered.cardCount.toLocaleString()} selected`
                             : undefined
                     }
                     label="Filter cards"

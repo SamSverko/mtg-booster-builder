@@ -10,7 +10,11 @@ import {
 } from "@mui/material";
 
 import { App, ManaBox } from "@/types";
-import { getCardCountByLocation, getCardCountBySet } from "@/utils";
+import {
+    getCardCount,
+    getCardCountByLocation,
+    getCardCountBySet,
+} from "@/utils";
 import { useEffect, useMemo, useState } from "react";
 
 type FilterCardsProps = {
@@ -55,6 +59,7 @@ export function FilterCards({ cardData, onChange }: FilterCardsProps) {
 
         const newCardDataFiltered = {
             cards: filteredCards,
+            cardCount: getCardCount(filteredCards),
             cardCountBySet: getCardCountBySet(filteredCards),
         };
 

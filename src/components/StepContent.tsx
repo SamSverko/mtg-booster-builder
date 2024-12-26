@@ -9,7 +9,7 @@ type StepContentProps = {
 };
 
 /**
- * A wrapper around MUI's StepContent component that adds a back and next button.
+ * Component for displaying step content.
  */
 export function StepContent({
     children,

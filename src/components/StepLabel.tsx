@@ -6,7 +6,7 @@ type StepLabelProps = {
 };
 
 /**
- * A wrapper around MUI's StepLabel component that adds a chip label.
+ * Component for a step label with an optional chip.
  */
 export function StepLabel({ chipLabel, label }: StepLabelProps) {
     return (

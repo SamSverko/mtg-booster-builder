@@ -23,6 +23,9 @@ export type CountInputProps = {
     showAllControls?: boolean;
 };
 
+/**
+ * Component for incrementing and decrementing a count.
+ */
 export function CountInput({
     disableDecrementAll = false,
     disableDecrement = false,

@@ -32,6 +32,9 @@ type OrderBy =
     | "rarity"
     | "setCode";
 
+/**
+ * Component for displaying a table of serialized boosters.
+ */
 export function BoostersTable({ boosters }: BoostersTableProps) {
     const [order, setOrder] = useState<Order>("asc");
     const [orderBy, setOrderBy] = useState<OrderBy>("boosterIndex");

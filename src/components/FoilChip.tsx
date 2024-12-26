@@ -1,5 +1,8 @@
 import { Chip } from "@mui/material";
 
+/**
+ * Component for indicating a foil card.
+ */
 export function FoilChip() {
     return (
         <Chip

@@ -20,6 +20,9 @@ import { useEffect, useState } from "react";
 
 import { APP_MAX_WIDTH, SERIALIZED_BOOSTERS_LS_KEY } from "@/constants";
 
+/**
+ * Component for the application top bar.
+ */
 export function AppBar() {
     const pathname = usePathname();
 

@@ -8,6 +8,9 @@ type ConfirmDetailsProps = {
     requiredBoosterCount: number;
 };
 
+/**
+ * Component for displaying the details of the booster allocation.
+ */
 export function ConfirmDetails({
     allocatedBoosterCountBySet,
     requiredBoosterCount,

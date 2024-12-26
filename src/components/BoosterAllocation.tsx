@@ -26,6 +26,9 @@ type SetSelectionProps = {
     totalAllocatedBoosters: number;
 };
 
+/**
+ * Component for allocating boosters to sets.
+ */
 export function BoosterAllocation({
     allocatedBoosterCountBySet,
     cardCountBySet,

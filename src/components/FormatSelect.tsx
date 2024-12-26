@@ -16,7 +16,11 @@ export type FormatSelectProps = {
     format?: Format;
 };
 
-// TODO - show format details?
+/**
+ * Component for selecting a format.
+ *
+ * TODO - add format details?
+ */
 export function FormatSelect({ onChange, format }: FormatSelectProps) {
     const formatMap = new Map([
         [FORMAT_NONE.name, FORMAT_NONE],

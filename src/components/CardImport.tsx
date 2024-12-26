@@ -36,7 +36,7 @@ export type CardImportProps = {
 };
 
 /**
- * A component that allows users to upload a CSV file of cards.
+ * Component for importing cards from a file.
  *
  * Supported: ManaBox export files (.csv).
  */

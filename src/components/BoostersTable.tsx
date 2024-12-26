@@ -36,11 +36,24 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     const [order, setOrder] = useState<Order>("asc");
     const [orderBy, setOrderBy] = useState<OrderBy>("boosterIndex");
     const [areSpoilersHidden, setAreSpoilersHidden] = useState(true);
+    const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
     const handleSort = (property: OrderBy) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
+    };
+
+    const handleRowSelect = (index: number) => {
+        setSelectedRows((prevSelectedRows) => {
+            const newStruckRows = new Set(prevSelectedRows);
+            if (newStruckRows.has(index)) {
+                newStruckRows.delete(index);
+            } else {
+                newStruckRows.add(index);
+            }
+            return newStruckRows;
+        });
     };
 
     // Flatten all cards with their booster index
@@ -276,7 +289,14 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                     </TableHead>
                     <TableBody>
                         {sortedCards.map((card, index) => (
-                            <TableRow key={index}>
+                            <TableRow
+                                key={index}
+                                onClick={() => handleRowSelect(index)}
+                                selected={selectedRows.has(index)}
+                                sx={{
+                                    cursor: "pointer",
+                                }}
+                            >
                                 {/* BOOSTER */}
                                 <TableCell align="right">
                                     {card.boosterIndex + 1}

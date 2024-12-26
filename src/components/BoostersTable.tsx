@@ -18,7 +18,7 @@ import {
     PlayBoosterCardSerialized,
 } from "@/types";
 import { FoilChip } from "@/components";
-import { COMPARE_RARITY_ORDER } from "@/constants";
+import { compareRarityOrder } from "@/utils";
 
 type BoostersTableProps = {
     boosters: PlayBoosterSerialized[];
@@ -67,8 +67,8 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
 
     const sortedCards = [...flattenedCards].sort((a, b) => {
         if (orderBy === "rarity") {
-            // Compare using COMPARE_RARITY_ORDER for rarity
-            const primaryComparison = COMPARE_RARITY_ORDER(
+            // Compare using compareRarityOrder for rarity
+            const primaryComparison = compareRarityOrder(
                 a.rarity as CardRarity,
                 b.rarity as CardRarity
             );

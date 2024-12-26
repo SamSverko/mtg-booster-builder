@@ -1,5 +1,8 @@
 import { CardRarity, Format, PlayBooster } from "@/types";
 
+/**
+ * Sourced from [MTG Wiki - Basic land](https://mtg.fandom.com/wiki/Basic_land)
+ */
 export const BASIC_LAND_NAMES = [
     "Plains",
     "Island",
@@ -8,6 +11,29 @@ export const BASIC_LAND_NAMES = [
     "Forest",
 ];
 
+/**
+ * Sourced from [MTG Wiki - Rarity](https://mtg.fandom.com/wiki/Rarity)
+ */
+export const RARITY_COLOR = {
+    common: "#262626",
+    uncommon: "#b9dceb",
+    rare: "#e6cd8c",
+    mythic: "#f59105",
+};
+
+/**
+ * Sourced from [MTG Wiki - Rarity](https://mtg.fandom.com/wiki/Rarity)
+ */
+export const RARITY_ORDER: Record<CardRarity, number> = {
+    common: 0,
+    uncommon: 1,
+    rare: 2,
+    mythic: 3,
+};
+
+/**
+ * Formats
+ */
 export const FORMAT_BOOSTER_DRAFT: Format = {
     boosterPerPlayerCount: 3,
     deckSize: 40,
@@ -36,6 +62,10 @@ export const FORMAT_NONE: Format = {
     minPlayerCount: 1,
     name: "No Format",
 };
+
+/**
+ * Play Boosters
+ */
 
 /**
  * Generic play booster, excluding non-playable card slot.
@@ -185,33 +215,4 @@ export const PLAY_BOOSTER: PlayBooster = {
             { foil: "foil", percentage: 0.74, rarity: "mythic" },
         ],
     ],
-};
-
-export const APP_TITLE = "MTG Booster Builder";
-export const APP_DESCRIPTION =
-    'Generate custom "Magic: The Gathering" Play Booster Packs from your library.';
-export const APP_URL = "https://mtg-booster-builder.vercel.app";
-export const APP_AUTHOR = "Sam Sverko";
-
-export const APP_MAX_WIDTH = "600px";
-export const TOOLBAR_HEIGHT = "48px";
-
-export const SERIALIZED_BOOSTERS_LS_KEY = "serializedBoosters";
-
-export const RARITY_COLOR = {
-    common: "#212121",
-    uncommon: "#b9dceb",
-    rare: "#e6cd8c",
-    mythic: "#f59105",
-};
-
-export const RARITY_ORDER: Record<CardRarity, number> = {
-    common: 0,
-    uncommon: 1,
-    rare: 2,
-    mythic: 3,
-};
-
-export const COMPARE_RARITY_ORDER = (a: CardRarity, b: CardRarity): number => {
-    return RARITY_ORDER[a] - RARITY_ORDER[b];
 };

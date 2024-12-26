@@ -1,12 +1,17 @@
 import LZString from "lz-string";
 
-import { BASIC_LAND_NAMES, PLAY_BOOSTER } from "@/constants";
+import { MTG } from "@/constants";
 import {
     AllocatedBoosterCountBySet,
+    CardRarity,
     ManaBoxCard,
     PlayBoosterSlotItem,
     PlayBoosterSerialized,
 } from "@/types";
+
+export const compareRarityOrder = (a: CardRarity, b: CardRarity): number => {
+    return MTG.RARITY_ORDER[a] - MTG.RARITY_ORDER[b];
+};
 
 export function getSerializedBoostersUrl(
     cards: ManaBoxCard[] | undefined,
@@ -54,7 +59,7 @@ export function getSerializedBoostersUrl(
                     const booster: ManaBoxCard[] = [];
 
                     // Generate booster with unique scryfallIDs
-                    PLAY_BOOSTER.slots.forEach((slot) => {
+                    MTG.PLAY_BOOSTER.slots.forEach((slot) => {
                         // Select a card for each slot
                         const selectedSlot = getRandomSlotItem(slot);
 
@@ -70,12 +75,13 @@ export function getSerializedBoostersUrl(
                         ) {
                             // Include only basic lands
                             matchingCards = matchingCards.filter((card) =>
-                                BASIC_LAND_NAMES.includes(card.name)
+                                MTG.BASIC_LAND_NAMES.includes(card.name)
                             );
                         } else {
                             // Exclude basic lands
                             matchingCards = matchingCards.filter(
-                                (card) => !BASIC_LAND_NAMES.includes(card.name)
+                                (card) =>
+                                    !MTG.BASIC_LAND_NAMES.includes(card.name)
                             );
                         }
 

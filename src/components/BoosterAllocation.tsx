@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 
 import { CountInput, CountInputOnChangeEvent } from "@/components";
-import { PLAY_BOOSTER } from "@/constants";
+import { MTG } from "@/constants";
 import { AllocatedBoosterCountBySet, CardCountBySet } from "@/types";
 
 type SetSelectionProps = {
@@ -51,7 +51,7 @@ export function BoosterAllocation({
 
             const currentCount = allocatedBoosterCountBySet[setCode] ?? 0;
             const maxBoostersForSet = Math.floor(
-                cardCountBySet[setCode] / PLAY_BOOSTER.slots.length
+                cardCountBySet[setCode] / MTG.PLAY_BOOSTER.slots.length
             ); // Calculate max boosters this set can handle based on card count
 
             const newCount =
@@ -132,7 +132,7 @@ export function BoosterAllocation({
                                 const notEnoughCards =
                                     cardCountInSet <
                                     (allocatedBoostersForSet + 1) *
-                                        PLAY_BOOSTER.slots.length;
+                                        MTG.PLAY_BOOSTER.slots.length;
 
                                 return (
                                     <TableRow key={setCode}>

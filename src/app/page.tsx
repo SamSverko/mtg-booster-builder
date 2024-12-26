@@ -10,6 +10,7 @@ import {
     ConfirmDetails,
     CountInput,
     CountInputOnChangeEvent,
+    FilterCards,
     FormatSelect,
     StepContent,
     StepLabel,
@@ -26,6 +27,9 @@ export default function HomePage() {
     const [cardData, setCardData] = useState<App.CardData | undefined>(
         undefined
     );
+    const [cardDataFiltered, setCardDataFiltered] = useState<
+        App.CardData | undefined
+    >(undefined);
     const [format, setFormat] = useState<MTGType.Format | undefined>(undefined);
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
@@ -81,7 +85,7 @@ export default function HomePage() {
                 <StepLabel
                     chipLabel={
                         cardData
-                            ? cardData.cards.length.toLocaleString()
+                            ? `${cardData.cards.length.toLocaleString()} total`
                             : undefined
                     }
                     label="Import cards"
@@ -91,6 +95,27 @@ export default function HomePage() {
                     onNext={cardData?.cards.length ? nextStep : undefined}
                 >
                     <CardImport onChange={setCardData} />
+                </StepContent>
+            </Step>
+            <Step>
+                <StepLabel
+                    chipLabel={
+                        cardDataFiltered
+                            ? `${cardDataFiltered.cards.length.toLocaleString()} selected`
+                            : undefined
+                    }
+                    label="Filter cards"
+                />
+                <StepContent
+                    onBack={prevStep}
+                    onNext={
+                        cardDataFiltered?.cards.length ? nextStep : undefined
+                    }
+                >
+                    <FilterCards
+                        cardData={cardData}
+                        onChange={setCardDataFiltered}
+                    />
                 </StepContent>
             </Step>
             <Step>
@@ -143,7 +168,7 @@ export default function HomePage() {
                 >
                     <BoosterAllocation
                         allocatedBoosterCountBySet={allocatedBoosterCountBySet}
-                        cardCountBySet={cardData?.cardCountBySet}
+                        cardCountBySet={cardDataFiltered?.cardCountBySet}
                         onChange={setAllocatedBoosterCountBySet}
                         requiredBoosterCount={requiredBoosterCount}
                         totalAllocatedBoosters={totalAllocatedBoosters}
@@ -171,7 +196,7 @@ export default function HomePage() {
 
                             const serializedBoostersUrl =
                                 getSerializedBoostersUrl(
-                                    cardData?.cards,
+                                    cardDataFiltered?.cards,
                                     allocatedBoosterCountBySet
                                 );
 

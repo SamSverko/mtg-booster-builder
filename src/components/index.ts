@@ -10,6 +10,7 @@ export {
     type CountInputOnChangeEvent,
     type CountInputProps,
 } from "@/components/CountInput";
+export { FilterCards } from "@/components/FilterCards";
 export { FoilChip } from "@/components/FoilChip";
 export {
     FormatSelect,

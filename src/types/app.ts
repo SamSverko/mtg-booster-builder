@@ -12,6 +12,10 @@ export type CardData = {
     cardCountBySet: CardCountBySet;
 };
 
+export type CardCountByLocation = {
+    [key in ManaBox.BinderType]?: number;
+};
+
 export type AllocatedBoosterCountBySet = CardCountBySet;
 
 /**

@@ -13,7 +13,7 @@ export type CardData = {
     cardCountBySet: CardCountBySet;
 };
 
-export type CardCountByLocation = {
+export type CardCountByBinderType = {
     [key in ManaBox.BinderType]?: number;
 };
 

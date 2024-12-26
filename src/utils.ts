@@ -35,14 +35,14 @@ export function getCardCountBySet(cards: ManaBox.Card[]): App.CardCountBySet {
 }
 
 /**
- * Get the total card count by location (i.e. binderType).
+ * Get the total card count by binderType
  */
-export function getCardCountByLocation(
+export function getCardCountByBinderType(
     cards: ManaBox.Card[]
-): App.CardCountByLocation {
+): App.CardCountByBinderType {
     return Object.fromEntries(
         Object.entries(
-            cards.reduce((acc: App.CardCountByLocation, card) => {
+            cards.reduce((acc: App.CardCountByBinderType, card) => {
                 acc[card.binderType] =
                     (acc[card.binderType] || 0) + card.quantity;
                 return acc;

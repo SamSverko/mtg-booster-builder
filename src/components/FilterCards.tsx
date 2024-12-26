@@ -12,7 +12,7 @@ import {
 import { App, ManaBox } from "@/types";
 import {
     getCardCount,
-    getCardCountByLocation,
+    getCardCountByBinderType,
     getCardCountBySet,
 } from "@/utils";
 import { useMemo } from "react";
@@ -34,8 +34,8 @@ export function FilterCards({
     cards,
     onChange,
 }: FilterCardsProps) {
-    const cardCountByLocation = useMemo(
-        () => getCardCountByLocation(cards || []),
+    const cardCountByBinderType = useMemo(
+        () => getCardCountByBinderType(cards || []),
         [cards]
     );
 
@@ -46,7 +46,7 @@ export function FilterCards({
 
         if (binderType === "*") {
             newBinderTypes = checked
-                ? (Object.keys(cardCountByLocation) as ManaBox.BinderType[])
+                ? (Object.keys(cardCountByBinderType) as ManaBox.BinderType[])
                 : [];
         } else {
             newBinderTypes = checked
@@ -81,11 +81,12 @@ export function FilterCards({
                                 indeterminate={
                                     binderTypes.length > 0 &&
                                     binderTypes.length <
-                                        Object.keys(cardCountByLocation).length
+                                        Object.keys(cardCountByBinderType)
+                                            .length
                                 }
                                 checked={
                                     binderTypes.length ===
-                                    Object.keys(cardCountByLocation).length
+                                    Object.keys(cardCountByBinderType).length
                                 }
                                 onChange={(_, checked) => {
                                     handleChange("*", checked);
@@ -97,7 +98,7 @@ export function FilterCards({
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {Object.entries(cardCountByLocation).map(
+                    {Object.entries(cardCountByBinderType).map(
                         ([binderType, count]) => (
                             <TableRow key={binderType}>
                                 <TableCell padding="checkbox">
@@ -125,10 +126,10 @@ export function FilterCards({
                         <TableCell padding="checkbox" />
                         <TableCell>Total selected</TableCell>
                         <TableCell align="right">
-                            {Object.values(cardCountByLocation)
+                            {Object.values(cardCountByBinderType)
                                 .filter((_, index) =>
                                     binderTypes.includes(
-                                        Object.keys(cardCountByLocation)[
+                                        Object.keys(cardCountByBinderType)[
                                             index
                                         ] as ManaBox.BinderType
                                     )

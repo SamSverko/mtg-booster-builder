@@ -184,7 +184,7 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                     </Tooltip>
                                 </TableSortLabel>
                             </TableCell>
-                            {/* LOCATION (i.e. binderType) */}
+                            {/* BINDER TYPE */}
                             <TableCell>
                                 <TableSortLabel
                                     active={orderBy === "binderType"}
@@ -281,7 +281,7 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                 <TableCell align="right">
                                     {card.boosterIndex + 1}
                                 </TableCell>
-                                {/* LOCATION */}
+                                {/* BINDER TYPE */}
                                 <TableCell
                                     sx={{
                                         textTransform: "capitalize",

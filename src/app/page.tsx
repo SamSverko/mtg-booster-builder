@@ -16,7 +16,7 @@ import {
     StepLabel,
 } from "@/components";
 import { MTG } from "@/constants";
-import { App, MTG as MTGType } from "@/types";
+import { App, ManaBox, MTG as MTGType } from "@/types";
 import { getSerializedBoostersUrl } from "@/utils";
 
 export default function HomePage() {
@@ -27,6 +27,7 @@ export default function HomePage() {
     const [cardData, setCardData] = useState<App.CardData | undefined>(
         undefined
     );
+    const [binderTypes, setBinderTypes] = useState<ManaBox.BinderType[]>([]);
     const [cardDataFiltered, setCardDataFiltered] = useState<
         App.CardData | undefined
     >(undefined);
@@ -100,8 +101,10 @@ export default function HomePage() {
             <Step>
                 <StepLabel
                     chipLabel={
-                        cardDataFiltered && cardDataFiltered.cardCount
-                            ? `${cardDataFiltered.cardCount.toLocaleString()} selected`
+                        binderTypes.length && cardDataFiltered
+                            ? `${cardDataFiltered.cardCount.toLocaleString()} (${binderTypes.join(
+                                  " + "
+                              )})`
                             : undefined
                     }
                     label="Filter cards"
@@ -113,8 +116,14 @@ export default function HomePage() {
                     }
                 >
                     <FilterCards
-                        cardData={cardData}
-                        onChange={setCardDataFiltered}
+                        binderTypes={binderTypes}
+                        cards={cardData?.cards}
+                        onChange={(binderTypes, cardDataFiltered) => {
+                            {
+                                setBinderTypes(binderTypes);
+                                setCardDataFiltered(cardDataFiltered);
+                            }
+                        }}
                     />
                 </StepContent>
             </Step>

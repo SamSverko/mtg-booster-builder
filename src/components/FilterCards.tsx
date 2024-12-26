@@ -15,46 +15,47 @@ import {
     getCardCountByLocation,
     getCardCountBySet,
 } from "@/utils";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 type FilterCardsProps = {
-    cardData?: App.CardData;
-    onChange: (cardDataFiltered: App.CardData) => void;
+    binderTypes: ManaBox.BinderType[];
+    cards?: ManaBox.Card[];
+    onChange: (
+        binderTypes: ManaBox.BinderType[],
+        cardDataFiltered: App.CardData
+    ) => void;
 };
 
 /**
  * Component for filtering cards.
  */
-export function FilterCards({ cardData, onChange }: FilterCardsProps) {
-    const [selectedLocations, setSelectedLocations] = useState<
-        ManaBox.BinderType[]
-    >(["binder"]);
-
+export function FilterCards({
+    binderTypes,
+    cards,
+    onChange,
+}: FilterCardsProps) {
     const cardCountByLocation = useMemo(
-        () => getCardCountByLocation(cardData?.cards || []),
-        [cardData?.cards]
+        () => getCardCountByLocation(cards || []),
+        [cards]
     );
 
-    const handleCheckboxChange = (
-        location: ManaBox.BinderType,
-        isChecked: boolean
-    ) => {
-        if (isChecked) {
-            setSelectedLocations([...selectedLocations, location]);
+    const handleChange = (binderType: string, checked: boolean) => {
+        if (!cards) return;
+
+        let newBinderTypes: ManaBox.BinderType[] = [];
+
+        if (binderType === "*") {
+            newBinderTypes = checked
+                ? (Object.keys(cardCountByLocation) as ManaBox.BinderType[])
+                : [];
         } else {
-            setSelectedLocations(
-                selectedLocations.filter(
-                    (selectedLocation) => selectedLocation !== location
-                )
-            );
+            newBinderTypes = checked
+                ? [...binderTypes, binderType as ManaBox.BinderType]
+                : binderTypes.filter((type) => type !== binderType);
         }
-    };
 
-    useEffect(() => {
-        if (!cardData) return;
-
-        const filteredCards = cardData.cards.filter((card) =>
-            selectedLocations.includes(card.binderType)
+        const filteredCards = cards.filter((card) =>
+            newBinderTypes.includes(card.binderType)
         );
 
         const newCardDataFiltered = {
@@ -63,10 +64,10 @@ export function FilterCards({ cardData, onChange }: FilterCardsProps) {
             cardCountBySet: getCardCountBySet(filteredCards),
         };
 
-        onChange(newCardDataFiltered);
-    }, [cardData, onChange, selectedLocations]);
+        onChange(newBinderTypes, newCardDataFiltered);
+    };
 
-    if (!cardData || cardData.cards.length === 0) {
+    if (!cards) {
         return <Alert severity="error">No cards available.</Alert>;
     }
 
@@ -78,22 +79,16 @@ export function FilterCards({ cardData, onChange }: FilterCardsProps) {
                         <TableCell padding="checkbox">
                             <Checkbox
                                 indeterminate={
-                                    selectedLocations.length > 0 &&
-                                    selectedLocations.length <
+                                    binderTypes.length > 0 &&
+                                    binderTypes.length <
                                         Object.keys(cardCountByLocation).length
                                 }
                                 checked={
-                                    selectedLocations.length ===
+                                    binderTypes.length ===
                                     Object.keys(cardCountByLocation).length
                                 }
-                                onChange={(e) => {
-                                    const isChecked = e.target.checked;
-                                    const allLocations = Object.keys(
-                                        cardCountByLocation
-                                    ) as ManaBox.BinderType[];
-                                    setSelectedLocations(
-                                        isChecked ? allLocations : []
-                                    );
+                                onChange={(_, checked) => {
+                                    handleChange("*", checked);
                                 }}
                             />
                         </TableCell>
@@ -103,19 +98,16 @@ export function FilterCards({ cardData, onChange }: FilterCardsProps) {
                 </TableHead>
                 <TableBody>
                     {Object.entries(cardCountByLocation).map(
-                        ([location, count]) => (
-                            <TableRow key={location}>
+                        ([binderType, count]) => (
+                            <TableRow key={binderType}>
                                 <TableCell padding="checkbox">
                                     <Checkbox
-                                        checked={selectedLocations.includes(
-                                            location as ManaBox.BinderType
+                                        checked={binderTypes.includes(
+                                            binderType as ManaBox.BinderType
                                         )}
-                                        onChange={(e) =>
-                                            handleCheckboxChange(
-                                                location as ManaBox.BinderType,
-                                                e.target.checked
-                                            )
-                                        }
+                                        onChange={(_, checked) => {
+                                            handleChange(binderType, checked);
+                                        }}
                                     />
                                 </TableCell>
                                 <TableCell
@@ -123,7 +115,7 @@ export function FilterCards({ cardData, onChange }: FilterCardsProps) {
                                         textTransform: "capitalize",
                                     }}
                                 >
-                                    {location}
+                                    {binderType}
                                 </TableCell>
                                 <TableCell align="right">{count}</TableCell>
                             </TableRow>
@@ -135,7 +127,7 @@ export function FilterCards({ cardData, onChange }: FilterCardsProps) {
                         <TableCell align="right">
                             {Object.values(cardCountByLocation)
                                 .filter((_, index) =>
-                                    selectedLocations.includes(
+                                    binderTypes.includes(
                                         Object.keys(cardCountByLocation)[
                                             index
                                         ] as ManaBox.BinderType

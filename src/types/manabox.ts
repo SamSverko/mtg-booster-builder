@@ -1,6 +1,7 @@
 /**
  * ManaBox card attributes
  */
+export type BinderType = "binder" | "deck" | "list";
 export type CardCondition =
     | "mint"
     | "near_mint"
@@ -17,7 +18,7 @@ export type CardRarity = "common" | "uncommon" | "rare" | "mythic";
  */
 export type Card = {
     binderName: string;
-    binderType: "binder" | "deck" | "list";
+    binderType: BinderType;
     name: string;
     setCode: string;
     setName: string;

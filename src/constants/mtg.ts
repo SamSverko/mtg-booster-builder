@@ -1,4 +1,4 @@
-import { CardRarity, Format, PlayBooster } from "@/types";
+import { App, ManaBox, MTG } from "@/types";
 
 /**
  * Sourced from [MTG Wiki - Basic land](https://mtg.fandom.com/wiki/Basic_land)
@@ -24,7 +24,7 @@ export const RARITY_COLOR = {
 /**
  * Sourced from [MTG Wiki - Rarity](https://mtg.fandom.com/wiki/Rarity)
  */
-export const RARITY_ORDER: Record<CardRarity, number> = {
+export const RARITY_ORDER: Record<ManaBox.CardRarity, number> = {
     common: 0,
     uncommon: 1,
     rare: 2,
@@ -34,7 +34,7 @@ export const RARITY_ORDER: Record<CardRarity, number> = {
 /**
  * Formats
  */
-export const FORMAT_BOOSTER_DRAFT: Format = {
+export const FORMAT_BOOSTER_DRAFT: MTG.Format = {
     boosterPerPlayerCount: 3,
     deckSize: 40,
     details:
@@ -46,7 +46,7 @@ export const FORMAT_BOOSTER_DRAFT: Format = {
     url: "https://magic.wizards.com/en/formats/booster-draft",
 };
 
-export const FORMAT_SEALED_DECK: Format = {
+export const FORMAT_SEALED_DECK: MTG.Format = {
     boosterPerPlayerCount: 6,
     deckSize: 40,
     details:
@@ -58,7 +58,7 @@ export const FORMAT_SEALED_DECK: Format = {
     url: "https://magic.wizards.com/en/formats/sealed-deck",
 };
 
-export const FORMAT_NONE: Format = {
+export const FORMAT_NONE: MTG.Format = {
     minPlayerCount: 1,
     name: "No Format",
 };
@@ -74,7 +74,7 @@ export const FORMAT_NONE: Format = {
  *
  * Wildcard slots info sourced from [Reward Distribution | Magic: The Gathering Arena](https://magic.wizards.com/en/mtgarena/drop-rates).
  */
-export const PLAY_BOOSTER: PlayBooster = {
+export const PLAY_BOOSTER: App.PlayBooster = {
     slots: [
         // 1 - Common
         [{ foil: "normal", percentage: 100, rarity: "common" }],

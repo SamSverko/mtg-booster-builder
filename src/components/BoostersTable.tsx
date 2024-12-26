@@ -12,16 +12,12 @@ import {
     Tooltip,
 } from "@mui/material";
 import { useState } from "react";
-import {
-    CardRarity,
-    PlayBoosterSerialized,
-    PlayBoosterCardSerialized,
-} from "@/types";
+import { App, ManaBox } from "@/types";
 import { FoilChip } from "@/components";
 import { compareRarityOrder } from "@/utils";
 
 type BoostersTableProps = {
-    boosters: PlayBoosterSerialized[];
+    boosters: App.PlayBoosterSerialized[];
 };
 
 type Order = "asc" | "desc";
@@ -49,11 +45,11 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     // Flatten all cards with their booster index
     const flattenedCards: {
         boosterIndex: number;
-        collectorNumber: PlayBoosterCardSerialized["c"];
-        name?: PlayBoosterCardSerialized["n"];
-        foil: PlayBoosterCardSerialized["f"];
-        rarity?: PlayBoosterCardSerialized["r"];
-        setCode: PlayBoosterSerialized["s"];
+        collectorNumber: App.PlayBoosterCardSerialized["c"];
+        name?: App.PlayBoosterCardSerialized["n"];
+        foil: App.PlayBoosterCardSerialized["f"];
+        rarity?: App.PlayBoosterCardSerialized["r"];
+        setCode: App.PlayBoosterSerialized["s"];
     }[] = boosters.flatMap((booster, boosterIndex) =>
         booster.c.map((card) => ({
             boosterIndex,
@@ -69,8 +65,8 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
         if (orderBy === "rarity") {
             // Compare using compareRarityOrder for rarity
             const primaryComparison = compareRarityOrder(
-                a.rarity as CardRarity,
-                b.rarity as CardRarity
+                a.rarity as ManaBox.CardRarity,
+                b.rarity as ManaBox.CardRarity
             );
             if (primaryComparison !== 0) {
                 return order === "asc" ? primaryComparison : -primaryComparison;

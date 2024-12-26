@@ -5,11 +5,11 @@ import {
 } from "@mui/material";
 
 import { MTG } from "@/constants";
-import { Format } from "@/types";
+import { MTG as MTGType } from "@/types";
 
 export type FormatSelectProps = {
-    onChange: (format: Format) => void;
-    format?: Format;
+    onChange: (format: MTGType.Format) => void;
+    format?: MTGType.Format;
 };
 
 /**

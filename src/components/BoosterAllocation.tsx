@@ -16,12 +16,14 @@ import {
 
 import { CountInput, CountInputOnChangeEvent } from "@/components";
 import { MTG } from "@/constants";
-import { AllocatedBoosterCountBySet, CardCountBySet } from "@/types";
+import { App } from "@/types";
 
 type SetSelectionProps = {
-    allocatedBoosterCountBySet: AllocatedBoosterCountBySet;
-    onChange: (allocatedBoosterCountBySet: AllocatedBoosterCountBySet) => void;
-    cardCountBySet?: CardCountBySet;
+    allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet;
+    onChange: (
+        allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet
+    ) => void;
+    cardCountBySet?: App.CardCountBySet;
     requiredBoosterCount: number;
     totalAllocatedBoosters: number;
 };

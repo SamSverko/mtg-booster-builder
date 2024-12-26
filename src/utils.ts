@@ -1,28 +1,25 @@
 import LZString from "lz-string";
 
 import { MTG } from "@/constants";
-import {
-    AllocatedBoosterCountBySet,
-    CardRarity,
-    ManaBoxCard,
-    PlayBoosterSlotItem,
-    PlayBoosterSerialized,
-} from "@/types";
+import { App, ManaBox } from "@/types";
 
-export const compareRarityOrder = (a: CardRarity, b: CardRarity): number => {
+export const compareRarityOrder = (
+    a: ManaBox.CardRarity,
+    b: ManaBox.CardRarity
+): number => {
     return MTG.RARITY_ORDER[a] - MTG.RARITY_ORDER[b];
 };
 
 export function getSerializedBoostersUrl(
-    cards: ManaBoxCard[] | undefined,
-    allocatedBoosterCountBySet: AllocatedBoosterCountBySet
+    cards: ManaBox.Card[] | undefined,
+    allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet
 ) {
     if (!cards || cards.length === 0) {
         console.warn("No cards available to generate boosters.");
         return undefined;
     }
 
-    const generatedBoosters: ManaBoxCard[][] = [];
+    const generatedBoosters: ManaBox.Card[][] = [];
 
     Object.entries(allocatedBoosterCountBySet).map(
         ([setCode, allocatedBoosterCount]) => {
@@ -39,7 +36,7 @@ export function getSerializedBoostersUrl(
                 console.warn(`No cards found for set code: ${setCode}`);
             } else {
                 // Create a map to track available cards with quantities
-                const availableCards = new Map<string, ManaBoxCard[]>();
+                const availableCards = new Map<string, ManaBox.Card[]>();
 
                 // Populate the available cards map based on card quantities
                 setCards.forEach((card) => {
@@ -56,7 +53,7 @@ export function getSerializedBoostersUrl(
                 // Generate the required number of boosters
                 for (let i = 0; i < allocatedBoosterCount; i++) {
                     const usedScryfallIDs = new Set<string>(); // Track scryfallIDs for this booster
-                    const booster: ManaBoxCard[] = [];
+                    const booster: ManaBox.Card[] = [];
 
                     // Generate booster with unique scryfallIDs
                     MTG.PLAY_BOOSTER.slots.forEach((slot) => {
@@ -133,7 +130,7 @@ export function getSerializedBoostersUrl(
     )}`;
 }
 
-function getRandomSlotItem(slot: PlayBoosterSlotItem) {
+function getRandomSlotItem(slot: App.PlayBoosterSlotItem) {
     // Get a random item based on its percentage distribution
     const totalPercentage = slot.reduce(
         (total, item) => total + item.percentage,
@@ -154,11 +151,11 @@ function getRandomSlotItem(slot: PlayBoosterSlotItem) {
 }
 
 function filterMatchingCards(
-    availableCards: Map<string, ManaBoxCard[]>,
-    selectedSlot: PlayBoosterSlotItem[0]
+    availableCards: Map<string, ManaBox.Card[]>,
+    selectedSlot: App.PlayBoosterSlotItem[0]
 ) {
     // Filter cards by rarity and foil
-    const matchingCards: ManaBoxCard[] = [];
+    const matchingCards: ManaBox.Card[] = [];
 
     availableCards.forEach((cards) => {
         cards.forEach((card) => {
@@ -175,8 +172,8 @@ function filterMatchingCards(
 }
 
 function removeCardFromAvailableCards(
-    availableCards: Map<string, ManaBoxCard[]>,
-    selectedCard: ManaBoxCard
+    availableCards: Map<string, ManaBox.Card[]>,
+    selectedCard: ManaBox.Card
 ) {
     const cardList = availableCards.get(selectedCard.scryfallID);
     if (cardList) {
@@ -190,8 +187,8 @@ function removeCardFromAvailableCards(
     }
 }
 
-const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
-    const serializedBoosters: PlayBoosterSerialized[] = boosters.map(
+const serializeBoosters = (boosters: ManaBox.Card[][]): string => {
+    const serializedBoosters: App.PlayBoosterSerialized[] = boosters.map(
         (booster) => ({
             s: booster[0].setCode,
             c: booster.map((card) => ({
@@ -212,13 +209,13 @@ const serializeBoosters = (boosters: ManaBoxCard[][]): string => {
 
 export const deserializeBoosters = (
     query?: string | null
-): PlayBoosterSerialized[] => {
+): App.PlayBoosterSerialized[] => {
     if (!query) return [];
 
     try {
         const decompressed = LZString.decompressFromEncodedURIComponent(query);
 
-        const parsed: PlayBoosterSerialized[] = JSON.parse(
+        const parsed: App.PlayBoosterSerialized[] = JSON.parse(
             decompressed || "{}"
         );
 

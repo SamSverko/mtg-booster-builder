@@ -16,7 +16,7 @@ import {
     StepLabel,
 } from "@/components";
 import { MTG } from "@/constants";
-import { AllocatedBoosterCountBySet, Format } from "@/types";
+import { App, MTG as MTGType } from "@/types";
 import { getSerializedBoostersUrl } from "@/utils";
 
 export default function HomePage() {
@@ -27,10 +27,10 @@ export default function HomePage() {
     const [cardData, setCardData] = useState<
         CardImportOnChangeEvent | undefined
     >(undefined);
-    const [format, setFormat] = useState<Format | undefined>(undefined);
+    const [format, setFormat] = useState<MTGType.Format | undefined>(undefined);
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
-        useState<AllocatedBoosterCountBySet>({});
+        useState<App.AllocatedBoosterCountBySet>({});
     const [isGenerating, setIsGenerating] = useState(false);
 
     const requiredBoosterCount = useMemo(() => {

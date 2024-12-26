@@ -1,10 +1,10 @@
 import { List, ListItem, Typography } from "@mui/material";
 
 import { MTG } from "@/constants";
-import { AllocatedBoosterCountBySet } from "@/types";
+import { App } from "@/types";
 
 type ConfirmDetailsProps = {
-    allocatedBoosterCountBySet: AllocatedBoosterCountBySet;
+    allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet;
     requiredBoosterCount: number;
 };
 

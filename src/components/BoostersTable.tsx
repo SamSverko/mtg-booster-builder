@@ -185,15 +185,8 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                     direction={order}
                                     onClick={() => handleSort("boosterIndex")}
                                 >
-                                    <Tooltip
-                                        placement="top"
-                                        title={!areSpoilersHidden && "Boosters"}
-                                    >
-                                        <Box component="span">
-                                            {areSpoilersHidden
-                                                ? "Booster"
-                                                : "B"}
-                                        </Box>
+                                    <Tooltip placement="top" title="Boosters">
+                                        <Box component="span">B</Box>
                                     </Tooltip>
                                 </TableSortLabel>
                             </TableCell>
@@ -223,52 +216,19 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                     direction={order}
                                     onClick={() => handleSort("setCode")}
                                 >
-                                    <Tooltip
-                                        placement="top"
-                                        title={!areSpoilersHidden && "Set Code"}
-                                    >
+                                    <Tooltip placement="top" title="Set Code">
                                         <Box component="span">
-                                            {areSpoilersHidden
-                                                ? "Set Code"
-                                                : "S"}
+                                            {areSpoilersHidden ? "Set" : "S"}
                                         </Box>
                                     </Tooltip>
                                 </TableSortLabel>
                             </TableCell>
-                            {/* COLLECTOR NUMBER */}
-                            <TableCell align="right">
-                                <TableSortLabel
-                                    active={orderBy === "collectorNumber"}
-                                    direction={order}
-                                    onClick={() =>
-                                        handleSort("collectorNumber")
-                                    }
-                                >
-                                    <Tooltip
-                                        placement="top"
-                                        title={
-                                            !areSpoilersHidden &&
-                                            "Collector Number"
-                                        }
-                                    >
-                                        <Box component="span">
-                                            {areSpoilersHidden
-                                                ? "Collector Number"
-                                                : "#"}
-                                        </Box>
-                                    </Tooltip>
-                                </TableSortLabel>
-                            </TableCell>
-                            {/* NAME */}
-                            {!areSpoilersHidden && (
+                            {/* FOIL */}
+                            {areSpoilersHidden && (
                                 <TableCell>
-                                    <TableSortLabel
-                                        active={orderBy === "name"}
-                                        direction={order}
-                                        onClick={() => handleSort("name")}
-                                    >
-                                        <Box component="span">Name</Box>
-                                    </TableSortLabel>
+                                    <Tooltip placement="top" title="Is foil?">
+                                        <Box component="span">Foil</Box>
+                                    </Tooltip>
                                 </TableCell>
                             )}
                             {/* RARITY */}
@@ -285,6 +245,37 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                     </TableSortLabel>
                                 </TableCell>
                             )}
+                            {/* NAME */}
+                            {!areSpoilersHidden && (
+                                <TableCell>
+                                    <TableSortLabel
+                                        active={orderBy === "name"}
+                                        direction={order}
+                                        onClick={() => handleSort("name")}
+                                    >
+                                        <Box component="span">Name</Box>
+                                    </TableSortLabel>
+                                </TableCell>
+                            )}
+                            {/* COLLECTOR NUMBER */}
+                            <TableCell align="right">
+                                <TableSortLabel
+                                    active={orderBy === "collectorNumber"}
+                                    direction={order}
+                                    onClick={() =>
+                                        handleSort("collectorNumber")
+                                    }
+                                >
+                                    <Tooltip
+                                        placement="top"
+                                        title="Collector Number"
+                                    >
+                                        <Box component="span">
+                                            {areSpoilersHidden ? "Number" : "#"}
+                                        </Box>
+                                    </Tooltip>
+                                </TableSortLabel>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -311,23 +302,10 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                 </TableCell>
                                 {/* SET CODE */}
                                 <TableCell>{card.setCode}</TableCell>
-                                {/* COLLECTOR NUMBER */}
-                                <TableCell align="right">
-                                    {card.collectorNumber}
-                                </TableCell>
-                                {/* NAME */}
-                                {!areSpoilersHidden && (
-                                    <TableCell width="100%">
-                                        <Box
-                                            alignItems="center"
-                                            display="flex"
-                                            gap={1}
-                                        >
-                                            {card.name}
-                                            {card.foil !== "normal" && (
-                                                <FoilChip />
-                                            )}
-                                        </Box>
+                                {/* FOIL */}
+                                {areSpoilersHidden && (
+                                    <TableCell>
+                                        {card.foil !== "normal" && <FoilChip />}
                                     </TableCell>
                                 )}
                                 {/* RARITY */}
@@ -353,6 +331,25 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                         </Tooltip>
                                     </TableCell>
                                 )}
+                                {/* NAME */}
+                                {!areSpoilersHidden && (
+                                    <TableCell width="100%">
+                                        <Box
+                                            alignItems="center"
+                                            display="flex"
+                                            gap={1}
+                                        >
+                                            {card.name}
+                                            {card.foil !== "normal" && (
+                                                <FoilChip />
+                                            )}
+                                        </Box>
+                                    </TableCell>
+                                )}
+                                {/* COLLECTOR NUMBER */}
+                                <TableCell align="right">
+                                    {card.collectorNumber}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

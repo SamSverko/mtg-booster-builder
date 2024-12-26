@@ -25,6 +25,7 @@ type OrderBy =
     | "binderType"
     | "boosterIndex"
     | "collectorNumber"
+    | "foil"
     | "name"
     | "rarity"
     | "setCode";
@@ -228,9 +229,18 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                             {/* FOIL */}
                             {areSpoilersHidden && (
                                 <TableCell>
-                                    <Tooltip placement="top" title="Is foil?">
-                                        <Box component="span">Foil</Box>
-                                    </Tooltip>
+                                    <TableSortLabel
+                                        active={orderBy === "foil"}
+                                        direction={order}
+                                        onClick={() => handleSort("foil")}
+                                    >
+                                        <Tooltip
+                                            placement="top"
+                                            title="Is foil?"
+                                        >
+                                            <Box component="span">Foil</Box>
+                                        </Tooltip>
+                                    </TableSortLabel>
                                 </TableCell>
                             )}
                             {/* RARITY */}

@@ -33,8 +33,8 @@ export default function HomePage() {
     >(undefined);
     const [format, setFormat] = useState<MTGType.Format | undefined>(undefined);
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
-    const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =
-        useState<App.AllocatedBoosterCountBySet>({});
+    const [allocatedBoosterCountBySetCode, setAllocatedBoosterCountBySetCode] =
+        useState<App.AllocatedBoosterCountBySetCode>({});
     const [isGenerating, setIsGenerating] = useState(false);
 
     const requiredBoosterCount = useMemo(() => {
@@ -47,11 +47,11 @@ export default function HomePage() {
 
     const totalAllocatedBoosters = useMemo(
         () =>
-            Object.values(allocatedBoosterCountBySet).reduce(
+            Object.values(allocatedBoosterCountBySetCode).reduce(
                 (acc, count) => acc + count,
                 0
             ),
-        [allocatedBoosterCountBySet]
+        [allocatedBoosterCountBySetCode]
     );
 
     // Reset playerOrBoosterCount when format changes
@@ -59,9 +59,9 @@ export default function HomePage() {
         setPlayerOrBoosterCount(0);
     }, [format]);
 
-    // Reset allocatedBoosterCountBySet when playerOrBoosterCount changes
+    // Reset allocatedBoosterCountBySetCode when playerOrBoosterCount changes
     useEffect(() => {
-        setAllocatedBoosterCountBySet({});
+        setAllocatedBoosterCountBySetCode({});
     }, [playerOrBoosterCount]);
 
     const nextStep = () => {
@@ -176,9 +176,13 @@ export default function HomePage() {
                     onNext={totalAllocatedBoosters ? nextStep : undefined}
                 >
                     <BoosterAllocation
-                        allocatedBoosterCountBySet={allocatedBoosterCountBySet}
-                        cardCountBySet={cardDataFiltered?.cardCountBySet}
-                        onChange={setAllocatedBoosterCountBySet}
+                        allocatedBoosterCountBySetCode={
+                            allocatedBoosterCountBySetCode
+                        }
+                        cardCountBySetCode={
+                            cardDataFiltered?.cardCountBySetCode
+                        }
+                        onChange={setAllocatedBoosterCountBySetCode}
                         requiredBoosterCount={requiredBoosterCount}
                         totalAllocatedBoosters={totalAllocatedBoosters}
                     />
@@ -191,7 +195,9 @@ export default function HomePage() {
                     onBack={!isGenerating ? prevStep : undefined}
                 >
                     <ConfirmDetails
-                        allocatedBoosterCountBySet={allocatedBoosterCountBySet}
+                        allocatedBoosterCountBySetCode={
+                            allocatedBoosterCountBySetCode
+                        }
                         requiredBoosterCount={requiredBoosterCount}
                     />
                     <Button
@@ -206,7 +212,7 @@ export default function HomePage() {
                             const serializedBoostersUrl =
                                 getSerializedBoostersUrl(
                                     cardDataFiltered?.cards,
-                                    allocatedBoosterCountBySet
+                                    allocatedBoosterCountBySetCode
                                 );
 
                             if (serializedBoostersUrl) {

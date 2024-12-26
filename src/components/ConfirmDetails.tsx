@@ -4,7 +4,7 @@ import { MTG } from "@/constants";
 import { App } from "@/types";
 
 type ConfirmDetailsProps = {
-    allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet;
+    allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode;
     requiredBoosterCount: number;
 };
 
@@ -12,7 +12,7 @@ type ConfirmDetailsProps = {
  * Component for displaying the details of the booster allocation.
  */
 export function ConfirmDetails({
-    allocatedBoosterCountBySet,
+    allocatedBoosterCountBySetCode,
     requiredBoosterCount,
 }: ConfirmDetailsProps) {
     const cardCountPerBooster = MTG.PLAY_BOOSTER.slots.length;
@@ -29,7 +29,7 @@ export function ConfirmDetails({
                 <Typography>Boosters to be generated</Typography>
             </ListItem>
             <List disablePadding>
-                {Object.entries(allocatedBoosterCountBySet).map(
+                {Object.entries(allocatedBoosterCountBySetCode).map(
                     ([setCode, allocatedBoosterCount]) => (
                         <ListItem
                             disableGutters

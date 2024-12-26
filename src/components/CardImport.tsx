@@ -13,7 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppLink } from "@/components";
 import { App, ManaBox } from "@/types";
-import { getCardCount, getCardCountBySet } from "@/utils";
+import { getCardCount, getCardCountBySetCode } from "@/utils";
 
 const HiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -74,7 +74,7 @@ export function CardImport({ onChange }: CardImportProps) {
             inputRef.current.value = "";
         }
 
-        onChange({ cards: [], cardCount: 0, cardCountBySet: {} });
+        onChange({ cards: [], cardCount: 0, cardCountBySetCode: {} });
     };
 
     const parseFile = useCallback(
@@ -96,11 +96,11 @@ export function CardImport({ onChange }: CardImportProps) {
 
                     const cards = results.data;
                     const cardCount = getCardCount(cards);
-                    const cardCountBySet = getCardCountBySet(cards);
+                    const cardCountBySetCode = getCardCountBySetCode(cards);
 
                     setParseError(null);
                     setCardCount(cardCount);
-                    onChange({ cards, cardCount, cardCountBySet });
+                    onChange({ cards, cardCount, cardCountBySetCode });
                 },
                 dynamicTyping: true,
                 error: (error) => {

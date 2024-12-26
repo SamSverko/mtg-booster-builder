@@ -21,12 +21,14 @@ export function getCardCount(cards: ManaBox.Card[]): number {
 }
 
 /**
- * Get the total card count by set.
+ * Get the total card count by setCode
  */
-export function getCardCountBySet(cards: ManaBox.Card[]): App.CardCountBySet {
+export function getCardCountBySetCode(
+    cards: ManaBox.Card[]
+): App.CardCountBySetCode {
     return Object.fromEntries(
         Object.entries(
-            cards.reduce((acc: App.CardCountBySet, card) => {
+            cards.reduce((acc: App.CardCountBySetCode, card) => {
                 acc[card.setCode] = (acc[card.setCode] || 0) + card.quantity;
                 return acc;
             }, {})
@@ -56,7 +58,7 @@ export function getCardCountByBinderType(
  */
 export function getSerializedBoostersUrl(
     cards: ManaBox.Card[] | undefined,
-    allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet
+    allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode
 ) {
     if (!cards || cards.length === 0) {
         console.warn("No cards available to generate boosters.");
@@ -65,7 +67,7 @@ export function getSerializedBoostersUrl(
 
     const generatedBoosters: ManaBox.Card[][] = [];
 
-    Object.entries(allocatedBoosterCountBySet).forEach(
+    Object.entries(allocatedBoosterCountBySetCode).forEach(
         ([setCode, allocatedBoosterCount]) => {
             if (allocatedBoosterCount <= 0) {
                 console.warn(

@@ -3,21 +3,21 @@ import { ManaBox, MTG } from "@/types";
 /**
  * General
  */
-export type CardCountBySet = {
+export type CardCountBySetCode = {
     [key: string]: number;
 };
 
 export type CardData = {
     cards: ManaBox.Card[];
     cardCount: number;
-    cardCountBySet: CardCountBySet;
+    cardCountBySetCode: CardCountBySetCode;
 };
 
 export type CardCountByBinderType = {
     [key in ManaBox.BinderType]?: number;
 };
 
-export type AllocatedBoosterCountBySet = CardCountBySet;
+export type AllocatedBoosterCountBySetCode = CardCountBySetCode;
 
 /**
  * Play Boosters

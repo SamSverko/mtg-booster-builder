@@ -19,11 +19,11 @@ import { MTG } from "@/constants";
 import { App } from "@/types";
 
 type SetSelectionProps = {
-    allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet;
+    allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode;
     onChange: (
-        allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet
+        allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode
     ) => void;
-    cardCountBySet?: App.CardCountBySet;
+    cardCountBySetCode?: App.CardCountBySetCode;
     requiredBoosterCount: number;
     totalAllocatedBoosters: number;
 };
@@ -32,8 +32,8 @@ type SetSelectionProps = {
  * Component for allocating boosters to sets.
  */
 export function BoosterAllocation({
-    allocatedBoosterCountBySet,
-    cardCountBySet,
+    allocatedBoosterCountBySetCode,
+    cardCountBySetCode,
     onChange,
     requiredBoosterCount,
     totalAllocatedBoosters,
@@ -49,11 +49,11 @@ export function BoosterAllocation({
 
     const handleCountChange = useCallback(
         (setCode: string, event: CountInputOnChangeEvent) => {
-            if (!cardCountBySet) return;
+            if (!cardCountBySetCode) return;
 
-            const currentCount = allocatedBoosterCountBySet[setCode] ?? 0;
+            const currentCount = allocatedBoosterCountBySetCode[setCode] ?? 0;
             const maxBoostersForSet = Math.floor(
-                cardCountBySet[setCode] / MTG.PLAY_BOOSTER.slots.length
+                cardCountBySetCode[setCode] / MTG.PLAY_BOOSTER.slots.length
             ); // Calculate max boosters this set can handle based on card count
 
             const newCount =
@@ -68,7 +68,7 @@ export function BoosterAllocation({
                 }[event] ?? currentCount;
 
             if (newCount !== currentCount) {
-                const updatedAllocation = { ...allocatedBoosterCountBySet };
+                const updatedAllocation = { ...allocatedBoosterCountBySetCode };
 
                 if (newCount === 0) {
                     delete updatedAllocation[setCode];
@@ -82,12 +82,12 @@ export function BoosterAllocation({
         [
             onChange,
             remainingBoostersToAllocate,
-            allocatedBoosterCountBySet,
-            cardCountBySet,
+            allocatedBoosterCountBySetCode,
+            cardCountBySetCode,
         ]
     );
 
-    if (!cardCountBySet) {
+    if (!cardCountBySetCode) {
         return (
             <Box display="flex" flexDirection="column" gap={1}>
                 <Typography>Missing card data!</Typography>
@@ -95,7 +95,7 @@ export function BoosterAllocation({
         );
     }
 
-    if (!cardCountBySet) {
+    if (!cardCountBySetCode) {
         return (
             <Box display="flex" flexDirection="column" gap={1}>
                 <InputLabel>Sets</InputLabel>
@@ -126,10 +126,11 @@ export function BoosterAllocation({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {Object.entries(cardCountBySet).map(
+                        {Object.entries(cardCountBySetCode).map(
                             ([setCode, cardCountInSet]) => {
                                 const allocatedBoostersForSet =
-                                    allocatedBoosterCountBySet[setCode] || 0;
+                                    allocatedBoosterCountBySetCode[setCode] ||
+                                    0;
 
                                 const notEnoughCards =
                                     cardCountInSet <

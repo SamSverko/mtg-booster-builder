@@ -13,7 +13,7 @@ import { App, ManaBox } from "@/types";
 import {
     getCardCount,
     getCardCountByBinderType,
-    getCardCountBySet,
+    getCardCountBySetCode,
 } from "@/utils";
 import { useMemo } from "react";
 
@@ -61,7 +61,7 @@ export function FilterCards({
         const newCardDataFiltered = {
             cards: filteredCards,
             cardCount: getCardCount(filteredCards),
-            cardCountBySet: getCardCountBySet(filteredCards),
+            cardCountBySetCode: getCardCountBySetCode(filteredCards),
         };
 
         onChange(newBinderTypes, newCardDataFiltered);

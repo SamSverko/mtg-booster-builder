@@ -26,13 +26,8 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 
-export type CardImportOnChangeEvent = {
-    cards: ManaBox.Card[];
-    cardCountBySet: App.CardCountBySet;
-};
-
 export type CardImportProps = {
-    onChange: (event: CardImportOnChangeEvent) => void;
+    onChange: (event: App.CardData) => void;
 };
 
 /**
@@ -112,6 +107,7 @@ export function CardImport({ onChange }: CardImportProps) {
                     setCardCount(cards.length);
                     setParseError(null);
                     onChange({ cards, cardCountBySet });
+                    console.log(cards, cardCountBySet);
                 },
                 dynamicTyping: true,
                 error: (error) => {

@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from "react";
 import {
     BoosterAllocation,
     CardImport,
-    CardImportOnChangeEvent,
     ConfirmDetails,
     CountInput,
     CountInputOnChangeEvent,
@@ -24,9 +23,9 @@ export default function HomePage() {
 
     const [activeStep, setActiveStep] = useState(0);
 
-    const [cardData, setCardData] = useState<
-        CardImportOnChangeEvent | undefined
-    >(undefined);
+    const [cardData, setCardData] = useState<App.CardData | undefined>(
+        undefined
+    );
     const [format, setFormat] = useState<MTGType.Format | undefined>(undefined);
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySet, setAllocatedBoosterCountBySet] =

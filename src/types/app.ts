@@ -7,6 +7,11 @@ export type CardCountBySet = {
     [key: string]: number;
 };
 
+export type CardData = {
+    cards: ManaBox.Card[];
+    cardCountBySet: CardCountBySet;
+};
+
 export type AllocatedBoosterCountBySet = CardCountBySet;
 
 /**

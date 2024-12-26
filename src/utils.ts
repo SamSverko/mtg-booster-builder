@@ -3,6 +3,9 @@ import LZString from "lz-string";
 import { MTG } from "@/constants";
 import { App, ManaBox } from "@/types";
 
+/**
+ * Compare two card rarities based on their order.
+ */
 export const compareRarityOrder = (
     a: ManaBox.CardRarity,
     b: ManaBox.CardRarity
@@ -10,6 +13,9 @@ export const compareRarityOrder = (
     return MTG.RARITY_ORDER[a] - MTG.RARITY_ORDER[b];
 };
 
+/**
+ * Generate a URL with serialized boosters based on the provided cards and allocated booster counts.
+ */
 export function getSerializedBoostersUrl(
     cards: ManaBox.Card[] | undefined,
     allocatedBoosterCountBySet: App.AllocatedBoosterCountBySet
@@ -130,6 +136,9 @@ export function getSerializedBoostersUrl(
     )}`;
 }
 
+/**
+ * Get a random item from a slot based on its percentage distribution.
+ */
 function getRandomSlotItem(slot: App.PlayBoosterSlotItem) {
     // Get a random item based on its percentage distribution
     const totalPercentage = slot.reduce(
@@ -150,6 +159,9 @@ function getRandomSlotItem(slot: App.PlayBoosterSlotItem) {
     return slot[slot.length - 1]; // Return the last item if no match
 }
 
+/**
+ * Filter cards based on the selected slot item.
+ */
 function filterMatchingCards(
     availableCards: Map<string, ManaBox.Card[]>,
     selectedSlot: App.PlayBoosterSlotItem[0]
@@ -171,6 +183,9 @@ function filterMatchingCards(
     return matchingCards;
 }
 
+/**
+ * Remove the selected card from the available cards map.
+ */
 function removeCardFromAvailableCards(
     availableCards: Map<string, ManaBox.Card[]>,
     selectedCard: ManaBox.Card
@@ -187,6 +202,9 @@ function removeCardFromAvailableCards(
     }
 }
 
+/**
+ * Serialize the generated boosters into a compressed URL-friendly string.
+ */
 const serializeBoosters = (boosters: ManaBox.Card[][]): string => {
     const serializedBoosters: App.PlayBoosterSerialized[] = boosters.map(
         (booster) => ({
@@ -207,6 +225,9 @@ const serializeBoosters = (boosters: ManaBox.Card[][]): string => {
     return compressed;
 };
 
+/**
+ * Deserialize the serialized boosters from the URL query string.
+ */
 export const deserializeBoosters = (
     query?: string | null
 ): App.PlayBoosterSerialized[] => {

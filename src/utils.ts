@@ -245,6 +245,7 @@ const serializeBoosters = (boosters: ManaBox.Card[][]): string => {
         (booster) => ({
             s: booster[0].setCode,
             c: booster.map((card) => ({
+                b: card.binderType,
                 c: card.collectorNumber,
                 f: card.foil,
                 n: card.name,

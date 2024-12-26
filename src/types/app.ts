@@ -42,6 +42,10 @@ export type PlayBooster = {
  */
 export type PlayBoosterCardSerialized = {
     /**
+     * binderType
+     */
+    b: ManaBox.Card["binderType"];
+    /**
      * Collector Number
      */
     c: ManaBox.Card["collectorNumber"];

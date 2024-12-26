@@ -22,6 +22,7 @@ type BoostersTableProps = {
 
 type Order = "asc" | "desc";
 type OrderBy =
+    | "binderType"
     | "boosterIndex"
     | "collectorNumber"
     | "name"
@@ -45,6 +46,7 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     // Flatten all cards with their booster index
     const flattenedCards: {
         boosterIndex: number;
+        binderType: App.PlayBoosterCardSerialized["b"];
         collectorNumber: App.PlayBoosterCardSerialized["c"];
         name?: App.PlayBoosterCardSerialized["n"];
         foil: App.PlayBoosterCardSerialized["f"];
@@ -53,6 +55,7 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     }[] = boosters.flatMap((booster, boosterIndex) =>
         booster.c.map((card) => ({
             boosterIndex,
+            binderType: card.b,
             collectorNumber: card.c,
             name: card.n,
             foil: card.f,
@@ -169,11 +172,33 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                     direction={order}
                                     onClick={() => handleSort("boosterIndex")}
                                 >
-                                    <Tooltip placement="top" title="Booster">
+                                    <Tooltip
+                                        placement="top"
+                                        title={!areSpoilersHidden && "Boosters"}
+                                    >
                                         <Box component="span">
                                             {areSpoilersHidden
                                                 ? "Booster"
                                                 : "B"}
+                                        </Box>
+                                    </Tooltip>
+                                </TableSortLabel>
+                            </TableCell>
+                            {/* LOCATION (i.e. binderType) */}
+                            <TableCell>
+                                <TableSortLabel
+                                    active={orderBy === "binderType"}
+                                    direction={order}
+                                    onClick={() => handleSort("binderType")}
+                                >
+                                    <Tooltip
+                                        placement="top"
+                                        title={!areSpoilersHidden && "Location"}
+                                    >
+                                        <Box component="span">
+                                            {areSpoilersHidden
+                                                ? "Location"
+                                                : "L"}
                                         </Box>
                                     </Tooltip>
                                 </TableSortLabel>
@@ -185,7 +210,10 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                     direction={order}
                                     onClick={() => handleSort("setCode")}
                                 >
-                                    <Tooltip placement="top" title="Set Code">
+                                    <Tooltip
+                                        placement="top"
+                                        title={!areSpoilersHidden && "Set Code"}
+                                    >
                                         <Box component="span">
                                             {areSpoilersHidden
                                                 ? "Set Code"
@@ -205,7 +233,10 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                 >
                                     <Tooltip
                                         placement="top"
-                                        title="Collector Number"
+                                        title={
+                                            !areSpoilersHidden &&
+                                            "Collector Number"
+                                        }
                                     >
                                         <Box component="span">
                                             {areSpoilersHidden
@@ -249,6 +280,14 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
                                 {/* BOOSTER */}
                                 <TableCell align="right">
                                     {card.boosterIndex + 1}
+                                </TableCell>
+                                {/* LOCATION */}
+                                <TableCell
+                                    sx={{
+                                        textTransform: "capitalize",
+                                    }}
+                                >
+                                    {card.binderType}
                                 </TableCell>
                                 {/* SET CODE */}
                                 <TableCell>{card.setCode}</TableCell>

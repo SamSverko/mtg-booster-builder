@@ -1,4 +1,41 @@
+import { MTG } from "@/constants";
 import { ManaBox } from "@/types";
+
+type GenerateMockBoosterProps = {
+    cardProps?: GenerateMockCardProps[];
+};
+
+/**
+ * Generate a mock booster.
+ *
+ * TODO - Implement logic for booster generation, when ready.
+ */
+export const generateMockBooster = ({
+    cardProps = [],
+}: GenerateMockBoosterProps = {}) => {
+    const cards = Array.from({ length: MTG.PLAY_BOOSTER.slots.length }).map(
+        (_, i) => generateMockCard(cardProps[i] || {})
+    );
+
+    return cards;
+};
+
+type GenerateMockBoostersProps = {
+    boosterProps?: GenerateMockBoosterProps[];
+    count?: number;
+};
+
+/**
+ * Generate mock boosters.
+ */
+export const generateMockBoosters = ({
+    boosterProps = [],
+    count = getRandomNumber(1, 5),
+}: GenerateMockBoostersProps = {}): ManaBox.Card[][] => {
+    return Array.from({ length: count }).map((_, i) =>
+        generateMockBooster(boosterProps[i] || {})
+    );
+};
 
 type GenerateMockCardProps = {
     binderType?: ManaBox.Card["binderType"];

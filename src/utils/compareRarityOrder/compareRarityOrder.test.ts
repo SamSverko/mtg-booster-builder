@@ -1,6 +1,6 @@
 import { MTG } from "@/constants";
-import { compareRarityOrder } from "@/utils";
 import { ManaBox } from "@/types";
+import { compareRarityOrder } from "@/utils";
 
 describe("compareRarityOrder", () => {
     it("should return a negative number when the first rarity is less than the second", () => {

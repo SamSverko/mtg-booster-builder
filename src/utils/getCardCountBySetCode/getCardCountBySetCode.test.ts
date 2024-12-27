@@ -57,7 +57,7 @@ describe("getCardCountBySetCode", () => {
         expect(result).toEqual({ SET2: 5, SET1: 0 });
     });
 
-    it("should handle multiple cards with the same setCode and negative quantities", () => {
+    it("should throw an error if any card has a negative quantity", () => {
         const cards = generateMockCards({
             count: 2,
             cardProps: [
@@ -65,7 +65,6 @@ describe("getCardCountBySetCode", () => {
                 { setCode: "SET1", quantity: 5 },
             ],
         });
-        const result = getCardCountBySetCode(cards);
-        expect(result).toEqual({ SET1: 2 });
+        expect(() => getCardCountBySetCode(cards)).toThrow();
     });
 });

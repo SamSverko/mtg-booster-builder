@@ -6,12 +6,20 @@ import { App, ManaBox } from "@/types";
 export function getCardCountBySetCode(
     cards: ManaBox.Card[]
 ): App.CardCountBySetCode {
+    const cardCount = cards.reduce((acc: App.CardCountBySetCode, card) => {
+        if (card.quantity < 0) {
+            throw new Error(
+                `Quantity for card in set ${card.setCode} cannot be negative.`
+            );
+        }
+
+        acc[card.setCode] = (acc[card.setCode] || 0) + card.quantity;
+        return acc;
+    }, {});
+
     return Object.fromEntries(
-        Object.entries(
-            cards.reduce((acc: App.CardCountBySetCode, card) => {
-                acc[card.setCode] = (acc[card.setCode] || 0) + card.quantity;
-                return acc;
-            }, {})
-        ).sort(([, countA], [, countB]) => countB - countA)
+        Object.entries(cardCount).sort(
+            ([, countA], [, countB]) => countB - countA
+        )
     );
 }

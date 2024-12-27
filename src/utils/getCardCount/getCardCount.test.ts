@@ -11,7 +11,6 @@ describe("getCardCount", () => {
             count: 1,
             cardProps: [{ quantity: 3 }],
         });
-
         expect(getCardCount(cards)).toBe(3);
     });
 
@@ -20,7 +19,6 @@ describe("getCardCount", () => {
             count: 2,
             cardProps: [{ quantity: 3 }, { quantity: 4 }],
         });
-
         expect(getCardCount(cards)).toBe(7);
     });
 
@@ -29,7 +27,6 @@ describe("getCardCount", () => {
             count: 2,
             cardProps: [{ quantity: 3 }, { quantity: 0 }],
         });
-
         expect(getCardCount(cards)).toBe(3);
     });
 
@@ -38,7 +35,6 @@ describe("getCardCount", () => {
             count: 2,
             cardProps: [{ quantity: 0 }, { quantity: 0 }],
         });
-
         expect(getCardCount(cards)).toBe(0);
     });
 
@@ -47,7 +43,6 @@ describe("getCardCount", () => {
             count: 1,
             cardProps: [{ quantity: -1 }],
         });
-
         expect(() => getCardCount(cards)).toThrow();
     });
 });

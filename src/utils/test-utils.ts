@@ -41,6 +41,23 @@ export const generateMockCard = ({
     };
 };
 
+type GenerateMockCardsProps = {
+    cardProps?: GenerateMockCardProps[];
+    count?: number;
+};
+
+/**
+ * Generate mock cards.
+ */
+export const generateMockCards = ({
+    cardProps = [],
+    count = getRandomNumber(1, 5),
+}: GenerateMockCardsProps = {}): ManaBox.Card[] => {
+    return Array.from({ length: count }).map((_, i) =>
+        generateMockCard(cardProps[i] || {})
+    );
+};
+
 /**
  * Generate a mock purchasePrice.
  */

@@ -68,7 +68,7 @@ export const FORMAT_NONE: MTG.Format = {
  */
 
 /**
- * Generic play booster, excluding non-playable card slot.
+ * Generic Play Booster, excluding non-playable card slot.
  *
  * Slot info sourced from [What are Play Boosters?](https://magic.wizards.com/en/news/making-magic/what-are-play-boosters).
  *
@@ -79,117 +79,42 @@ export const PLAY_BOOSTER: App.PlayBooster = {
         // 1 - Common
         [{ foil: "normal", percentage: 100, rarity: "common" }],
         // 2 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "common" }],
         // 3 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "common" }],
         // 4 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "common" }],
         // 5 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "common" }],
         // 6 - Common
+        [{ foil: "normal", percentage: 100, rarity: "common" }],
+        // 7 - Common/The List (ignoring 'The List' for now, but keeping rarity percentages)
         [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
-        // 7 - Common/The List (ignoring 'The List' for now)
-        [
-            {
-                foil: "normal",
-                percentage: 87.5,
-                rarity: "common",
-            },
-            {
-                foil: "normal",
-                percentage: 4.69,
-                rarity: "uncommon",
-            },
-            {
-                foil: "normal",
-                percentage: 4.69,
-                rarity: "uncommon",
-            },
-            {
-                foil: "normal",
-                percentage: 1.56,
-                rarity: "rare",
-            },
-            {
-                foil: "normal",
-                percentage: 1.56,
-                rarity: "mythic",
-            },
+            { foil: "normal", percentage: 87.5, rarity: "common" },
+            { foil: "normal", percentage: 4.69, rarity: "uncommon" },
+            { foil: "normal", percentage: 4.69, rarity: "uncommon" },
+            { foil: "normal", percentage: 1.56, rarity: "rare" },
+            { foil: "normal", percentage: 1.56, rarity: "mythic" },
         ],
         // 8 - Uncommon
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "uncommon",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "uncommon" }],
         // 9 - Uncommon
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "uncommon",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "uncommon" }],
         // 10 - Uncommon
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "uncommon",
-            },
-        ],
+        [{ foil: "normal", percentage: 100, rarity: "uncommon" }],
         // 11 - Rare/Mythic Rare
         [
-            {
-                foil: "normal",
-                percentage: 85.71,
-                rarity: "rare",
-            },
-            {
-                foil: "normal",
-                percentage: 14.29,
-                rarity: "mythic",
-            },
+            { foil: "normal", percentage: 85.71, rarity: "rare" },
+            { foil: "normal", percentage: 14.29, rarity: "mythic" },
         ],
         // 12 - Basic Land
+        // TODO - I think nonbasic lands can also appear here?
         [
             {
                 foil: "normal",
                 percentage: 80,
                 rarity: "common",
-                superType: "basic", // TODO - I think nonbasic lands can also appear here?
+                superType: "basic",
                 type: "land",
             },
             {

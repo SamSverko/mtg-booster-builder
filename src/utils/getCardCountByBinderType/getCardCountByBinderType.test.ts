@@ -1,4 +1,3 @@
-import { ManaBox } from "@/types";
 import { getCardCountByBinderType } from "@/utils";
 import { generateMockCards } from "@/utils/test-utils";
 

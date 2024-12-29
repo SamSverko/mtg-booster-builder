@@ -36,11 +36,16 @@ export type PlayBoosterRule = {
     /**
      * The list of slots in this booster, defining rarity, types, and constraints.
      */
-    slots: PlayBoosterRuleSlotItem[];
+    slots: PlayBoosterRuleSlot[];
 };
 
 /**
  * Represents a single slot in a Play Booster with rules for allowed or denied card options.
+ */
+export type PlayBoosterRuleSlot = PlayBoosterRuleSlotItem[];
+
+/**
+ * Represents a single slot item in a Play Booster with rules for allowed or denied card options.
  */
 export type PlayBoosterRuleSlotItem = {
     foil: ManaBox.CardFoil;
@@ -64,7 +69,7 @@ export type PlayBoosterRuleSlotItem = {
      * @deprecated - Kinda? It's needed for the generic Play Booster, but use allowList and denyList instead for set-specific Play Boosters.
      */
     type?: MTG.CardType;
-}[];
+};
 
 /**
  * A single card option for inclusion or exclusion in a Play Booster slot.

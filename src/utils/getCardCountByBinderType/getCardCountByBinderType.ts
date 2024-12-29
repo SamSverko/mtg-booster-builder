@@ -7,9 +7,9 @@ export type CardCountByBinderType = {
 /**
  * Get the total card count by binderType
  */
-export function getCardCountByBinderType(
+export const getCardCountByBinderType = (
     cards: ManaBox.Card[]
-): CardCountByBinderType {
+): CardCountByBinderType => {
     const cardCount = cards.reduce((acc: CardCountByBinderType, card) => {
         if (card.quantity < 0) {
             throw new Error(
@@ -26,4 +26,4 @@ export function getCardCountByBinderType(
             ([, countA], [, countB]) => countB - countA
         )
     );
-}
+};

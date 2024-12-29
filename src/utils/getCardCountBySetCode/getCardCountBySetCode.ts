@@ -7,9 +7,9 @@ export type CardCountBySetCode = {
 /**
  * Get the total card count by setCode
  */
-export function getCardCountBySetCode(
+export const getCardCountBySetCode = (
     cards: ManaBox.Card[]
-): CardCountBySetCode {
+): CardCountBySetCode => {
     const cardCount = cards.reduce((acc: CardCountBySetCode, card) => {
         if (card.quantity < 0) {
             throw new Error(
@@ -26,4 +26,4 @@ export function getCardCountBySetCode(
             ([, countA], [, countB]) => countB - countA
         )
     );
-}
+};

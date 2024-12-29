@@ -1,7 +1,7 @@
 import { App, ManaBox } from "@/types";
 import { condenseCard, type CardCondensed } from "@/utils";
 
-type BoosterCondensed = {
+export type BoosterCondensed = {
     /**
      * Set Code
      */

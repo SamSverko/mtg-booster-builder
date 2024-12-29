@@ -1,6 +1,9 @@
 export { deserializeBoosters } from "@/utils/deserializeBoosters/deserializeBoosters";
 export { compareRarityOrder } from "@/utils/compareRarityOrder/compareRarityOrder";
-export { condenseBooster } from "@/utils/condenseBooster/condenseBooster";
+export {
+    condenseBooster,
+    type BoosterCondensed,
+} from "@/utils/condenseBooster/condenseBooster";
 export {
     condenseCard,
     type CardCondensed,

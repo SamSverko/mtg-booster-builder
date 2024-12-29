@@ -17,7 +17,7 @@ import { FoilChip } from "@/components";
 import { compareRarityOrder } from "@/utils";
 
 type BoostersTableProps = {
-    boosters: App.PlayBoosterSerialized[];
+    boosters: App.PlayBoosterCondensed[];
 };
 
 type Order = "asc" | "desc";
@@ -61,12 +61,12 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     const flattenedCards: {
         id: string;
         boosterIndex: number;
-        binderType: App.PlayBoosterCardSerialized["b"];
-        collectorNumber: App.PlayBoosterCardSerialized["c"];
-        name?: App.PlayBoosterCardSerialized["n"];
-        foil: App.PlayBoosterCardSerialized["f"];
-        rarity?: App.PlayBoosterCardSerialized["r"];
-        setCode: App.PlayBoosterSerialized["s"];
+        binderType: App.PlayBoosterCardCondensed["b"];
+        collectorNumber: App.PlayBoosterCardCondensed["c"];
+        name?: App.PlayBoosterCardCondensed["n"];
+        foil: App.PlayBoosterCardCondensed["f"];
+        rarity?: App.PlayBoosterCardCondensed["r"];
+        setCode: App.PlayBoosterCondensed["s"];
     }[] = boosters.flatMap((booster, boosterIndex) =>
         booster.c.map((card) => ({
             id: `${boosterIndex}-${card.c}-${card.n}`,

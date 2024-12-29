@@ -73,11 +73,11 @@ export type PlayBooster = {
 };
 
 /**
- * Play Boosters (serialized)
+ * Play Boosters (condensed)
  *
  * Used to store the generated boosters data in a URL query string.
  */
-export type PlayBoosterCardSerialized = {
+export type PlayBoosterCardCondensed = {
     /**
      * binderType
      */
@@ -100,7 +100,7 @@ export type PlayBoosterCardSerialized = {
     r: ManaBox.Card["rarity"];
 };
 
-export type PlayBoosterSerialized = {
+export type PlayBoosterCondensed = {
     /**
      * Set Code
      */
@@ -108,5 +108,5 @@ export type PlayBoosterSerialized = {
     /**
      * Cards
      */
-    c: PlayBoosterCardSerialized[];
+    c: PlayBoosterCardCondensed[];
 };

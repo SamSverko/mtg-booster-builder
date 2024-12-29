@@ -1,25 +1,17 @@
 import LZString from "lz-string";
 
-import { App, ManaBox } from "@/types";
+import { App } from "@/types";
+import { condenseBooster } from "@/utils";
 
 /**
- * Serialize the generated boosters into a compressed URL-friendly string.
+ * Serialize the boosters into a compressed URL-friendly string.
  */
-export const serializeBoosters = (boosters: ManaBox.Card[][]): string => {
-    const serializedBoosters: App.PlayBoosterSerialized[] = boosters.map(
-        (booster) => ({
-            s: booster[0].setCode,
-            c: booster.map((card) => ({
-                b: card.binderType,
-                c: card.collectorNumber,
-                f: card.foil,
-                n: card.name,
-                r: card.rarity,
-            })),
-        })
+export const serializeBoosters = (boosters: App.PlayBooster[]): string => {
+    const condensedBoosters = boosters.map((booster) =>
+        condenseBooster(booster)
     );
 
-    const json = JSON.stringify(serializedBoosters);
+    const json = JSON.stringify(condensedBoosters);
 
     const compressed = LZString.compressToEncodedURIComponent(json);
 

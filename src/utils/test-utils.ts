@@ -2,6 +2,7 @@ import { MTG } from "@/constants";
 import { App, ManaBox } from "@/types";
 
 type GenerateMockBoosterProps = {
+    setCode?: App.PlayBooster["setCode"];
     cardProps?: GenerateMockCardProps[];
 };
 
@@ -11,10 +12,11 @@ type GenerateMockBoosterProps = {
  * TODO - Implement logic for booster generation, when ready.
  */
 export const generateMockBooster = ({
+    setCode = "ABC",
     cardProps = [],
 }: GenerateMockBoosterProps = {}): App.PlayBooster => {
     return {
-        setCode: "ABC",
+        setCode,
         cards: Array.from({ length: MTG.PLAY_BOOSTER_RULE.slots.length }).map(
             (_, i) => generateMockCard(cardProps[i] || {})
         ),

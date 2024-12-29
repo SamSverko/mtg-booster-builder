@@ -24,6 +24,7 @@ describe("compareRarityOrder", () => {
 
     it("should throw an error if an invalid rarity is passed", () => {
         const invalidRarity = "invalidRarity" as ManaBox.CardRarity;
+
         expect(() => compareRarityOrder(invalidRarity, "common")).toThrow();
         expect(() => compareRarityOrder("common", invalidRarity)).toThrow();
     });
@@ -31,6 +32,7 @@ describe("compareRarityOrder", () => {
     it("should correctly use the RARITY_ORDER mapping for comparison", () => {
         Object.entries(MTG.RARITY_ORDER).forEach(([rarity, order]) => {
             const otherOrder = MTG.RARITY_ORDER[rarity as ManaBox.CardRarity];
+
             expect(
                 compareRarityOrder(
                     rarity as ManaBox.CardRarity,

@@ -4,6 +4,7 @@ import { generateMockCards } from "@/utils/test-utils";
 describe("getCardCountBySetCode", () => {
     it("should return an empty object for an empty array", () => {
         const result = getCardCountBySetCode([]);
+
         expect(result).toEqual({});
     });
 
@@ -17,6 +18,7 @@ describe("getCardCountBySetCode", () => {
             ],
         });
         const result = getCardCountBySetCode(cards);
+
         expect(result).toEqual({ SET1: 3, SET2: 3 });
     });
 
@@ -29,6 +31,7 @@ describe("getCardCountBySetCode", () => {
             ],
         });
         const result = getCardCountBySetCode(cards);
+
         expect(result).toEqual({ SET1: 12 });
     });
 
@@ -42,6 +45,7 @@ describe("getCardCountBySetCode", () => {
             ],
         });
         const result = getCardCountBySetCode(cards);
+
         expect(result).toEqual({ SET3: 7, SET1: 5, SET2: 3 });
     });
 
@@ -54,6 +58,7 @@ describe("getCardCountBySetCode", () => {
             ],
         });
         const result = getCardCountBySetCode(cards);
+
         expect(result).toEqual({ SET2: 5, SET1: 0 });
     });
 
@@ -65,6 +70,7 @@ describe("getCardCountBySetCode", () => {
                 { setCode: "SET1", quantity: 5 },
             ],
         });
+
         expect(() => getCardCountBySetCode(cards)).toThrow();
     });
 });

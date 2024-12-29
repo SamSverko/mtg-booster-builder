@@ -4,6 +4,7 @@ import { generateMockCards } from "@/utils/test-utils";
 describe("getCardCountByBinderType", () => {
     it("should return an empty object for an empty array", () => {
         const result = getCardCountByBinderType([]);
+
         expect(result).toEqual({});
     });
 
@@ -17,6 +18,7 @@ describe("getCardCountByBinderType", () => {
             ],
         });
         const result = getCardCountByBinderType(cards);
+
         expect(result).toEqual({ binder: 3, deck: 3 });
     });
 
@@ -29,6 +31,7 @@ describe("getCardCountByBinderType", () => {
             ],
         });
         const result = getCardCountByBinderType(cards);
+
         expect(result).toEqual({ binder: 12 });
     });
 
@@ -42,6 +45,7 @@ describe("getCardCountByBinderType", () => {
             ],
         });
         const result = getCardCountByBinderType(cards);
+
         expect(result).toEqual({ list: 7, deck: 5, binder: 3 });
     });
 
@@ -54,6 +58,7 @@ describe("getCardCountByBinderType", () => {
             ],
         });
         const result = getCardCountByBinderType(cards);
+
         expect(result).toEqual({ deck: 5, binder: 0 });
     });
 
@@ -65,6 +70,7 @@ describe("getCardCountByBinderType", () => {
                 { binderType: "binder", quantity: 5 },
             ],
         });
+
         expect(() => getCardCountByBinderType(cards)).toThrow();
     });
 });

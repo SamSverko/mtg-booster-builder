@@ -1,11 +1,12 @@
 import { getCardCountBySetCode } from "@/utils";
 import { generateMockCards } from "@/utils/test-utils";
+import { App } from "@/types";
 
 describe("getCardCountBySetCode", () => {
     it("should return an empty object for an empty array", () => {
         const result = getCardCountBySetCode([]);
 
-        expect(result).toEqual({});
+        expect(result).toEqual<App.CardCountBySetCode>({});
     });
 
     it("should return correct card counts by set code", () => {
@@ -19,7 +20,7 @@ describe("getCardCountBySetCode", () => {
         });
         const result = getCardCountBySetCode(cards);
 
-        expect(result).toEqual({ SET1: 3, SET2: 3 });
+        expect(result).toEqual<App.CardCountBySetCode>({ SET1: 3, SET2: 3 });
     });
 
     it("should sum quantities for the same set code", () => {
@@ -32,7 +33,7 @@ describe("getCardCountBySetCode", () => {
         });
         const result = getCardCountBySetCode(cards);
 
-        expect(result).toEqual({ SET1: 12 });
+        expect(result).toEqual<App.CardCountBySetCode>({ SET1: 12 });
     });
 
     it("should sort by quantity in descending order", () => {
@@ -46,7 +47,11 @@ describe("getCardCountBySetCode", () => {
         });
         const result = getCardCountBySetCode(cards);
 
-        expect(result).toEqual({ SET3: 7, SET1: 5, SET2: 3 });
+        expect(result).toEqual<App.CardCountBySetCode>({
+            SET3: 7,
+            SET1: 5,
+            SET2: 3,
+        });
     });
 
     it("should handle cards with zero quantities correctly", () => {
@@ -59,7 +64,7 @@ describe("getCardCountBySetCode", () => {
         });
         const result = getCardCountBySetCode(cards);
 
-        expect(result).toEqual({ SET2: 5, SET1: 0 });
+        expect(result).toEqual<App.CardCountBySetCode>({ SET2: 5, SET1: 0 });
     });
 
     it("should throw an error if any card has a negative quantity", () => {

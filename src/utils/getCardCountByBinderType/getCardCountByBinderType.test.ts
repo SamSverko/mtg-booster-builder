@@ -1,11 +1,12 @@
 import { getCardCountByBinderType } from "@/utils";
 import { generateMockCards } from "@/utils/test-utils";
+import { App } from "@/types";
 
 describe("getCardCountByBinderType", () => {
     it("should return an empty object for an empty array", () => {
         const result = getCardCountByBinderType([]);
 
-        expect(result).toEqual({});
+        expect(result).toEqual<App.CardCountByBinderType>({});
     });
 
     it("should return correct card counts by binder type", () => {
@@ -19,7 +20,10 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual({ binder: 3, deck: 3 });
+        expect(result).toEqual<App.CardCountByBinderType>({
+            binder: 3,
+            deck: 3,
+        });
     });
 
     it("should sum quantities for the same binder type", () => {
@@ -32,7 +36,7 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual({ binder: 12 });
+        expect(result).toEqual<App.CardCountByBinderType>({ binder: 12 });
     });
 
     it("should sort by quantity in descending order", () => {
@@ -46,7 +50,11 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual({ list: 7, deck: 5, binder: 3 });
+        expect(result).toEqual<App.CardCountByBinderType>({
+            list: 7,
+            deck: 5,
+            binder: 3,
+        });
     });
 
     it("should handle cards with zero quantities correctly", () => {
@@ -59,7 +67,10 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual({ deck: 5, binder: 0 });
+        expect(result).toEqual<App.CardCountByBinderType>({
+            deck: 5,
+            binder: 0,
+        });
     });
 
     it("should throw an error if any card has a negative quantity", () => {

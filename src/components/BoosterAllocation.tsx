@@ -53,7 +53,7 @@ export function BoosterAllocation({
 
             const currentCount = allocatedBoosterCountBySetCode[setCode] ?? 0;
             const maxBoostersForSet = Math.floor(
-                cardCountBySetCode[setCode] / MTG.PLAY_BOOSTER.slots.length
+                cardCountBySetCode[setCode] / MTG.PLAY_BOOSTER_RULE.slots.length
             ); // Calculate max boosters this set can handle based on card count
 
             const newCount =
@@ -135,7 +135,7 @@ export function BoosterAllocation({
                                 const notEnoughCards =
                                     cardCountInSet <
                                     (allocatedBoostersForSet + 1) *
-                                        MTG.PLAY_BOOSTER.slots.length;
+                                        MTG.PLAY_BOOSTER_RULE.slots.length;
 
                                 return (
                                     <TableRow key={setCode}>

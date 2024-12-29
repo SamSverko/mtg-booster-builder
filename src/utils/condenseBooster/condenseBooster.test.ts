@@ -16,7 +16,7 @@ describe("condenseBooster", () => {
 
         const mockBooster = generateMockBooster({
             cardProps: Array.from({
-                length: MTG.PLAY_BOOSTER.slots.length,
+                length: MTG.PLAY_BOOSTER_RULE.slots.length,
             }).map(() => cardProps),
         });
 
@@ -24,7 +24,7 @@ describe("condenseBooster", () => {
 
         expect(result).toEqual({
             s: cardProps.setCode,
-            c: Array.from({ length: MTG.PLAY_BOOSTER.slots.length }).map(
+            c: Array.from({ length: MTG.PLAY_BOOSTER_RULE.slots.length }).map(
                 () => ({
                     b: "binder",
                     c: 123,

@@ -15,7 +15,7 @@ export const generateMockBooster = ({
 }: GenerateMockBoosterProps = {}): App.PlayBooster => {
     return {
         setCode: "ABC",
-        cards: Array.from({ length: MTG.PLAY_BOOSTER.slots.length }).map(
+        cards: Array.from({ length: MTG.PLAY_BOOSTER_RULE.slots.length }).map(
             (_, i) => generateMockCard(cardProps[i] || {})
         ),
     };

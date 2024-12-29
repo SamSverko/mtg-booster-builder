@@ -15,7 +15,7 @@ export function ConfirmDetails({
     allocatedBoosterCountBySetCode,
     requiredBoosterCount,
 }: ConfirmDetailsProps) {
-    const cardCountPerBooster = MTG.PLAY_BOOSTER.slots.length;
+    const cardCountPerBooster = MTG.PLAY_BOOSTER_RULE.slots.length;
     const requiredTotalCardCount = requiredBoosterCount * cardCountPerBooster;
 
     return (

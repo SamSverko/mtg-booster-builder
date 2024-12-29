@@ -1,12 +1,16 @@
-import { App, ManaBox } from "@/types";
+import { ManaBox } from "@/types";
+
+export type CardCountBySetCode = {
+    [key: string]: number;
+};
 
 /**
  * Get the total card count by setCode
  */
 export function getCardCountBySetCode(
     cards: ManaBox.Card[]
-): App.CardCountBySetCode {
-    const cardCount = cards.reduce((acc: App.CardCountBySetCode, card) => {
+): CardCountBySetCode {
+    const cardCount = cards.reduce((acc: CardCountBySetCode, card) => {
         if (card.quantity < 0) {
             throw new Error(
                 `Quantity for card in set ${card.setCode} cannot be negative.`

@@ -1,5 +1,5 @@
 import { MTG } from "@/constants";
-import { ManaBox } from "@/types";
+import { App, ManaBox } from "@/types";
 
 type GenerateMockBoosterProps = {
     cardProps?: GenerateMockCardProps[];
@@ -12,12 +12,13 @@ type GenerateMockBoosterProps = {
  */
 export const generateMockBooster = ({
     cardProps = [],
-}: GenerateMockBoosterProps = {}) => {
-    const cards = Array.from({ length: MTG.PLAY_BOOSTER.slots.length }).map(
-        (_, i) => generateMockCard(cardProps[i] || {})
-    );
-
-    return cards;
+}: GenerateMockBoosterProps = {}): App.PlayBooster => {
+    return {
+        setCode: "ABC",
+        cards: Array.from({ length: MTG.PLAY_BOOSTER.slots.length }).map(
+            (_, i) => generateMockCard(cardProps[i] || {})
+        ),
+    };
 };
 
 type GenerateMockBoostersProps = {
@@ -31,7 +32,7 @@ type GenerateMockBoostersProps = {
 export const generateMockBoosters = ({
     boosterProps = [],
     count = getRandomNumber(1, 5),
-}: GenerateMockBoostersProps = {}): ManaBox.Card[][] => {
+}: GenerateMockBoostersProps = {}): App.PlayBooster[] => {
     return Array.from({ length: count }).map((_, i) =>
         generateMockBooster(boosterProps[i] || {})
     );

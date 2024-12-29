@@ -1,7 +1,17 @@
 export { deserializeBoosters } from "@/utils/deserializeBoosters/deserializeBoosters";
 export { compareRarityOrder } from "@/utils/compareRarityOrder/compareRarityOrder";
-export { condenseCard } from "@/utils/condenseCard/condenseCard";
+export { condenseBooster } from "@/utils/condenseBooster/condenseBooster";
+export {
+    condenseCard,
+    type CardCondensed,
+} from "@/utils/condenseCard/condenseCard";
 export { getCardCount } from "@/utils/getCardCount/getCardCount";
-export { getCardCountByBinderType } from "@/utils/getCardCountByBinderType/getCardCountByBinderType";
-export { getCardCountBySetCode } from "@/utils/getCardCountBySetCode/getCardCountBySetCode";
+export {
+    getCardCountByBinderType,
+    type CardCountByBinderType,
+} from "@/utils/getCardCountByBinderType/getCardCountByBinderType";
+export {
+    getCardCountBySetCode,
+    type CardCountBySetCode,
+} from "@/utils/getCardCountBySetCode/getCardCountBySetCode";
 export { serializeBoosters } from "@/utils/serializeBoosters/serializeBoosters";

@@ -74,7 +74,7 @@ export const FORMAT_NONE: MTG.Format = {
  *
  * Wildcard slots info sourced from [Reward Distribution | Magic: The Gathering Arena](https://magic.wizards.com/en/mtgarena/drop-rates).
  */
-export const PLAY_BOOSTER: App.PlayBooster = {
+export const PLAY_BOOSTER: App.PlayBoosterRule = {
     slots: [
         // 1 - Common
         [{ foil: "normal", percentage: 100, rarity: "common" }],
@@ -195,7 +195,7 @@ export const NONBASIC_LANDS_BLB = {
  *
  * Slot info sourced from [Collecting Bloomburrow](https://magic.wizards.com/en/news/feature/collecting-bloomburrow).
  */
-export const PLAY_BOOSTER_BLB: App.PlayBooster = {
+export const PLAY_BOOSTER_BLB: App.PlayBoosterRule = {
     slots: [
         // 1 - Common
         [

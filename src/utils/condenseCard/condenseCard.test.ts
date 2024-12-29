@@ -1,4 +1,4 @@
-import { condenseCard } from "@/utils";
+import { condenseCard, type CardCondensed } from "@/utils";
 import { generateMockCard } from "@/utils/test-utils";
 import { ManaBox, App } from "@/types";
 
@@ -15,7 +15,7 @@ describe("condenseCard", () => {
 
         const result = condenseCard(mockCard);
 
-        expect(result).toEqual<App.PlayBoosterCardCondensed>({
+        expect(result).toEqual<CardCondensed>({
             b: "binder",
             c: 123,
             f: "foil",
@@ -47,7 +47,7 @@ describe("condenseCard", () => {
 
         const result = condenseCard(minimalCard);
 
-        expect(result).toEqual<App.PlayBoosterCardCondensed>({
+        expect(result).toEqual<CardCondensed>({
             b: "binder",
             c: 0,
             f: "foil",
@@ -79,7 +79,7 @@ describe("condenseCard", () => {
 
         const result = condenseCard(mockCard);
 
-        expect(result).toEqual<App.PlayBoosterCardCondensed>({
+        expect(result).toEqual<CardCondensed>({
             b: "deck",
             c: 999,
             f: "normal",

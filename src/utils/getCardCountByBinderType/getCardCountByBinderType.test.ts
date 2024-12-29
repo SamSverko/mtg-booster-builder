@@ -1,4 +1,4 @@
-import { getCardCountByBinderType } from "@/utils";
+import { getCardCountByBinderType, type CardCountByBinderType } from "@/utils";
 import { generateMockCards } from "@/utils/test-utils";
 import { App } from "@/types";
 
@@ -6,7 +6,7 @@ describe("getCardCountByBinderType", () => {
     it("should return an empty object for an empty array", () => {
         const result = getCardCountByBinderType([]);
 
-        expect(result).toEqual<App.CardCountByBinderType>({});
+        expect(result).toEqual<CardCountByBinderType>({});
     });
 
     it("should return correct card counts by binder type", () => {
@@ -20,7 +20,7 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual<App.CardCountByBinderType>({
+        expect(result).toEqual<CardCountByBinderType>({
             binder: 3,
             deck: 3,
         });
@@ -36,7 +36,7 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual<App.CardCountByBinderType>({ binder: 12 });
+        expect(result).toEqual<CardCountByBinderType>({ binder: 12 });
     });
 
     it("should sort by quantity in descending order", () => {
@@ -50,7 +50,7 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual<App.CardCountByBinderType>({
+        expect(result).toEqual<CardCountByBinderType>({
             list: 7,
             deck: 5,
             binder: 3,
@@ -67,7 +67,7 @@ describe("getCardCountByBinderType", () => {
         });
         const result = getCardCountByBinderType(cards);
 
-        expect(result).toEqual<App.CardCountByBinderType>({
+        expect(result).toEqual<CardCountByBinderType>({
             deck: 5,
             binder: 0,
         });

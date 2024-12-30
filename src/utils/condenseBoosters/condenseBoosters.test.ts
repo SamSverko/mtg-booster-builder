@@ -1,6 +1,6 @@
 import { MTG } from "@/constants";
 import { App, ManaBox } from "@/types";
-import { condenseBoosters } from "@/utils";
+import { condenseBoosters, type BoosterCondensed } from "@/utils";
 import { generateMockBooster } from "@/utils/test-utils";
 
 describe("condenseBooster", () => {
@@ -22,7 +22,7 @@ describe("condenseBooster", () => {
 
         const result = condenseBoosters([mockBooster]);
 
-        expect(result).toEqual([
+        expect(result).toEqual<BoosterCondensed[]>([
             {
                 s: cardProps.setCode,
                 c: Array.from({
@@ -73,7 +73,7 @@ describe("condenseBooster", () => {
 
         const result = condenseBoosters([mockBooster1, mockBooster2]);
 
-        expect(result).toEqual([
+        expect(result).toEqual<BoosterCondensed[]>([
             {
                 s: "SET1",
                 c: Array.from({
@@ -105,7 +105,7 @@ describe("condenseBooster", () => {
         const mockBooster = { setCode: "", cards: [] };
         const result = condenseBoosters([mockBooster]);
 
-        expect(result).toEqual([
+        expect(result).toEqual<BoosterCondensed[]>([
             {
                 s: "",
                 c: [],

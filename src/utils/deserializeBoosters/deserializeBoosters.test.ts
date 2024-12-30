@@ -1,4 +1,8 @@
-import { deserializeBoosters, serializeBoosters } from "@/utils";
+import {
+    deserializeBoosters,
+    serializeBoosters,
+    type BoosterCondensed,
+} from "@/utils";
 import { generateMockBoosters } from "@/utils/test-utils";
 
 describe("deserializeBoosters", () => {
@@ -24,18 +28,18 @@ describe("deserializeBoosters", () => {
         const serialized = serializeBoosters([]);
         const deserialized = deserializeBoosters(serialized);
 
-        expect(deserialized).toEqual([]);
+        expect(deserialized).toEqual<BoosterCondensed[]>([]);
     });
 
     it("should return an empty array for an empty query", () => {
-        expect(deserializeBoosters(null)).toEqual([]);
-        expect(deserializeBoosters(undefined)).toEqual([]);
-        expect(deserializeBoosters("")).toEqual([]);
+        expect(deserializeBoosters(null)).toEqual<BoosterCondensed[]>([]);
+        expect(deserializeBoosters(undefined)).toEqual<BoosterCondensed[]>([]);
+        expect(deserializeBoosters("")).toEqual<BoosterCondensed[]>([]);
     });
 
     it("should return an empty array for an invalid query string", () => {
         const result = deserializeBoosters("invalid-compressed-data");
 
-        expect(result).toEqual([]);
+        expect(result).toEqual<BoosterCondensed[]>([]);
     });
 });

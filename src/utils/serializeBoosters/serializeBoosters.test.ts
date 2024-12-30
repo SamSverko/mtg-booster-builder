@@ -1,4 +1,8 @@
-import { deserializeBoosters, serializeBoosters } from "@/utils";
+import {
+    deserializeBoosters,
+    serializeBoosters,
+    type BoosterCondensed,
+} from "@/utils";
 import { generateMockBoosters } from "@/utils/test-utils";
 
 describe("serializeBoosters", () => {
@@ -24,6 +28,6 @@ describe("serializeBoosters", () => {
         const serialized = serializeBoosters([]);
         const deserialized = deserializeBoosters(serialized);
 
-        expect(deserialized).toEqual([]);
+        expect(deserialized).toEqual<BoosterCondensed[]>([]);
     });
 });

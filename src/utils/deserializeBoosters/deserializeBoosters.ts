@@ -1,7 +1,6 @@
 import LZString from "lz-string";
 
 import { type BoosterCondensed } from "@/utils";
-import { App } from "@/types";
 
 /**
  * Deserialize the serialized boosters from the URL query string.

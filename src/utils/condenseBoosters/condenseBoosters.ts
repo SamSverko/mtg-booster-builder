@@ -1,5 +1,5 @@
 import { App, ManaBox } from "@/types";
-import { condenseCard, type CardCondensed } from "@/utils";
+import { condenseCards, type CardCondensed } from "@/utils";
 
 export type BoosterCondensed = {
     /**
@@ -24,6 +24,6 @@ export const condenseBoosters = (
 
     return boosters.map((booster) => ({
         s: booster.setCode,
-        c: booster.cards.map((card) => condenseCard(card)),
+        c: condenseCards(booster.cards),
     }));
 };

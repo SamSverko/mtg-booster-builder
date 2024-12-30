@@ -28,7 +28,7 @@ describe("getBoosterRuleSlotItem", () => {
         ];
         const item = getBoosterRuleSlotItem(slot);
 
-        expect(item).toEqual(slot[0]);
+        expect(item).toEqual<App.PlayBoosterRuleSlotItem>(slot[0]);
     });
 
     it("should return a rare or mythic item when the mocked random value targets that range", () => {

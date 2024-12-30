@@ -8,6 +8,7 @@ export {
     condenseCards,
     type CardCondensed,
 } from "@/utils/condenseCards/condenseCards";
+export { generateBoosters } from "@/utils/generateBoosters/generateBoosters";
 export { getBoosterRuleSlotItem } from "@/utils/getBoosterRuleSlotItem/getBoosterRuleSlotItem";
 export { getCardCount } from "@/utils/getCardCount/getCardCount";
 export {

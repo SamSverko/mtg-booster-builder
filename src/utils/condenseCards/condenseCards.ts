@@ -26,12 +26,16 @@ export type CardCondensed = {
 /**
  * Condense card data into the minimal format for storage.
  */
-export const condenseCard = (card: ManaBox.Card): CardCondensed => {
-    return {
+export const condenseCards = (cards: ManaBox.Card[]): CardCondensed[] => {
+    if (cards.length === 0) {
+        return [];
+    }
+
+    return cards.map((card) => ({
         b: card.binderType,
         c: card.collectorNumber,
         f: card.foil,
         n: card.name,
         r: card.rarity,
-    };
+    }));
 };

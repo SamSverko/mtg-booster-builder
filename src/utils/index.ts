@@ -5,9 +5,9 @@ export {
     type BoosterCondensed,
 } from "@/utils/condenseBoosters/condenseBoosters";
 export {
-    condenseCard,
+    condenseCards,
     type CardCondensed,
-} from "@/utils/condenseCard/condenseCard";
+} from "@/utils/condenseCards/condenseCards";
 export { getBoosterRuleSlotItem } from "@/utils/getBoosterRuleSlotItem/getBoosterRuleSlotItem";
 export { getCardCount } from "@/utils/getCardCount/getCardCount";
 export {

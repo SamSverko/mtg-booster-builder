@@ -8,23 +8,16 @@ describe("getCardCount", () => {
         };
 
         const cards = generateMockCards({
-            count: 100,
-            cardProps: [
-                {
-                    quantity: 1,
-                    setCode: "blb",
-                },
-                {
-                    quantity: 2,
-                    setCode: "blb",
-                },
-            ],
+            cardProps: Array(100).fill({
+                setCode: "blb",
+            }),
         });
 
         const boosters = generateBoosters({
             allocatedBoosterCountBySetCode,
             cards,
         });
+        // console.log(JSON.stringify(boosters, null, 2));
 
         expect(1).toBe(1);
     });

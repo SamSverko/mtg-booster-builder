@@ -33,39 +33,54 @@ type GenerateMockBoostersProps = {
  */
 export const generateMockBoosters = ({
     boosterProps = [],
-    count = getRandomNumber(1, 5),
+    count,
 }: GenerateMockBoostersProps = {}): App.PlayBooster[] => {
+    count =
+        count !== undefined && count !== null
+            ? count
+            : boosterProps.length || getRandomNumber(1, 5);
+
     return Array.from({ length: count }).map((_, i) =>
         generateMockBooster(boosterProps[i] || {})
     );
 };
 
 type GenerateMockCardProps = {
+    binderName?: ManaBox.Card["binderName"];
     binderType?: ManaBox.Card["binderType"];
     collectorNumber?: ManaBox.Card["collectorNumber"];
     foil?: ManaBox.Card["foil"];
+    language?: ManaBox.Card["language"];
+    name?: ManaBox.Card["name"];
+    purchasePriceCurrency?: ManaBox.Card["purchasePriceCurrency"];
     quantity?: ManaBox.Card["quantity"];
     rarity?: ManaBox.Card["rarity"];
     setCode?: ManaBox.Card["setCode"];
+    setName?: ManaBox.Card["setName"];
 };
 
 /**
  * Generate a mock card.
  */
 export const generateMockCard = ({
+    binderName = "Mock Binder Name",
     binderType = getRandomBinderType(),
     collectorNumber = getRandomNumber(1, 300),
     foil = getRandomFoil(),
+    language = "en",
+    name = "Mock Card Name",
+    purchasePriceCurrency = "CAD",
     quantity = getRandomNumber(1, 4),
     rarity = getRandomRarity(),
     setCode = generateMockSetCode(),
+    setName = "Mock Set Name",
 }: GenerateMockCardProps = {}): ManaBox.Card => {
     return {
-        binderName: "Mock Binder Name",
+        binderName,
         binderType,
-        name: "Mock Card Name",
+        name,
         setCode,
-        setName: "Mock Set Name",
+        setName,
         collectorNumber,
         foil,
         rarity,
@@ -76,8 +91,8 @@ export const generateMockCard = ({
         misprint: getRandomMisprint(),
         altered: getRandomAltered(),
         condition: getRandomCondition(),
-        language: "en",
-        purchasePriceCurrency: "CAD",
+        language,
+        purchasePriceCurrency,
     };
 };
 
@@ -91,8 +106,13 @@ type GenerateMockCardsProps = {
  */
 export const generateMockCards = ({
     cardProps = [],
-    count = getRandomNumber(1, 5),
+    count,
 }: GenerateMockCardsProps = {}): ManaBox.Card[] => {
+    count =
+        count !== undefined && count !== null
+            ? count
+            : cardProps.length || getRandomNumber(1, 5);
+
     return Array.from({ length: count }).map((_, i) =>
         generateMockCard(cardProps[i] || {})
     );

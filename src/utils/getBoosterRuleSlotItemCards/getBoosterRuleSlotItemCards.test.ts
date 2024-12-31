@@ -1,38 +1,43 @@
 import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
 import { FULL_ART_BASIC_LANDS_BLB } from "@/constants/play-booster-rules/blb";
-import { getBoosterRuleSlotItemCards, getCardsMap } from "@/utils";
+import {
+    getBoosterRuleSlotItemCards,
+    getCardsMap,
+    getRandomNumberExcluding,
+} from "@/utils";
 import { generateMockCard, generateMockCards } from "@/utils/test-utils";
 
 describe("getBoosterRuleSlotItemCards", () => {
     it("should return only common cards for a simple common slot", () => {
         const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[0][0]; // First common slot
 
+        const unavailableCollectorNumbers =
+            selectedSlot.denyList?.map((item) => item.collectorNumber) || [];
+
         const commonCards = generateMockCards({
-            cardProps: Array(5)
-                .fill({
-                    foil: "normal",
-                    quantity: 1,
-                    rarity: "common",
-                })
-                .map((card, index) => ({
-                    ...card,
-                    collectorNumber: index + 1,
-                })),
-            count: 5,
+            cardProps: Array(5).fill({
+                collectorNumber: getRandomNumberExcluding(
+                    unavailableCollectorNumbers,
+                    1,
+                    100
+                ),
+                foil: "normal",
+                quantity: 1,
+                rarity: "common",
+            }),
         });
 
         const uncommonCards = generateMockCards({
-            cardProps: Array(5)
-                .fill({
-                    foil: "normal",
-                    quantity: 1,
-                    rarity: "uncommon",
-                })
-                .map((card, index) => ({
-                    ...card,
-                    collectorNumber: index + 10,
-                })),
-            count: 5,
+            cardProps: Array(5).fill({
+                collectorNumber: getRandomNumberExcluding(
+                    unavailableCollectorNumbers,
+                    101,
+                    200
+                ),
+                foil: "normal",
+                quantity: 1,
+                rarity: "uncommon",
+            }),
         });
 
         const totalCards = [...commonCards, ...uncommonCards];
@@ -50,6 +55,9 @@ describe("getBoosterRuleSlotItemCards", () => {
     it("should exclude cards from the deny list", () => {
         const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[0][0]; // First common slot
 
+        const unavailableCollectorNumbers =
+            selectedSlot.denyList?.map((item) => item.collectorNumber) || [];
+
         const deniedCards = (selectedSlot.denyList || []).map((card) =>
             generateMockCard({
                 ...card,
@@ -60,17 +68,14 @@ describe("getBoosterRuleSlotItemCards", () => {
         );
 
         const commonCards = generateMockCards({
-            cardProps: Array(5)
-                .fill({
-                    foil: "normal",
-                    quantity: 1,
-                    rarity: "common",
-                })
-                .map((card, index) => ({
-                    ...card,
-                    collectorNumber: index + 1,
-                })),
-            count: 5,
+            cardProps: Array(5).fill({
+                collectorNumber: getRandomNumberExcluding(
+                    unavailableCollectorNumbers
+                ),
+                foil: "normal",
+                quantity: 1,
+                rarity: "common",
+            }),
         });
 
         const totalCards = [...commonCards, ...deniedCards];
@@ -136,32 +141,33 @@ describe("getBoosterRuleSlotItemCards", () => {
     it("should handle foil cards correctly in a traditional foil slot", () => {
         const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[12][0]; // Traditional foil slot
 
+        const unavailableCollectorNumbers =
+            selectedSlot.denyList?.map((item) => item.collectorNumber) || [];
+
         const commonFoilCards = generateMockCards({
-            cardProps: Array(5)
-                .fill({
-                    foil: "foil",
-                    quantity: 1,
-                    rarity: "common",
-                })
-                .map((card, index) => ({
-                    ...card,
-                    collectorNumber: index + 1,
-                })),
-            count: 5,
+            cardProps: Array(5).fill({
+                collectorNumber: getRandomNumberExcluding(
+                    unavailableCollectorNumbers,
+                    1,
+                    100
+                ),
+                foil: "foil",
+                quantity: 1,
+                rarity: "common",
+            }),
         });
 
         const uncommonFoilCards = generateMockCards({
-            cardProps: Array(5)
-                .fill({
-                    foil: "foil",
-                    quantity: 1,
-                    rarity: "uncommon",
-                })
-                .map((card, index) => ({
-                    ...card,
-                    collectorNumber: index + 10,
-                })),
-            count: 5,
+            cardProps: Array(5).fill({
+                collectorNumber: getRandomNumberExcluding(
+                    unavailableCollectorNumbers,
+                    101,
+                    200
+                ),
+                foil: "foil",
+                quantity: 1,
+                rarity: "uncommon",
+            }),
         });
 
         const totalCards = [...commonFoilCards, ...uncommonFoilCards];
@@ -181,6 +187,7 @@ describe("getBoosterRuleSlotItemCards", () => {
         const basicLandCards = generateMockCards({
             cardProps: Array(5)
                 .fill({
+                    collectorNumber: getRandomNumberExcluding([], 1, 100),
                     foil: "normal",
                     rarity: "common",
                     superType: "basic",
@@ -189,27 +196,17 @@ describe("getBoosterRuleSlotItemCards", () => {
                 })
                 .map((card, index) => ({
                     ...card,
-                    collectorNumber: index + 1, // Ensure unique collector number
+                    name: MTG.BASIC_LAND_NAMES[index],
                 })),
-            count: 5,
-        });
-
-        basicLandCards.forEach((card, index) => {
-            card.name = MTG.BASIC_LAND_NAMES[index];
         });
 
         const NonBasicLandCards = generateMockCards({
-            cardProps: Array(5)
-                .fill({
-                    foil: "normal",
-                    quantity: 1,
-                    rarity: "common",
-                })
-                .map((card, index) => ({
-                    ...card,
-                    collectorNumber: index + 10,
-                })),
-            count: 5,
+            cardProps: Array(5).fill({
+                collectorNumber: getRandomNumberExcluding([], 101, 200),
+                foil: "normal",
+                quantity: 1,
+                rarity: "common",
+            }),
         });
 
         const totalCards = [...basicLandCards, ...NonBasicLandCards];

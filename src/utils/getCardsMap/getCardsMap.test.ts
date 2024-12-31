@@ -11,7 +11,6 @@ describe("getCardsMap", () => {
 
     it("should create a map with the correct number of unique entries", () => {
         const cards = generateMockCards({
-            count: 3,
             cardProps: [
                 { quantity: 1, setCode: "set1" },
                 { quantity: 2, setCode: "set2" },
@@ -53,7 +52,6 @@ describe("getCardsMap", () => {
 
     it("should correctly split card quantities into individual entries", () => {
         const cards = generateMockCards({
-            count: 1,
             cardProps: [{ quantity: 5, setCode: "set1" }],
         });
 
@@ -75,7 +73,6 @@ describe("getCardsMap", () => {
 
     it("should correctly handle duplicate scryfallIDs with different quantities", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { quantity: 3, setCode: "set1" },
                 { quantity: 2, setCode: "set2" },

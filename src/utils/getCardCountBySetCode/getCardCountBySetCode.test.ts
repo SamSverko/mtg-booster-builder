@@ -10,7 +10,6 @@ describe("getCardCountBySetCode", () => {
 
     it("should return correct card counts by set code", () => {
         const cards = generateMockCards({
-            count: 3,
             cardProps: [
                 { setCode: "SET1", quantity: 2 },
                 { setCode: "SET2", quantity: 3 },
@@ -24,7 +23,6 @@ describe("getCardCountBySetCode", () => {
 
     it("should sum quantities for the same set code", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { setCode: "SET1", quantity: 5 },
                 { setCode: "SET1", quantity: 7 },
@@ -37,7 +35,6 @@ describe("getCardCountBySetCode", () => {
 
     it("should sort by quantity in descending order", () => {
         const cards = generateMockCards({
-            count: 3,
             cardProps: [
                 { setCode: "SET1", quantity: 5 },
                 { setCode: "SET2", quantity: 3 },
@@ -55,7 +52,6 @@ describe("getCardCountBySetCode", () => {
 
     it("should handle cards with zero quantities correctly", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { setCode: "SET1", quantity: 0 },
                 { setCode: "SET2", quantity: 5 },
@@ -68,7 +64,6 @@ describe("getCardCountBySetCode", () => {
 
     it("should throw an error if any card has a negative quantity", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { setCode: "SET1", quantity: -3 },
                 { setCode: "SET1", quantity: 5 },

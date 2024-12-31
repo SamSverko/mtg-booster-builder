@@ -8,7 +8,6 @@ describe("getCardCount", () => {
 
     it("should return the correct total when there is one card", () => {
         const cards = generateMockCards({
-            count: 1,
             cardProps: [{ quantity: 3 }],
         });
 
@@ -17,7 +16,6 @@ describe("getCardCount", () => {
 
     it("should return the correct total when there are multiple cards", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [{ quantity: 3 }, { quantity: 4 }],
         });
 
@@ -26,7 +24,6 @@ describe("getCardCount", () => {
 
     it("should handle cards with a quantity of 0", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [{ quantity: 3 }, { quantity: 0 }],
         });
 
@@ -35,7 +32,6 @@ describe("getCardCount", () => {
 
     it("should return 0 when all cards have a quantity of 0", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [{ quantity: 0 }, { quantity: 0 }],
         });
 
@@ -44,7 +40,6 @@ describe("getCardCount", () => {
 
     it("should throw an error if any card has a negative quantity", () => {
         const cards = generateMockCards({
-            count: 1,
             cardProps: [{ quantity: -1 }],
         });
 

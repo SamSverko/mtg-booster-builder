@@ -8,7 +8,6 @@ import { generateMockBoosters } from "@/utils/test-utils";
 describe("deserializeBoosters", () => {
     it("should deserialize a valid query string", () => {
         const mockBoosters = generateMockBoosters({
-            count: 3,
             boosterProps: [
                 { setCode: "SET001" },
                 { setCode: "SET002" },

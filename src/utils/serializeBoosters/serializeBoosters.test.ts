@@ -8,7 +8,6 @@ import { generateMockBoosters } from "@/utils/test-utils";
 describe("serializeBoosters", () => {
     it("should serialize boosters into a compressed string", () => {
         const mockBoosters = generateMockBoosters({
-            count: 3,
             boosterProps: [
                 { setCode: "SET001" },
                 { setCode: "SET002" },

@@ -67,22 +67,12 @@ export const generateBoosters = ({
                 return;
             }
 
-            // Filter cards based on setCode
-            const setCards = availableCardsMap.get(setCode) || [];
-
-            if (setCards.length === 0) {
-                response.errors.push(`No cards found for set code: ${setCode}`);
-                return;
-            }
-
             // Loop through each allocatedBoosterCount and generate a booster
             for (let i = 0; i < allocatedBoosterCount; i++) {
                 const booster: App.PlayBooster = {
                     setCode,
                     cards: [],
                 };
-
-                // TODO - implement logic for generic booster - land slot
 
                 // Get that set's booster rule, otherwise use the generic booster rule
                 const boosterRuleExists =

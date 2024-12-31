@@ -10,7 +10,6 @@ describe("getCardCountByBinderType", () => {
 
     it("should return correct card counts by binder type", () => {
         const cards = generateMockCards({
-            count: 3,
             cardProps: [
                 { binderType: "deck", quantity: 2 },
                 { binderType: "binder", quantity: 3 },
@@ -27,7 +26,6 @@ describe("getCardCountByBinderType", () => {
 
     it("should sum quantities for the same binder type", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { binderType: "binder", quantity: 5 },
                 { binderType: "binder", quantity: 7 },
@@ -40,7 +38,6 @@ describe("getCardCountByBinderType", () => {
 
     it("should sort by quantity in descending order", () => {
         const cards = generateMockCards({
-            count: 3,
             cardProps: [
                 { binderType: "deck", quantity: 5 },
                 { binderType: "binder", quantity: 3 },
@@ -58,7 +55,6 @@ describe("getCardCountByBinderType", () => {
 
     it("should handle cards with zero quantities correctly", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { binderType: "binder", quantity: 0 },
                 { binderType: "deck", quantity: 5 },
@@ -74,7 +70,6 @@ describe("getCardCountByBinderType", () => {
 
     it("should throw an error if any card has a negative quantity", () => {
         const cards = generateMockCards({
-            count: 2,
             cardProps: [
                 { binderType: "binder", quantity: -3 },
                 { binderType: "binder", quantity: 5 },

@@ -1,10 +1,10 @@
-import { MTG } from "@/constants";
+import { PLAY_BOOSTER_RULES } from "@/constants";
 import { App } from "@/types";
 import { getBoosterRuleSlotItem } from "@/utils";
 
 describe("getBoosterRuleSlotItem", () => {
     it("should return a valid item from a simple slot", () => {
-        const slot = MTG.PLAY_BOOSTER_RULE.slots[0];
+        const slot = PLAY_BOOSTER_RULES.generic.slots[0];
         const item = getBoosterRuleSlotItem(slot);
 
         expect(item).toBeDefined();
@@ -14,7 +14,7 @@ describe("getBoosterRuleSlotItem", () => {
     });
 
     it("should handle multiple items in a slot and respect the percentage distribution", () => {
-        const slot = MTG.PLAY_BOOSTER_RULE.slots[6];
+        const slot = PLAY_BOOSTER_RULES.generic.slots[6];
         const item = getBoosterRuleSlotItem(slot);
 
         expect(item).toBeDefined();
@@ -32,7 +32,7 @@ describe("getBoosterRuleSlotItem", () => {
     });
 
     it("should return a rare or mythic item when the mocked random value targets that range", () => {
-        const slot = MTG.PLAY_BOOSTER_RULE.slots[6]; // Slot with multiple rarities
+        const slot = PLAY_BOOSTER_RULES.generic.slots[6]; // Slot with multiple rarities
 
         // Temporarily override Math.random() to return a value that will result in 'mythic' rarity selection
         const originalMathRandom = Math.random;
@@ -54,7 +54,7 @@ describe("getBoosterRuleSlotItem", () => {
     });
 
     it("should handle the wildcard slots", () => {
-        const slot = MTG.PLAY_BOOSTER_RULE.slots[12]; // Wildcard slot with specific rarities and percentages
+        const slot = PLAY_BOOSTER_RULES.generic.slots[12]; // Wildcard slot with specific rarities and percentages
         const item = getBoosterRuleSlotItem(slot);
 
         expect(item).toBeDefined();

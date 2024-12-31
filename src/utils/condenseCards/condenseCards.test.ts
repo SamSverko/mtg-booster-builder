@@ -1,6 +1,6 @@
 import { condenseCards, type CardCondensed } from "@/utils";
 import { generateMockCard } from "@/utils/test-utils";
-import { ManaBox, App } from "@/types";
+import { ManaBox } from "@/types";
 
 describe("condenseCard", () => {
     it("should condense a card into the correct format", () => {

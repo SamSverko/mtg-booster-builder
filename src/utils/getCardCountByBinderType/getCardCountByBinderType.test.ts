@@ -1,6 +1,5 @@
 import { getCardCountByBinderType, type CardCountByBinderType } from "@/utils";
 import { generateMockCards } from "@/utils/test-utils";
-import { App } from "@/types";
 
 describe("getCardCountByBinderType", () => {
     it("should return an empty object for an empty array", () => {

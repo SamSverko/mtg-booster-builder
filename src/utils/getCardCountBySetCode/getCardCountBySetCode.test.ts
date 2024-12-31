@@ -1,6 +1,5 @@
 import { getCardCountBySetCode, type CardCountBySetCode } from "@/utils";
 import { generateMockCards } from "@/utils/test-utils";
-import { App } from "@/types";
 
 describe("getCardCountBySetCode", () => {
     it("should return an empty object for an empty array", () => {

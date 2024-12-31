@@ -25,7 +25,6 @@ describe("getCardCount", () => {
             allocatedBoosterCountBySetCode,
             cards,
         });
-        console.log(boosters);
 
         expect(1).toBe(1);
     });

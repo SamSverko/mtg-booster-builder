@@ -9,7 +9,9 @@ export {
     type CardCondensed,
 } from "@/utils/condenseCards/condenseCards";
 export { generateBoosters } from "@/utils/generateBoosters/generateBoosters";
+export { getCardsMap } from "@/utils/getCardsMap/getCardsMap";
 export { getBoosterRuleSlotItem } from "@/utils/getBoosterRuleSlotItem/getBoosterRuleSlotItem";
+export { getBoosterRuleSlotItemCards } from "@/utils/getBoosterRuleSlotItemCards/getBoosterRuleSlotItemCards";
 export { getCardCount } from "@/utils/getCardCount/getCardCount";
 export {
     getCardCountByBinderType,

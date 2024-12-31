@@ -1,5 +1,10 @@
-import { MTG } from "@/constants";
-import { getBoosterRuleSlotItem, type CardCountBySetCode } from "@/utils";
+import { PLAY_BOOSTER_RULES } from "@/constants";
+import {
+    getBoosterRuleSlotItem,
+    getBoosterRuleSlotItemCards,
+    getCardsMap,
+    type CardCountBySetCode,
+} from "@/utils";
 import { App, ManaBox } from "@/types";
 
 type GenerateBoostersProps = {
@@ -31,36 +36,23 @@ export const generateBoosters = ({
     }
 
     // 2) Filter cards based on the allocatedBoosterCountBySetCode
-    const cardsWithMatchingSetCode = cards.filter((card) => {
+    const cardsWithAllocatedSetCodes = cards.filter((card) => {
         return Object.keys(allocatedBoosterCountBySetCode).includes(
             card.setCode
         );
     });
 
-    if (cardsWithMatchingSetCode.length === 0) {
-        response.errors.push("No cards with matching set code found.");
+    if (cardsWithAllocatedSetCodes.length === 0) {
+        response.errors.push(
+            "No cards matching any allocated set codes found."
+        );
         return response;
     }
 
     // 3) Create a map to track available cards with their quantities
-    const availableCards = new Map<string, ManaBox.Card[]>();
+    const availableCardsMap = getCardsMap(cardsWithAllocatedSetCodes);
 
-    cardsWithMatchingSetCode.forEach((card) => {
-        // If the card isn't already in the map, add it
-        if (!availableCards.has(card.scryfallID)) {
-            availableCards.set(card.scryfallID, []);
-        }
-
-        // Push card copies into the map based on quantity
-        for (let i = 0; i < card.quantity; i++) {
-            availableCards.get(card.scryfallID)?.push({
-                ...card,
-                quantity: 1,
-            });
-        }
-    });
-
-    if (availableCards.size === 0) {
+    if (availableCardsMap.size === 0) {
         response.errors.push("No cards available.");
         return response;
     }
@@ -76,9 +68,7 @@ export const generateBoosters = ({
             }
 
             // Filter cards based on setCode
-            const setCards = cardsWithMatchingSetCode.filter(
-                (card) => card.setCode === setCode
-            );
+            const setCards = availableCardsMap.get(setCode) || [];
 
             if (setCards.length === 0) {
                 response.errors.push(`No cards found for set code: ${setCode}`);
@@ -87,26 +77,34 @@ export const generateBoosters = ({
 
             // Loop through each allocatedBoosterCount and generate a booster
             for (let i = 0; i < allocatedBoosterCount; i++) {
-                const usedScryfallIDs = new Set<string>();
                 const booster: App.PlayBooster = {
                     setCode,
                     cards: [],
                 };
 
+                // TODO - implement logic for generic booster - land slot
+
+                // Get that set's booster rule, otherwise use the generic booster rule
+                const boosterRuleExists =
+                    Object.keys(PLAY_BOOSTER_RULES).includes(setCode);
+
+                const boosterRule = boosterRuleExists
+                    ? PLAY_BOOSTER_RULES[setCode]
+                    : PLAY_BOOSTER_RULES.generic;
+
                 // Loop through each slot in the booster rule
-                MTG.PLAY_BOOSTER_RULE.slots.forEach((slot) => {
+                boosterRule.slots.forEach((slot) => {
                     const selectedSlot = getBoosterRuleSlotItem(slot);
 
-                    // Filter matching cards
-                    // TODO - break out into a separate function with tests
-                    const matchingCards = filterMatchingCards(
-                        availableCards,
-                        selectedSlot
-                    );
+                    // Filter matching cards based on the selected slot item
+                    const slotCards = getBoosterRuleSlotItemCards({
+                        availableCardsMap,
+                        selectedSlot,
+                    });
 
-                    if (matchingCards.length === 0) {
+                    if (slotCards.length === 0) {
                         response.errors.push(
-                            `No matching cards found for slot: ${JSON.stringify(
+                            `No available cards found for slot: ${JSON.stringify(
                                 selectedSlot
                             )}`
                         );
@@ -115,15 +113,13 @@ export const generateBoosters = ({
 
                     // Randomly select a card from the matching cards
                     const selectedCard =
-                        matchingCards[
-                            Math.floor(Math.random() * matchingCards.length)
-                        ];
+                        slotCards[Math.floor(Math.random() * slotCards.length)];
 
                     // Add the selected card to the booster
                     booster.cards.push(selectedCard);
 
                     // Remove the selected card from the available cards
-                    availableCards.get(selectedCard.scryfallID)?.shift();
+                    availableCardsMap.get(selectedCard.scryfallID)?.shift();
                 });
 
                 // Add the booster to the response
@@ -134,30 +130,3 @@ export const generateBoosters = ({
 
     return response;
 };
-
-/**
- * Filter cards based on the selected slot item.
- */
-function filterMatchingCards(
-    availableCards: Map<string, ManaBox.Card[]>,
-    selectedSlot: App.PlayBoosterRuleSlotItem
-) {
-    // Filter cards by rarity and foil, and also account for quantity
-    const matchingCards: ManaBox.Card[] = [];
-
-    availableCards.forEach((cards) => {
-        cards.forEach((card) => {
-            if (
-                card.rarity === selectedSlot.rarity &&
-                card.foil === selectedSlot.foil
-            ) {
-                // Add the card to matchingCards based on its quantity
-                for (let i = 0; i < card.quantity; i++) {
-                    matchingCards.push(card);
-                }
-            }
-        });
-    });
-
-    return matchingCards;
-}

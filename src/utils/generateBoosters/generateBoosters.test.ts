@@ -1,4 +1,4 @@
-import { MTG } from "@/constants";
+import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
 import {
     FULL_ART_BASIC_LANDS_BLB,
     NONBASIC_LANDS_BLB,
@@ -70,6 +70,11 @@ describe("getCardCount", () => {
 
         expect(boosters.errors).toEqual([]);
         expect(boosters.boosters.length).toBe(2);
+        for (const booster of boosters.boosters) {
+            expect(booster.cards.length).toBe(
+                PLAY_BOOSTER_RULES.generic.slots.length
+            );
+        }
     });
 
     it("should return an error if no cards are provided", () => {

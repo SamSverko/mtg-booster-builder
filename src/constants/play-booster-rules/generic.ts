@@ -22,10 +22,10 @@ export const PLAY_BOOSTER_RULE_GENERIC: App.PlayBoosterRule = {
         // 6 - Common
         [{ foil: "normal", percentage: 100, rarity: "common" }],
         // 7 - Common/The List (ignoring 'The List' for now, but keeping rarity percentages)
+        // TODO - Handle The List
         [
             { foil: "normal", percentage: 87.5, rarity: "common" },
-            { foil: "normal", percentage: 4.69, rarity: "uncommon" },
-            { foil: "normal", percentage: 4.69, rarity: "uncommon" },
+            { foil: "normal", percentage: 9.38, rarity: "uncommon" },
             { foil: "normal", percentage: 1.56, rarity: "rare" },
             { foil: "normal", percentage: 1.56, rarity: "mythic" },
         ],

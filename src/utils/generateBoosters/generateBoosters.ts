@@ -1,8 +1,8 @@
 import { PLAY_BOOSTER_RULES } from "@/constants";
 import {
-    getBoosterRuleSlotItem,
     getBoosterRuleSlotItemCards,
     getCardsMap,
+    getOrderedBoosterRuleSlotItems,
     type CardCountBySetCode,
 } from "@/utils";
 import { App, ManaBox } from "@/types";
@@ -84,36 +84,51 @@ export const generateBoosters = ({
 
                 // Loop through each slot in the booster rule
                 boosterRule.slots.forEach((slot) => {
-                    const selectedSlot = getBoosterRuleSlotItem(slot);
+                    const orderedSlots = getOrderedBoosterRuleSlotItems(slot); // Get ordered slots
 
-                    // Filter matching cards based on the selected slot item
-                    const slotCards = getBoosterRuleSlotItemCards({
-                        availableCardsMap,
-                        selectedSlot,
-                    });
+                    let cardAdded = false; // Flag to track if we've added a card for this slot
 
-                    if (slotCards.length === 0) {
-                        response.errors.push(
-                            `No available cards found for slot: ${JSON.stringify(
-                                selectedSlot
-                            )}`
-                        );
-                        return;
+                    // Try the ordered slots in order until we find a card
+                    for (const selectedSlot of orderedSlots) {
+                        const slotCards = getBoosterRuleSlotItemCards({
+                            availableCardsMap,
+                            selectedSlot,
+                        });
+
+                        if (slotCards.length > 0) {
+                            // Randomly select a card from the matching cards
+                            const selectedCard =
+                                slotCards[
+                                    Math.floor(Math.random() * slotCards.length)
+                                ];
+
+                            // Add the selected card to the booster
+                            booster.cards.push(selectedCard);
+
+                            // Remove the selected card from the available cards
+                            availableCardsMap
+                                .get(selectedCard.scryfallID)
+                                ?.shift();
+
+                            cardAdded = true; // Mark as card added
+                            break; // Stop after the first valid selection
+                        }
                     }
 
-                    // Randomly select a card from the matching cards
-                    const selectedCard =
-                        slotCards[Math.floor(Math.random() * slotCards.length)];
-
-                    // Add the selected card to the booster
-                    booster.cards.push(selectedCard);
-
-                    // Remove the selected card from the available cards
-                    availableCardsMap.get(selectedCard.scryfallID)?.shift();
+                    // If no card was added for this slot, log an error
+                    if (!cardAdded) {
+                        response.errors.push(
+                            `No available cards found for slot: ${JSON.stringify(
+                                orderedSlots
+                            )}`
+                        );
+                    }
                 });
 
-                // Add the booster to the response
-                response.boosters.push(booster);
+                // Add the booster to the response if it has cards
+                if (booster.cards.length > 0) {
+                    response.boosters.push(booster);
+                }
             }
         }
     );

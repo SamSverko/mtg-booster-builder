@@ -1,4 +1,4 @@
-import { PLAY_BOOSTER_RULES } from "@/constants";
+import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
 import { App, ManaBox } from "@/types";
 
 type GenerateMockBoosterProps = {
@@ -115,6 +115,172 @@ export const generateMockCards = ({
 
     return Array.from({ length: count }).map((_, i) =>
         generateMockCard(cardProps[i] || {})
+    );
+};
+
+type GenerateMockLibraryProps = {
+    sets?: {
+        setCode?: string;
+        commonCardCount?: number;
+        uncommonCardCount?: number;
+        rareCardCount?: number;
+        mythicCardCount?: number;
+        commonFoilCardCount?: number;
+        uncommonFoilCardCount?: number;
+        rareFoilCardCount?: number;
+        mythicFoilCardCount?: number;
+        basicLandCardCount?: number;
+        basicLandFoilCardCount?: number;
+    }[];
+};
+
+/**
+ * Generate a mock library.
+ */
+
+export const generateMockLibrary = ({
+    sets,
+}: GenerateMockLibraryProps = {}): ManaBox.Card[] => {
+    const defaultSet = {
+        setCode: "ABC",
+        commonCardCount: 25,
+        uncommonCardCount: 25,
+        rareCardCount: 25,
+        mythicCardCount: 25,
+        commonFoilCardCount: 25,
+        uncommonFoilCardCount: 25,
+        rareFoilCardCount: 25,
+        mythicFoilCardCount: 25,
+        basicLandCardCount: 25,
+        basicLandFoilCardCount: 25,
+    };
+
+    const setsToGenerate = sets || [{ ...defaultSet }];
+
+    const generatedCards = setsToGenerate.map(
+        ({
+            setCode,
+            commonCardCount = 25,
+            uncommonCardCount = 25,
+            rareCardCount = 25,
+            mythicCardCount = 25,
+            commonFoilCardCount = 25,
+            uncommonFoilCardCount = 25,
+            rareFoilCardCount = 25,
+            mythicFoilCardCount = 25,
+            basicLandCardCount = 25,
+            basicLandFoilCardCount = 25,
+        }) => {
+            return {
+                common: generateMockCards({
+                    cardProps: Array(commonCardCount).fill({
+                        foil: "normal",
+                        quantity: 1,
+                        rarity: "common",
+                        setCode,
+                    }),
+                }),
+                uncommon: generateMockCards({
+                    cardProps: Array(uncommonCardCount).fill({
+                        foil: "normal",
+                        quantity: 1,
+                        rarity: "uncommon",
+                        setCode,
+                    }),
+                }),
+                rare: generateMockCards({
+                    cardProps: Array(rareCardCount).fill({
+                        foil: "normal",
+                        quantity: 1,
+                        rarity: "rare",
+                        setCode,
+                    }),
+                }),
+                mythic: generateMockCards({
+                    cardProps: Array(mythicCardCount).fill({
+                        foil: "normal",
+                        quantity: 1,
+                        rarity: "mythic",
+                        setCode,
+                    }),
+                }),
+                commonFoil: generateMockCards({
+                    cardProps: Array(commonFoilCardCount).fill({
+                        foil: "foil",
+                        quantity: 1,
+                        rarity: "common",
+                        setCode,
+                    }),
+                }),
+                uncommonFoil: generateMockCards({
+                    cardProps: Array(uncommonFoilCardCount).fill({
+                        foil: "foil",
+                        quantity: 1,
+                        rarity: "uncommon",
+                        setCode,
+                    }),
+                }),
+                rareFoil: generateMockCards({
+                    cardProps: Array(rareFoilCardCount).fill({
+                        foil: "foil",
+                        quantity: 1,
+                        rarity: "rare",
+                        setCode,
+                    }),
+                }),
+                mythicFoil: generateMockCards({
+                    cardProps: Array(mythicFoilCardCount).fill({
+                        foil: "foil",
+                        quantity: 1,
+                        rarity: "mythic",
+                        setCode,
+                    }),
+                }),
+                basicLand: generateMockCards({
+                    cardProps: Array(basicLandCardCount)
+                        .fill({
+                            foil: "normal",
+                            quantity: 1,
+                            rarity: "common",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: MTG.BASIC_LAND_NAMES[index % 5],
+                        })),
+                }),
+                basicLandFoil: generateMockCards({
+                    cardProps: Array(basicLandFoilCardCount)
+                        .fill({
+                            foil: "foil",
+                            quantity: 1,
+                            rarity: "common",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: MTG.BASIC_LAND_NAMES[index % 5],
+                        })),
+                }),
+            };
+        }
+    );
+
+    return generatedCards.reduce(
+        (acc: ManaBox.Card[], set) =>
+            acc.concat(
+                set.common,
+                set.uncommon,
+                set.rare,
+                set.mythic,
+                set.commonFoil,
+                set.uncommonFoil,
+                set.rareFoil,
+                set.mythicFoil,
+                set.basicLand,
+                set.basicLandFoil
+            ),
+        [] as ManaBox.Card[]
     );
 };
 

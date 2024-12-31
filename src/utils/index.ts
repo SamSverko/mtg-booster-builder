@@ -10,7 +10,6 @@ export {
 } from "@/utils/condenseCards/condenseCards";
 export { generateBoosters } from "@/utils/generateBoosters/generateBoosters";
 export { getCardsMap } from "@/utils/getCardsMap/getCardsMap";
-export { getBoosterRuleSlotItem } from "@/utils/getBoosterRuleSlotItem/getBoosterRuleSlotItem";
 export { getBoosterRuleSlotItemCards } from "@/utils/getBoosterRuleSlotItemCards/getBoosterRuleSlotItemCards";
 export { getCardCount } from "@/utils/getCardCount/getCardCount";
 export {
@@ -21,5 +20,6 @@ export {
     getCardCountBySetCode,
     type CardCountBySetCode,
 } from "@/utils/getCardCountBySetCode/getCardCountBySetCode";
+export { getOrderedBoosterRuleSlotItems } from "@/utils/getOrderedBoosterRuleSlotItems/getOrderedBoosterRuleSlotItems";
 export { getRandomNumberExcluding } from "@/utils/getRandomNumberExcluding/getRandomNumberExcluding";
 export { serializeBoosters } from "@/utils/serializeBoosters/serializeBoosters";

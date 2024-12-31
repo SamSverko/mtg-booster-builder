@@ -68,7 +68,11 @@ export const generateBoosters = ({
             }
 
             // Loop through each allocatedBoosterCount and generate a booster
-            for (let i = 0; i < allocatedBoosterCount; i++) {
+            for (
+                let boosterIndex = 0;
+                boosterIndex < allocatedBoosterCount;
+                boosterIndex++
+            ) {
                 const booster: App.PlayBooster = {
                     setCode,
                     cards: [],
@@ -83,7 +87,7 @@ export const generateBoosters = ({
                     : PLAY_BOOSTER_RULES.generic;
 
                 // Loop through each slot in the booster rule
-                boosterRule.slots.forEach((slot) => {
+                boosterRule.slots.forEach((slot, slotIndex) => {
                     const orderedSlots = getOrderedBoosterRuleSlotItems(slot); // Get ordered slots
 
                     let cardAdded = false; // Flag to track if we've added a card for this slot
@@ -118,7 +122,7 @@ export const generateBoosters = ({
                     // If no card was added for this slot, log an error
                     if (!cardAdded) {
                         response.errors.push(
-                            `No available cards found for slot: ${JSON.stringify(
+                            `[Booster: ${boosterIndex} | Slot: ${slotIndex}] No available cards found for slot: ${JSON.stringify(
                                 orderedSlots
                             )}`
                         );

@@ -17,7 +17,7 @@ import {
 } from "@/components";
 import { MTG } from "@/constants";
 import { App, ManaBox, MTG as MTGType } from "@/types";
-import { getSerializedBoostersUrl } from "@/utils";
+import { generateBoosters, serializeBoosters } from "@/utils";
 
 export default function HomePage() {
     const router = useRouter();
@@ -209,15 +209,30 @@ export default function HomePage() {
                         onClick={() => {
                             setIsGenerating(true);
 
-                            const serializedBoostersUrl =
-                                getSerializedBoostersUrl(
-                                    cardDataFiltered?.cards,
-                                    allocatedBoosterCountBySetCode
-                                );
+                            if (!cardDataFiltered?.cards) return;
 
-                            if (serializedBoostersUrl) {
-                                router.push(serializedBoostersUrl);
+                            const generatedBoosters = generateBoosters({
+                                allocatedBoosterCountBySetCode,
+                                cards: cardDataFiltered?.cards,
+                            });
+
+                            console.log(generatedBoosters);
+
+                            if (generatedBoosters.errors.length) {
+                                console.error(generatedBoosters.errors);
+                                setIsGenerating(false);
+                                return;
                             }
+
+                            const serializedBoosters = serializeBoosters(
+                                generatedBoosters.boosters
+                            );
+
+                            router.push(
+                                `/boosters/?serializedBoosters=${serializedBoosters}`
+                            );
+
+                            setIsGenerating(false);
                         }}
                         startIcon={
                             isGenerating && <CircularProgress size={20} />

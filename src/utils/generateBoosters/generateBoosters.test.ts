@@ -141,23 +141,23 @@ describe("getCardCount", () => {
                 sets: [
                     {
                         setCode: "abc",
-                        commonCardCount: 8 * boosterCount, // covers slots 1, 2, 3, 4, 5, 6, 7, 14
-                        uncommonCardCount: 3 * boosterCount, // covers slots 8, 9, 10
-                        rareCardCount: 1 * boosterCount, // covers slot 11
-                        mythicCardCount: 0,
-                        commonFoilCardCount: 1 * boosterCount, // covers slot 13
-                        uncommonFoilCardCount: 0,
-                        rareFoilCardCount: 0,
-                        mythicFoilCardCount: 0,
-                        basicLandCardCount: 1 * boosterCount, // covers slot 12
-                        basicLandFoilCardCount: 0,
+                        commonCardCount: 9 * boosterCount,
+                        uncommonCardCount: 5 * boosterCount,
+                        rareCardCount: 3 * boosterCount,
+                        mythicCardCount: 3 * boosterCount,
+                        commonFoilCardCount: 1 * boosterCount,
+                        uncommonFoilCardCount: 1 * boosterCount,
+                        rareFoilCardCount: 1 * boosterCount,
+                        mythicFoilCardCount: 1 * boosterCount,
+                        basicLandCardCount: 1 * boosterCount,
+                        basicLandFoilCardCount: 1 * boosterCount,
                     },
                 ],
             }),
         });
 
         for (const booster of boosters.boosters) {
-            const cardIds = booster.cards.map((card) => card.scryfallID);
+            const cardIds = booster.cards.map((card) => card.collectorNumber);
             const uniqueCardIds = new Set(cardIds);
             expect(uniqueCardIds.size).toBe(cardIds.length);
         }

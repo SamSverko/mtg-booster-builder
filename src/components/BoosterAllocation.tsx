@@ -15,15 +15,16 @@ import {
 } from "@mui/material";
 
 import { CountInput, CountInputOnChangeEvent } from "@/components";
-import { MTG } from "@/constants";
+import { PLAY_BOOSTER_RULES } from "@/constants";
 import { App } from "@/types";
+import { type CardCountBySetCode } from "@/utils";
 
 type SetSelectionProps = {
     allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode;
     onChange: (
         allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode
     ) => void;
-    cardCountBySetCode?: App.CardCountBySetCode;
+    cardCountBySetCode?: CardCountBySetCode;
     requiredBoosterCount: number;
     totalAllocatedBoosters: number;
 };
@@ -53,7 +54,8 @@ export function BoosterAllocation({
 
             const currentCount = allocatedBoosterCountBySetCode[setCode] ?? 0;
             const maxBoostersForSet = Math.floor(
-                cardCountBySetCode[setCode] / MTG.PLAY_BOOSTER_RULE.slots.length
+                cardCountBySetCode[setCode] /
+                    PLAY_BOOSTER_RULES.generic.slots.length
             ); // Calculate max boosters this set can handle based on card count
 
             const newCount =
@@ -135,7 +137,7 @@ export function BoosterAllocation({
                                 const notEnoughCards =
                                     cardCountInSet <
                                     (allocatedBoostersForSet + 1) *
-                                        MTG.PLAY_BOOSTER_RULE.slots.length;
+                                        PLAY_BOOSTER_RULES.generic.slots.length;
 
                                 return (
                                     <TableRow key={setCode}>

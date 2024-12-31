@@ -1,4 +1,4 @@
-import { App, ManaBox, MTG } from "@/types";
+import { ManaBox, MTG } from "@/types";
 
 /**
  * Sourced from [MTG Wiki - Basic land](https://mtg.fandom.com/wiki/Basic_land)
@@ -64,7 +64,7 @@ export const FORMAT_NONE: MTG.Format = {
 };
 
 /**
- * Special Guests (SPG) set.
+ * Special Guests (SPG) set (aka The List).
  *
  * Sourced from [Scryfall](https://scryfall.com/sets/spg).
  */

@@ -1,4 +1,4 @@
-import { PLAY_BOOSTER_RULES } from "@/constants";
+import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
 import { FULL_ART_BASIC_LANDS_BLB } from "@/constants/play-booster-rules/blb";
 import { getBoosterRuleSlotItemCards, getCardsMap } from "@/utils";
 import { generateMockCard, generateMockCards } from "@/utils/test-utils";
@@ -173,5 +173,57 @@ describe("getBoosterRuleSlotItemCards", () => {
         });
 
         expect(result.every((card) => card.foil === "foil")).toBeTruthy();
+    });
+
+    it("should return only basic lands for a basic land slot", () => {
+        const selectedSlot = PLAY_BOOSTER_RULES.generic.slots[11][0]; // Basic Land Slot
+
+        const basicLandCards = generateMockCards({
+            cardProps: Array(5)
+                .fill({
+                    foil: "normal",
+                    rarity: "common",
+                    superType: "basic",
+                    type: "land",
+                    quantity: 1,
+                })
+                .map((card, index) => ({
+                    ...card,
+                    collectorNumber: index + 1, // Ensure unique collector number
+                })),
+            count: 5,
+        });
+
+        basicLandCards.forEach((card, index) => {
+            card.name = MTG.BASIC_LAND_NAMES[index];
+        });
+
+        const NonBasicLandCards = generateMockCards({
+            cardProps: Array(5)
+                .fill({
+                    foil: "normal",
+                    quantity: 1,
+                    rarity: "common",
+                })
+                .map((card, index) => ({
+                    ...card,
+                    collectorNumber: index + 10,
+                })),
+            count: 5,
+        });
+
+        const totalCards = [...basicLandCards, ...NonBasicLandCards];
+        const availableCardsMap = getCardsMap(totalCards);
+
+        const result = getBoosterRuleSlotItemCards({
+            availableCardsMap,
+            selectedSlot,
+        });
+
+        // Ensure only basic lands are returned
+        expect(result.length).toBe(basicLandCards.length);
+        expect(
+            result.every((card) => MTG.BASIC_LAND_NAMES.includes(card.name))
+        ).toBeTruthy();
     });
 });

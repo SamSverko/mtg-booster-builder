@@ -21,4 +21,5 @@ export {
     getCardCountBySetCode,
     type CardCountBySetCode,
 } from "@/utils/getCardCountBySetCode/getCardCountBySetCode";
+export { getRandomNumberExcluding } from "@/utils/getRandomNumberExcluding/getRandomNumberExcluding";
 export { serializeBoosters } from "@/utils/serializeBoosters/serializeBoosters";

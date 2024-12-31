@@ -55,7 +55,7 @@ describe("getRandomNumberExcluding", () => {
     });
 
     it("should ensure uniqueness in the excluded numbers array", () => {
-        const excluded = [5, 5, 5, 5]; // Array with duplicate numbers
+        const excluded = [1, 3, 5, 5, 5]; // Array with duplicate numbers
         const result = getRandomNumberExcluding(excluded, 1, 10);
 
         expect(result).not.toBe(5); // Ensure 5 is excluded despite duplicates

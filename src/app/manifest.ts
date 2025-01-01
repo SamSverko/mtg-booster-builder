@@ -1,11 +1,11 @@
 import { MetadataRoute } from "next";
 
-import { APP } from "@/constants";
+import { APP_DESCRIPTION, APP_TITLE } from "@/constants";
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
         background_color: "#ffffff",
-        description: APP.DESCRIPTION,
+        description: APP_DESCRIPTION,
         display: "standalone",
         icons: [
             {
@@ -27,11 +27,11 @@ export default function manifest(): MetadataRoute.Manifest {
                 type: "image/png",
             },
         ],
-        name: APP.TITLE,
+        name: APP_TITLE,
         orientation: "portrait",
         prefer_related_applications: true,
         scope: ".",
-        short_name: APP.TITLE,
+        short_name: APP_TITLE,
         start_url: "/",
         theme_color: "#ffffff",
     };

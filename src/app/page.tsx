@@ -15,7 +15,7 @@ import {
     StepContent,
     StepLabel,
 } from "@/components";
-import { MTG } from "@/constants";
+import { FORMAT_NONE } from "@/constants";
 import { App, ManaBox, MTG as MTGType } from "@/types";
 import { generateBoosters, serializeBoosters } from "@/utils";
 
@@ -148,9 +148,7 @@ export default function HomePage() {
                             : undefined
                     }
                     label={`Set ${
-                        format?.name === MTG.FORMAT_NONE.name
-                            ? "booster"
-                            : "player"
+                        format?.name === FORMAT_NONE.name ? "booster" : "player"
                     } count`}
                 />
                 <StepContent

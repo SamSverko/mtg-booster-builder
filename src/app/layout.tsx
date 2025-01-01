@@ -4,7 +4,13 @@ import { type Metadata, type Viewport } from "next";
 import { Roboto } from "next/font/google";
 
 import { AppBar } from "@/components/AppBar";
-import { APP } from "@/constants";
+import {
+    APP_AUTHOR,
+    APP_DESCRIPTION,
+    APP_MAX_WIDTH,
+    APP_TITLE,
+    APP_URL,
+} from "@/constants";
 
 const roboto = Roboto({
     subsets: ["latin"],
@@ -14,7 +20,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
     appleWebApp: {
-        title: APP.TITLE,
+        title: APP_TITLE,
         statusBarStyle: "default",
         startupImage: [
             {
@@ -47,25 +53,25 @@ export const metadata: Metadata = {
             },
         ],
     },
-    applicationName: APP.TITLE,
-    description: APP.DESCRIPTION,
-    creator: APP.AUTHOR,
-    metadataBase: new URL(APP.URL),
+    applicationName: APP_TITLE,
+    description: APP_DESCRIPTION,
+    creator: APP_AUTHOR,
+    metadataBase: new URL(APP_URL),
     openGraph: {
-        description: APP.DESCRIPTION,
+        description: APP_DESCRIPTION,
         images: [
             {
-                alt: `${APP.TITLE} logo`,
+                alt: `${APP_TITLE} logo`,
                 height: 1200,
                 url: "/opengraph-image.png",
                 width: 630,
             },
         ],
         locale: "en_US",
-        siteName: APP.TITLE,
-        title: APP.TITLE,
+        siteName: APP_TITLE,
+        title: APP_TITLE,
         type: "website",
-        url: APP.URL,
+        url: APP_URL,
     },
     robots: {
         index: false,
@@ -75,7 +81,7 @@ export const metadata: Metadata = {
             follow: false,
         },
     },
-    title: APP.TITLE,
+    title: APP_TITLE,
 };
 
 export const viewport: Viewport = {
@@ -102,7 +108,7 @@ export default function RootLayout({
                         alignItems="center"
                         justifyContent="center"
                         margin="0 auto"
-                        maxWidth={APP.MAX_WIDTH}
+                        maxWidth={APP_MAX_WIDTH}
                         px={1}
                         py={2}
                     >

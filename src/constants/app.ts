@@ -1,19 +1,19 @@
 /**
  * Metadata
  */
-export const AUTHOR = "Sam Sverko";
-export const DESCRIPTION =
+export const APP_AUTHOR = "Sam Sverko";
+export const APP_DESCRIPTION =
     'Generate custom "Magic: The Gathering" Play Booster Packs from your library.';
-export const TITLE = "MTG Booster Builder";
-export const URL = "https://mtg-booster-builder.vercel.app";
+export const APP_TITLE = "MTG Booster Builder";
+export const APP_URL = "https://mtg-booster-builder.vercel.app";
 
 /**
  * UI
  */
-export const MAX_WIDTH = "600px";
-export const TOOLBAR_HEIGHT = "48px";
+export const APP_MAX_WIDTH = "600px";
+export const APP_TOOLBAR_HEIGHT = "48px";
 
 /**
  * Local Storage
  */
-export const SERIALIZED_BOOSTERS_LS_KEY = "serializedBoosters";
+export const LS_KEY_SERIALIZED_BOOSTERS = "serializedBoosters";

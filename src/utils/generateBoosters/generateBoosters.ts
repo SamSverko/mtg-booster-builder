@@ -1,4 +1,4 @@
-import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
+import { BASIC_LAND_NAMES, PLAY_BOOSTER_RULES } from "@/constants";
 import {
     getBoosterRuleSlotItemCards,
     getCardsMap,
@@ -107,13 +107,12 @@ export const generateBoosters = ({
                             selectedSlot.type === "land"
                         ) {
                             slotCards = slotCards.filter((card) =>
-                                MTG.BASIC_LAND_NAMES.includes(card.name)
+                                BASIC_LAND_NAMES.includes(card.name)
                             );
                         } else {
                             // Exclude basic lands for other slots
                             slotCards = slotCards.filter(
-                                (card) =>
-                                    !MTG.BASIC_LAND_NAMES.includes(card.name)
+                                (card) => !BASIC_LAND_NAMES.includes(card.name)
                             );
                         }
 

@@ -7,7 +7,7 @@ import { App } from "@/types";
  *
  * Wildcard slots info sourced from [Reward Distribution | Magic: The Gathering Arena](https://magic.wizards.com/en/mtgarena/drop-rates).
  */
-export const PLAY_BOOSTER_RULE_GENERIC: App.PlayBoosterRule = {
+export const PLAY_BOOSTER_RULE: App.PlayBoosterRule = {
     slots: [
         // 1 - Common
         [{ foil: "normal", percentage: 100, rarity: "common" }],

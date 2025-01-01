@@ -1,6 +1,6 @@
 import { List, ListItem, Typography } from "@mui/material";
 
-import { PLAY_BOOSTER_RULES } from "@/constants";
+import { PLAY_BOOSTER_RULE } from "@/constants";
 import { App } from "@/types";
 
 type ConfirmDetailsProps = {
@@ -15,7 +15,7 @@ export function ConfirmDetails({
     allocatedBoosterCountBySetCode,
     requiredBoosterCount,
 }: ConfirmDetailsProps) {
-    const cardCountPerBooster = PLAY_BOOSTER_RULES.generic.slots.length;
+    const cardCountPerBooster = PLAY_BOOSTER_RULE.slots.length;
     const requiredTotalCardCount = requiredBoosterCount * cardCountPerBooster;
 
     return (

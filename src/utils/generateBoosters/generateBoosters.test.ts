@@ -1,70 +1,71 @@
-import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
 import {
-    FULL_ART_BASIC_LANDS_BLB,
+    BASIC_LANDS_FULL_ART_BLB,
     NONBASIC_LANDS_BLB,
-} from "@/constants/play-booster-rules/blb";
+    PLAY_BOOSTER_RULE,
+    THE_LIST,
+} from "@/constants";
 
 import { generateBoosters } from "@/utils";
 import { generateMockCards, generateMockLibrary } from "@/utils/test-utils";
 
 const theListCards = generateMockCards({
-    cardProps: MTG.THE_LIST.blb,
+    cardProps: THE_LIST.blb,
 });
 
 const blbCards = [
     ...generateMockLibrary({ sets: [{ setCode: "blb" }] }),
     ...generateMockCards({
         cardProps: [
-            ...FULL_ART_BASIC_LANDS_BLB.autumn.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.autumn.map((card, index) => {
                 return {
                     ...card,
                     foil: "normal" as const,
                     name: `Mock Full Art Basic Land Card - Autumn ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.autumn.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.autumn.map((card, index) => {
                 return {
                     ...card,
                     foil: "foil" as const,
                     name: `Mock Full Art Basic Land Foil Card - Autumn ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.spring.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.spring.map((card, index) => {
                 return {
                     ...card,
                     foil: "normal" as const,
                     name: `Mock Full Art Basic Land Card - Spring ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.spring.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.spring.map((card, index) => {
                 return {
                     ...card,
                     foil: "foil" as const,
                     name: `Mock Full Art Basic Land Foil Card - Spring ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.summer.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.summer.map((card, index) => {
                 return {
                     ...card,
                     foil: "normal" as const,
                     name: `Mock Full Art Basic Land Card - Summer ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.summer.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.summer.map((card, index) => {
                 return {
                     ...card,
                     foil: "foil" as const,
                     name: `Mock Full Art Basic Land Foil Card - Summer ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.winter.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.winter.map((card, index) => {
                 return {
                     ...card,
                     foil: "normal" as const,
                     name: `Mock Full Art Basic Land Card - Winter ${index}`,
                 };
             }),
-            ...FULL_ART_BASIC_LANDS_BLB.winter.map((card, index) => {
+            ...BASIC_LANDS_FULL_ART_BLB.winter.map((card, index) => {
                 return {
                     ...card,
                     foil: "foil" as const,
@@ -156,9 +157,7 @@ describe("getCardCount", () => {
 
         expect(boosters.boosters.length).toBe(2);
         boosters.boosters.forEach((booster) => {
-            expect(booster.cards.length).toBe(
-                PLAY_BOOSTER_RULES.generic.slots.length
-            );
+            expect(booster.cards.length).toBe(PLAY_BOOSTER_RULE.slots.length);
         });
     });
 

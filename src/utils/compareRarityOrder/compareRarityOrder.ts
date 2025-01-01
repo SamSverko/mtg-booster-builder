@@ -1,4 +1,4 @@
-import { MTG } from "@/constants";
+import { RARITY_ORDER } from "@/constants";
 import { ManaBox } from "@/types";
 
 /**
@@ -8,9 +8,9 @@ export const compareRarityOrder = (
     a: ManaBox.CardRarity,
     b: ManaBox.CardRarity
 ): number => {
-    if (!(a in MTG.RARITY_ORDER) || !(b in MTG.RARITY_ORDER)) {
+    if (!(a in RARITY_ORDER) || !(b in RARITY_ORDER)) {
         throw new Error("Invalid rarity");
     }
 
-    return MTG.RARITY_ORDER[a] - MTG.RARITY_ORDER[b];
+    return RARITY_ORDER[a] - RARITY_ORDER[b];
 };

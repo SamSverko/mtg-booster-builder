@@ -1,5 +1,9 @@
-import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
-import { FULL_ART_BASIC_LANDS_BLB } from "@/constants/play-booster-rules/blb";
+import {
+    BASIC_LANDS_FULL_ART_BLB,
+    BASIC_LAND_NAMES,
+    PLAY_BOOSTER_RULE,
+    PLAY_BOOSTER_RULE_BLB,
+} from "@/constants";
 import {
     getBoosterRuleSlotItemCards,
     getCardsMap,
@@ -9,7 +13,7 @@ import { generateMockCard, generateMockCards } from "@/utils/test-utils";
 
 describe("getBoosterRuleSlotItemCards", () => {
     it("should return only common cards for a simple common slot", () => {
-        const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[0][0]; // First common slot
+        const selectedSlot = PLAY_BOOSTER_RULE_BLB.slots[0][0]; // First common slot
 
         const unavailableCollectorNumbers =
             selectedSlot.denyList?.map((item) => item.collectorNumber) || [];
@@ -53,7 +57,7 @@ describe("getBoosterRuleSlotItemCards", () => {
     });
 
     it("should exclude cards from the deny list", () => {
-        const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[0][0]; // First common slot
+        const selectedSlot = PLAY_BOOSTER_RULE_BLB.slots[0][0]; // First common slot
 
         const unavailableCollectorNumbers =
             selectedSlot.denyList?.map((item) => item.collectorNumber) || [];
@@ -99,7 +103,7 @@ describe("getBoosterRuleSlotItemCards", () => {
     });
 
     it("should include only cards from the allow list", () => {
-        const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[13][0]; // Seasonal full-art basic lands (spring, normal)
+        const selectedSlot = PLAY_BOOSTER_RULE_BLB.slots[13][0]; // Seasonal full-art basic lands (spring, normal)
 
         const allowedCards = (selectedSlot.allowList || []).map((card) =>
             generateMockCard({
@@ -110,7 +114,7 @@ describe("getBoosterRuleSlotItemCards", () => {
             })
         );
 
-        const otherSeasonCards = FULL_ART_BASIC_LANDS_BLB.summer.map((card) =>
+        const otherSeasonCards = BASIC_LANDS_FULL_ART_BLB.summer.map((card) =>
             generateMockCard({
                 ...card,
                 foil: "normal",
@@ -139,7 +143,7 @@ describe("getBoosterRuleSlotItemCards", () => {
     });
 
     it("should handle foil cards correctly in a traditional foil slot", () => {
-        const selectedSlot = PLAY_BOOSTER_RULES.blb.slots[12][0]; // Traditional foil slot
+        const selectedSlot = PLAY_BOOSTER_RULE_BLB.slots[12][0]; // Traditional foil slot
 
         const unavailableCollectorNumbers =
             selectedSlot.denyList?.map((item) => item.collectorNumber) || [];
@@ -182,7 +186,7 @@ describe("getBoosterRuleSlotItemCards", () => {
     });
 
     it("should return only basic lands for a basic land slot", () => {
-        const selectedSlot = PLAY_BOOSTER_RULES.generic.slots[11][0]; // Basic Land Slot
+        const selectedSlot = PLAY_BOOSTER_RULE.slots[11][0]; // Basic Land Slot
 
         const basicLandCards = generateMockCards({
             cardProps: Array(5)
@@ -196,7 +200,7 @@ describe("getBoosterRuleSlotItemCards", () => {
                 })
                 .map((card, index) => ({
                     ...card,
-                    name: MTG.BASIC_LAND_NAMES[index],
+                    name: BASIC_LAND_NAMES[index],
                 })),
         });
 
@@ -220,7 +224,7 @@ describe("getBoosterRuleSlotItemCards", () => {
         // Ensure only basic lands are returned
         expect(result.length).toBe(basicLandCards.length);
         expect(
-            result.every((card) => MTG.BASIC_LAND_NAMES.includes(card.name))
+            result.every((card) => BASIC_LAND_NAMES.includes(card.name))
         ).toBeTruthy();
     });
 });

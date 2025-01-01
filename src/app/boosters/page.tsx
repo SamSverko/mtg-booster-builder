@@ -6,7 +6,7 @@ import { Suspense, useEffect, useState } from "react";
 
 import { BoostersTable } from "@/components";
 import { deserializeBoosters } from "@/utils";
-import { APP } from "@/constants";
+import { LS_KEY_SERIALIZED_BOOSTERS, APP_TOOLBAR_HEIGHT } from "@/constants";
 
 function BoostersPageClient() {
     const searchParams = useSearchParams();
@@ -19,13 +19,13 @@ function BoostersPageClient() {
     useEffect(() => {
         if (serializedBoosters) {
             localStorage.setItem(
-                APP.SERIALIZED_BOOSTERS_LS_KEY,
+                LS_KEY_SERIALIZED_BOOSTERS,
                 serializedBoosters
             );
             setIsLoading(false);
         } else {
             const savedBoosters = localStorage.getItem(
-                APP.SERIALIZED_BOOSTERS_LS_KEY
+                LS_KEY_SERIALIZED_BOOSTERS
             );
             if (savedBoosters) {
                 const newUrl = new URL(window.location.href);
@@ -45,7 +45,7 @@ function BoostersPageClient() {
             display="flex"
             flexDirection="column"
             height={(theme) =>
-                `calc(100dvh - ${APP.TOOLBAR_HEIGHT} - ${theme.spacing(4)})`
+                `calc(100dvh - ${APP_TOOLBAR_HEIGHT} - ${theme.spacing(4)})`
             }
             gap={2}
             width="100%"

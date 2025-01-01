@@ -1,4 +1,4 @@
-import { MTG } from "@/constants";
+import { BASIC_LAND_NAMES } from "@/constants";
 import { App, ManaBox } from "@/types";
 
 type GetBoosterRuleSlotItemCardsProps = {
@@ -22,7 +22,7 @@ export const getBoosterRuleSlotItemCards = ({
                 selectedSlot.superType === "basic" &&
                 selectedSlot.type === "land"
             ) {
-                if (MTG.BASIC_LAND_NAMES.includes(card.name)) {
+                if (BASIC_LAND_NAMES.includes(card.name)) {
                     for (let i = 0; i < card.quantity; i++) {
                         matchingCards.push(card);
                     }

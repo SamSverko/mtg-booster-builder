@@ -1,4 +1,4 @@
-import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
+import { BASIC_LAND_NAMES, PLAY_BOOSTER_RULE } from "@/constants";
 import { App, ManaBox } from "@/types";
 
 type GenerateMockBoosterProps = {
@@ -18,7 +18,7 @@ export const generateMockBooster = ({
     return {
         setCode,
         cards: Array.from({
-            length: PLAY_BOOSTER_RULES.generic.slots.length,
+            length: PLAY_BOOSTER_RULE.slots.length,
         }).map((_, i) => generateMockCard(cardProps[i] || {})),
     };
 };
@@ -286,7 +286,7 @@ export const generateMockLibrary = ({
                         })
                         .map((card, index) => ({
                             ...card,
-                            name: MTG.BASIC_LAND_NAMES[index % 5],
+                            name: BASIC_LAND_NAMES[index % 5],
                         })),
                 }),
                 basicLandFoil: generateMockCards({
@@ -299,7 +299,7 @@ export const generateMockLibrary = ({
                         })
                         .map((card, index) => ({
                             ...card,
-                            name: MTG.BASIC_LAND_NAMES[index % 5],
+                            name: BASIC_LAND_NAMES[index % 5],
                         })),
                 }),
             };

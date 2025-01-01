@@ -1,4 +1,4 @@
-import { MTG } from "@/constants";
+import { RARITY_ORDER } from "@/constants";
 import { ManaBox } from "@/types";
 import { compareRarityOrder } from "@/utils";
 
@@ -30,8 +30,8 @@ describe("compareRarityOrder", () => {
     });
 
     it("should correctly use the RARITY_ORDER mapping for comparison", () => {
-        Object.entries(MTG.RARITY_ORDER).forEach(([rarity, order]) => {
-            const otherOrder = MTG.RARITY_ORDER[rarity as ManaBox.CardRarity];
+        Object.entries(RARITY_ORDER).forEach(([rarity, order]) => {
+            const otherOrder = RARITY_ORDER[rarity as ManaBox.CardRarity];
 
             expect(
                 compareRarityOrder(

@@ -1,4 +1,4 @@
-import { PLAY_BOOSTER_RULES } from "@/constants";
+import { PLAY_BOOSTER_RULE } from "@/constants";
 import { ManaBox } from "@/types";
 import { condenseBoosters, type BoosterCondensed } from "@/utils";
 import { generateMockBooster } from "@/utils/test-utils";
@@ -16,7 +16,7 @@ describe("condenseBooster", () => {
 
         const mockBooster = generateMockBooster({
             cardProps: Array.from({
-                length: PLAY_BOOSTER_RULES.generic.slots.length,
+                length: PLAY_BOOSTER_RULE.slots.length,
             }).map(() => cardProps),
         });
 
@@ -26,7 +26,7 @@ describe("condenseBooster", () => {
             {
                 s: cardProps.setCode,
                 c: Array.from({
-                    length: PLAY_BOOSTER_RULES.generic.slots.length,
+                    length: PLAY_BOOSTER_RULE.slots.length,
                 }).map(() => ({
                     b: "binder",
                     c: 123,
@@ -59,14 +59,14 @@ describe("condenseBooster", () => {
 
         const mockBooster1 = generateMockBooster({
             cardProps: Array.from({
-                length: PLAY_BOOSTER_RULES.generic.slots.length,
+                length: PLAY_BOOSTER_RULE.slots.length,
             }).map(() => cardPropsBooster1),
             setCode: "SET1",
         });
 
         const mockBooster2 = generateMockBooster({
             cardProps: Array.from({
-                length: PLAY_BOOSTER_RULES.generic.slots.length,
+                length: PLAY_BOOSTER_RULE.slots.length,
             }).map(() => cardPropsBooster2),
             setCode: "SET2",
         });
@@ -77,7 +77,7 @@ describe("condenseBooster", () => {
             {
                 s: "SET1",
                 c: Array.from({
-                    length: PLAY_BOOSTER_RULES.generic.slots.length,
+                    length: PLAY_BOOSTER_RULE.slots.length,
                 }).map(() => ({
                     b: "binder",
                     c: 101,
@@ -89,7 +89,7 @@ describe("condenseBooster", () => {
             {
                 s: "SET2",
                 c: Array.from({
-                    length: PLAY_BOOSTER_RULES.generic.slots.length,
+                    length: PLAY_BOOSTER_RULE.slots.length,
                 }).map(() => ({
                     b: "binder",
                     c: 202,

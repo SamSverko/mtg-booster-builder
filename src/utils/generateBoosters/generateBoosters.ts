@@ -81,11 +81,12 @@ export const generateBoosters = ({
                 const boosterCardNames = new Set<string>(); // Track card names in this booster
 
                 // Get that set's booster rule, otherwise use the generic booster rule
-                const boosterRuleExists =
-                    Object.keys(PLAY_BOOSTER_RULES).includes(setCode);
+                const boosterRuleExists = Object.keys(
+                    PLAY_BOOSTER_RULES
+                ).includes(setCode.toLowerCase());
 
                 const boosterRule = boosterRuleExists
-                    ? PLAY_BOOSTER_RULES[setCode]
+                    ? PLAY_BOOSTER_RULES[setCode.toLowerCase()]
                     : PLAY_BOOSTER_RULES.generic;
 
                 // Loop through each slot in the booster rule
@@ -99,6 +100,7 @@ export const generateBoosters = ({
                         let slotCards = getBoosterRuleSlotItemCards({
                             availableCardsMap,
                             selectedSlot,
+                            setCode,
                         });
 
                         // Handle specific case for basic lands

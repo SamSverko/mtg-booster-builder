@@ -4,6 +4,7 @@ import { type Card, type PlayBoosterRuleSlotItem } from "@/types";
 type GetBoosterRuleSlotItemCardsProps = {
     availableCardsMap: Map<string, Card[]>;
     selectedSlot: PlayBoosterRuleSlotItem;
+    setCode: Card["setCode"];
 };
 
 /**
@@ -12,6 +13,7 @@ type GetBoosterRuleSlotItemCardsProps = {
 export const getBoosterRuleSlotItemCards = ({
     availableCardsMap,
     selectedSlot,
+    setCode,
 }: GetBoosterRuleSlotItemCardsProps): Card[] => {
     const matchingCards: Card[] = [];
 
@@ -30,10 +32,11 @@ export const getBoosterRuleSlotItemCards = ({
                 return; // Skip further checks if it's a basic land slot
             }
 
-            // Check if card matches the rarity and foil criteria
-            const matchesRarityAndFoil =
+            // Check if card matches the rarity, foil, and setCode criteria
+            const matchesRarityFoilAndSetCode =
                 card.rarity === selectedSlot.rarity &&
-                card.foil === selectedSlot.foil;
+                card.foil === selectedSlot.foil &&
+                card.setCode === setCode;
 
             // Check if the card is allowed by the allowList and not excluded by the denyList
             const isAllowed =
@@ -52,8 +55,25 @@ export const getBoosterRuleSlotItemCards = ({
                       )
                     : true);
 
-            // If it matches and is allowed, add the card to the matchingCards array
-            if (matchesRarityAndFoil && isAllowed) {
+            // If the card matches rarity, foil, and setCode, add it
+            if (matchesRarityFoilAndSetCode) {
+                // If it's in the denyList, skip it
+                if (!isAllowed) {
+                    return;
+                }
+
+                for (let i = 0; i < card.quantity; i++) {
+                    matchingCards.push(card);
+                }
+            }
+            // If the first check fails but the card is in the allowList, add it
+            else if (
+                selectedSlot.allowList &&
+                selectedSlot.allowList.some(
+                    (allowedCard) =>
+                        allowedCard.collectorNumber === card.collectorNumber
+                )
+            ) {
                 for (let i = 0; i < card.quantity; i++) {
                     matchingCards.push(card);
                 }

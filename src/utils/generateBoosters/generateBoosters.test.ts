@@ -8,11 +8,11 @@ import { generateBoosters } from "@/utils";
 import { generateMockCards, generateMockLibrary } from "@/utils/test-utils";
 
 const theListCards = generateMockCards({
-    cardProps: THE_LIST.blb,
+    cardProps: THE_LIST.BLB,
 });
 
 const blbCards = [
-    ...generateMockLibrary({ sets: [{ setCode: "blb" }] }),
+    ...generateMockLibrary({ sets: [{ setCode: "BLB" }] }),
     ...generateMockCards({
         cardProps: [
             ...BASIC_LANDS_FULL_ART_BLB.autumn.map((card, index) => {
@@ -124,7 +124,7 @@ const blbCards = [
 const insufficentCardCountLibrary = generateMockLibrary({
     sets: [
         {
-            setCode: "blb",
+            setCode: "BLB",
             commonCardCount: 1,
             uncommonCardCount: 1,
             rareCardCount: 1,
@@ -147,7 +147,7 @@ describe("getCardCount", () => {
     it("should generate boosters without errors", () => {
         const boosters = generateBoosters({
             allocatedBoosterCountBySetCode: {
-                blb: 2,
+                BLB: 2,
             },
             cards: [...blbCards, ...theListCards],
         });
@@ -162,7 +162,7 @@ describe("getCardCount", () => {
 
     it("should return an error if no cards are provided", () => {
         const boosters = generateBoosters({
-            allocatedBoosterCountBySetCode: { blb: 1 },
+            allocatedBoosterCountBySetCode: { BLB: 1 },
             cards: [],
         });
 
@@ -172,7 +172,7 @@ describe("getCardCount", () => {
 
     it("should return an error if no cards match the set codes", () => {
         const boosters = generateBoosters({
-            allocatedBoosterCountBySetCode: { blb: 1 },
+            allocatedBoosterCountBySetCode: { BLB: 1 },
             cards: generateMockCards({ cardProps: [{ setCode: "xyz" }] }),
         });
 
@@ -184,19 +184,19 @@ describe("getCardCount", () => {
 
     it("should handle the case where no boosters are allocated", () => {
         const boosters = generateBoosters({
-            allocatedBoosterCountBySetCode: { blb: 0 },
+            allocatedBoosterCountBySetCode: { BLB: 0 },
             cards: blbCards,
         });
 
         expect(boosters.errors).toContain(
-            "Skipping blb as allocated booster count is 0 or less."
+            "Skipping BLB as allocated booster count is 0 or less."
         );
         expect(boosters.boosters.length).toBe(0);
     });
 
     it("should return an error if there are not enough cards available for a booster slot", () => {
         const boosters = generateBoosters({
-            allocatedBoosterCountBySetCode: { blb: 1 },
+            allocatedBoosterCountBySetCode: { BLB: 1 },
             cards: insufficentCardCountLibrary,
         });
 

@@ -2,40 +2,48 @@ import { THE_LIST } from "@/constants";
 import { PlayBoosterRule } from "@/types";
 
 /**
+ *
+ * Bloomburrow full-art basic lands.
+ *
  * Sourced from [Scryfall](https://scryfall.com/sets/blb).
  */
 export const BASIC_LANDS_FULL_ART_BLB = {
     spring: [262, 266, 270, 274, 278].map((collectorNumber) => ({
         collectorNumber,
-        setCode: "blb",
+        setCode: "BLB",
     })),
     summer: [263, 267, 271, 275, 279].map((collectorNumber) => ({
         collectorNumber,
-        setCode: "blb",
+        setCode: "BLB",
     })),
     autumn: [264, 268, 272, 276, 280].map((collectorNumber) => ({
         collectorNumber,
-        setCode: "blb",
+        setCode: "BLB",
     })),
     winter: [265, 269, 273, 277, 281].map((collectorNumber) => ({
         collectorNumber,
-        setCode: "blb",
+        setCode: "BLB",
     })),
 };
 
+/**
+ * Bloomburrow nonbasic lands.
+ *
+ * Sourced from [Scryfall](https://scryfall.com/sets/blb).
+ */
 export const NONBASIC_LANDS_BLB = {
     common: [254, 261, 396, 397].map((collectorNumber) => ({
         collectorNumber,
-        setCode: "blb",
+        setCode: "BLB",
     })),
     uncommon: [255, 256, 257, 258, 259].map((collectorNumber) => ({
         collectorNumber,
-        setCode: "blb",
+        setCode: "BLB",
     })),
     rare: [252, 253, 260, 337, 338, 339, 340, 367, 368].map(
         (collectorNumber) => ({
             collectorNumber,
-            setCode: "blb",
+            setCode: "BLB",
         })
     ),
 };
@@ -44,6 +52,8 @@ export const NONBASIC_LANDS_BLB = {
  * Bloomburrow Play Booster, excluding non-playable card slot.
  *
  * Slot info sourced from [Collecting Bloomburrow](https://magic.wizards.com/en/news/feature/collecting-bloomburrow).
+ *
+ * Wildcard slots percentages mirrors the generic Play Booster (since the source doesn't provide specifics).
  */
 export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
     slots: [
@@ -159,7 +169,7 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
                 rarity: "common",
             },
             {
-                allowList: THE_LIST.blb,
+                allowList: THE_LIST.BLB,
                 foil: "normal",
                 percentage: 1.5,
                 rarity: "mythic",

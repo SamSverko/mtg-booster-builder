@@ -1,5 +1,8 @@
 import { PLAY_BOOSTER_RULE } from "@/constants";
-import { App } from "@/types";
+import {
+    type PlayBoosterRuleSlot,
+    type PlayBoosterRuleSlotItem,
+} from "@/types";
 import { getOrderedBoosterRuleSlotItems } from "@/utils"; // Updated function name
 
 describe("getOrderedBoosterRuleSlotItems", () => {
@@ -37,12 +40,12 @@ describe("getOrderedBoosterRuleSlotItems", () => {
     });
 
     it("should work correctly when there's only one item in the slot", () => {
-        const slot: App.PlayBoosterRuleSlot = [
+        const slot: PlayBoosterRuleSlot = [
             { foil: "normal", percentage: 100, rarity: "common" },
         ];
         const orderedItems = getOrderedBoosterRuleSlotItems(slot);
 
-        expect(orderedItems).toEqual<App.PlayBoosterRuleSlotItem[]>(slot); // Should return the same item
+        expect(orderedItems).toEqual<PlayBoosterRuleSlotItem[]>(slot); // Should return the same item
     });
 
     it("should return the correct ordering when the random value is overridden", () => {
@@ -74,7 +77,7 @@ describe("getOrderedBoosterRuleSlotItems", () => {
     });
 
     it("should handle empty slots gracefully", () => {
-        const emptySlot: App.PlayBoosterRuleSlot = [];
+        const emptySlot: PlayBoosterRuleSlot = [];
 
         expect(() => getOrderedBoosterRuleSlotItems(emptySlot)).toThrow();
     });
@@ -92,7 +95,7 @@ describe("getOrderedBoosterRuleSlotItems", () => {
     });
 
     it("should throw an error if the total percentage doesn't add up to 100", () => {
-        const invalidSlot: App.PlayBoosterRuleSlot = [
+        const invalidSlot: PlayBoosterRuleSlot = [
             { foil: "normal", percentage: 50, rarity: "common" },
             { foil: "normal", percentage: 50, rarity: "uncommon" },
             { foil: "normal", percentage: 50, rarity: "rare" },

@@ -1,4 +1,4 @@
-import { App } from "@/types";
+import { PlayBoosterRule } from "@/types";
 
 /**
  * Generic Play Booster, excluding non-playable card slot.
@@ -7,7 +7,7 @@ import { App } from "@/types";
  *
  * Wildcard slots info sourced from [Reward Distribution | Magic: The Gathering Arena](https://magic.wizards.com/en/mtgarena/drop-rates).
  */
-export const PLAY_BOOSTER_RULE: App.PlayBoosterRule = {
+export const PLAY_BOOSTER_RULE: PlayBoosterRule = {
     slots: [
         // 1 - Common
         [{ foil: "normal", percentage: 100, rarity: "common" }],

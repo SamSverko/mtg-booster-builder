@@ -16,14 +16,11 @@ import {
 
 import { CountInput, CountInputOnChangeEvent } from "@/components";
 import { PLAY_BOOSTER_RULE } from "@/constants";
-import { App } from "@/types";
 import { type CardCountBySetCode } from "@/utils";
 
 type SetSelectionProps = {
-    allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode;
-    onChange: (
-        allocatedBoosterCountBySetCode: App.AllocatedBoosterCountBySetCode
-    ) => void;
+    allocatedBoosterCountBySetCode: CardCountBySetCode;
+    onChange: (allocatedBoosterCountBySetCode: CardCountBySetCode) => void;
     cardCountBySetCode?: CardCountBySetCode;
     requiredBoosterCount: number;
     totalAllocatedBoosters: number;

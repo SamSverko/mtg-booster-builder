@@ -1,16 +1,16 @@
 import { PLAY_BOOSTER_RULE } from "@/constants";
-import { ManaBox } from "@/types";
+import { type BinderType, type CardFoil, type CardRarity } from "@/types";
 import { condenseBoosters, type BoosterCondensed } from "@/utils";
 import { generateMockBooster } from "@/utils/test-utils";
 
 describe("condenseBooster", () => {
     it("should condense a booster with multiple cards", () => {
         const cardProps = {
-            binderType: "binder" as ManaBox.BinderType,
+            binderType: "binder" as BinderType,
             collectorNumber: 123,
-            foil: "foil" as ManaBox.CardFoil,
+            foil: "foil" as CardFoil,
             quantity: 1,
-            rarity: "common" as ManaBox.CardRarity,
+            rarity: "common" as CardRarity,
             setCode: "ABC",
         };
 
@@ -40,20 +40,20 @@ describe("condenseBooster", () => {
 
     it("should condense multiple boosters with various cards", () => {
         const cardPropsBooster1 = {
-            binderType: "binder" as ManaBox.BinderType,
+            binderType: "binder" as BinderType,
             collectorNumber: 101,
-            foil: "normal" as ManaBox.CardFoil,
+            foil: "normal" as CardFoil,
             quantity: 1,
-            rarity: "rare" as ManaBox.CardRarity,
+            rarity: "rare" as CardRarity,
             setCode: "SET1",
         };
 
         const cardPropsBooster2 = {
-            binderType: "binder" as ManaBox.BinderType,
+            binderType: "binder" as BinderType,
             collectorNumber: 202,
-            foil: "foil" as ManaBox.CardFoil,
+            foil: "foil" as CardFoil,
             quantity: 1,
-            rarity: "uncommon" as ManaBox.CardRarity,
+            rarity: "uncommon" as CardRarity,
             setCode: "SET2",
         };
 

@@ -8,21 +8,22 @@ import {
     TableHead,
     TableRow,
 } from "@mui/material";
+import { useMemo } from "react";
 
-import { App, ManaBox } from "@/types";
+import { type CardImportData } from "@/components";
+import { type BinderType, type Card } from "@/types";
 import {
     getCardCount,
     getCardCountByBinderType,
     getCardCountBySetCode,
 } from "@/utils";
-import { useMemo } from "react";
 
 type FilterCardsProps = {
-    binderTypes: ManaBox.BinderType[];
-    cards?: ManaBox.Card[];
+    binderTypes: BinderType[];
+    cards?: Card[];
     onChange: (
-        binderTypes: ManaBox.BinderType[],
-        cardDataFiltered: App.CardData
+        binderTypes: BinderType[],
+        cardDataFiltered: CardImportData
     ) => void;
 };
 
@@ -42,15 +43,15 @@ export function FilterCards({
     const handleChange = (binderType: string, checked: boolean) => {
         if (!cards) return;
 
-        let newBinderTypes: ManaBox.BinderType[] = [];
+        let newBinderTypes: BinderType[] = [];
 
         if (binderType === "*") {
             newBinderTypes = checked
-                ? (Object.keys(cardCountByBinderType) as ManaBox.BinderType[])
+                ? (Object.keys(cardCountByBinderType) as BinderType[])
                 : [];
         } else {
             newBinderTypes = checked
-                ? [...binderTypes, binderType as ManaBox.BinderType]
+                ? [...binderTypes, binderType as BinderType]
                 : binderTypes.filter((type) => type !== binderType);
         }
 
@@ -104,7 +105,7 @@ export function FilterCards({
                                 <TableCell padding="checkbox">
                                     <Checkbox
                                         checked={binderTypes.includes(
-                                            binderType as ManaBox.BinderType
+                                            binderType as BinderType
                                         )}
                                         onChange={(_, checked) => {
                                             handleChange(binderType, checked);
@@ -131,7 +132,7 @@ export function FilterCards({
                                     binderTypes.includes(
                                         Object.keys(cardCountByBinderType)[
                                             index
-                                        ] as ManaBox.BinderType
+                                        ] as BinderType
                                     )
                                 )
                                 .reduce((acc, count) => acc + count, 0)}

@@ -1,5 +1,5 @@
 import { THE_LIST } from "@/constants";
-import { App } from "@/types";
+import { PlayBoosterRule } from "@/types";
 
 /**
  * Sourced from [Scryfall](https://scryfall.com/sets/blb).
@@ -45,7 +45,7 @@ export const NONBASIC_LANDS_BLB = {
  *
  * Slot info sourced from [Collecting Bloomburrow](https://magic.wizards.com/en/news/feature/collecting-bloomburrow).
  */
-export const PLAY_BOOSTER_RULE_BLB: App.PlayBoosterRule = {
+export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
     slots: [
         // 1 - Common
         [

@@ -9,11 +9,11 @@ import {
     FORMAT_NONE,
     FORMAT_SEALED_DECK,
 } from "@/constants";
-import { MTG as MTGType } from "@/types";
+import { type Format } from "@/types";
 
 export type FormatSelectProps = {
-    onChange: (format: MTGType.Format) => void;
-    format?: MTGType.Format;
+    onChange: (format: Format) => void;
+    format?: Format;
 };
 
 /**

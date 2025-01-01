@@ -1,4 +1,4 @@
-import { ManaBox, MTG } from "@/types";
+import { type CardRarity, type Format } from "@/types";
 
 /**
  * Sourced from [MTG Wiki - Basic land](https://mtg.fandom.com/wiki/Basic_land)
@@ -24,7 +24,7 @@ export const RARITY_COLOR = {
 /**
  * Sourced from [MTG Wiki - Rarity](https://mtg.fandom.com/wiki/Rarity)
  */
-export const RARITY_ORDER: Record<ManaBox.CardRarity, number> = {
+export const RARITY_ORDER: Record<CardRarity, number> = {
     common: 0,
     uncommon: 1,
     rare: 2,
@@ -34,7 +34,7 @@ export const RARITY_ORDER: Record<ManaBox.CardRarity, number> = {
 /**
  * Formats
  */
-export const FORMAT_BOOSTER_DRAFT: MTG.Format = {
+export const FORMAT_BOOSTER_DRAFT: Format = {
     boosterPerPlayerCount: 3,
     deckSize: 40,
     details:
@@ -46,7 +46,7 @@ export const FORMAT_BOOSTER_DRAFT: MTG.Format = {
     url: "https://magic.wizards.com/en/formats/booster-draft",
 };
 
-export const FORMAT_SEALED_DECK: MTG.Format = {
+export const FORMAT_SEALED_DECK: Format = {
     boosterPerPlayerCount: 6,
     deckSize: 40,
     details:
@@ -58,7 +58,7 @@ export const FORMAT_SEALED_DECK: MTG.Format = {
     url: "https://magic.wizards.com/en/formats/sealed-deck",
 };
 
-export const FORMAT_NONE: MTG.Format = {
+export const FORMAT_NONE: Format = {
     minPlayerCount: 1,
     name: "No Format",
 };

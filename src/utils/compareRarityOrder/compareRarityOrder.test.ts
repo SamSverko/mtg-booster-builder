@@ -1,5 +1,5 @@
 import { RARITY_ORDER } from "@/constants";
-import { ManaBox } from "@/types";
+import { type CardRarity } from "@/types";
 import { compareRarityOrder } from "@/utils";
 
 describe("compareRarityOrder", () => {
@@ -23,7 +23,7 @@ describe("compareRarityOrder", () => {
     });
 
     it("should throw an error if an invalid rarity is passed", () => {
-        const invalidRarity = "invalidRarity" as ManaBox.CardRarity;
+        const invalidRarity = "invalidRarity" as CardRarity;
 
         expect(() => compareRarityOrder(invalidRarity, "common")).toThrow();
         expect(() => compareRarityOrder("common", invalidRarity)).toThrow();
@@ -31,13 +31,10 @@ describe("compareRarityOrder", () => {
 
     it("should correctly use the RARITY_ORDER mapping for comparison", () => {
         Object.entries(RARITY_ORDER).forEach(([rarity, order]) => {
-            const otherOrder = RARITY_ORDER[rarity as ManaBox.CardRarity];
+            const otherOrder = RARITY_ORDER[rarity as CardRarity];
 
             expect(
-                compareRarityOrder(
-                    rarity as ManaBox.CardRarity,
-                    rarity as ManaBox.CardRarity
-                )
+                compareRarityOrder(rarity as CardRarity, rarity as CardRarity)
             ).toBe(order - otherOrder);
         });
     });

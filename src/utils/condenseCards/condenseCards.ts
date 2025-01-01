@@ -1,32 +1,32 @@
-import { ManaBox } from "@/types";
+import { Card } from "@/types";
 
 export type CardCondensed = {
     /**
      * binderType
      */
-    b: ManaBox.Card["binderType"];
+    b: Card["binderType"];
     /**
      * Collector Number
      */
-    c: ManaBox.Card["collectorNumber"];
+    c: Card["collectorNumber"];
     /**
      * Foil
      */
-    f: ManaBox.Card["foil"];
+    f: Card["foil"];
     /**
      * Name
      */
-    n: ManaBox.Card["name"];
+    n: Card["name"];
     /**
      * Rarity
      */
-    r: ManaBox.Card["rarity"];
+    r: Card["rarity"];
 };
 
 /**
  * Condense card data into the minimal format for storage.
  */
-export const condenseCards = (cards: ManaBox.Card[]): CardCondensed[] => {
+export const condenseCards = (cards: Card[]): CardCondensed[] => {
     if (cards.length === 0) {
         return [];
     }

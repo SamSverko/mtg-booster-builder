@@ -5,15 +5,15 @@ import {
     getOrderedBoosterRuleSlotItems,
     type CardCountBySetCode,
 } from "@/utils";
-import { App, ManaBox } from "@/types";
+import { type Card, type PlayBooster } from "@/types";
 
 type GenerateBoostersProps = {
     allocatedBoosterCountBySetCode: CardCountBySetCode;
-    cards: ManaBox.Card[];
+    cards: Card[];
 };
 
 type GenerateBoostersResponse = {
-    boosters: App.PlayBooster[];
+    boosters: PlayBooster[];
     errors: string[];
 };
 
@@ -73,7 +73,7 @@ export const generateBoosters = ({
                 boosterIndex < allocatedBoosterCount;
                 boosterIndex++
             ) {
-                const booster: App.PlayBooster = {
+                const booster: PlayBooster = {
                     setCode,
                     cards: [],
                 };

@@ -1,6 +1,6 @@
 import { condenseCards, type CardCondensed } from "@/utils";
 import { generateMockCard } from "@/utils/test-utils";
-import { ManaBox } from "@/types";
+import { type Card } from "@/types";
 
 describe("condenseCard", () => {
     it("should condense a card into the correct format", () => {
@@ -66,7 +66,7 @@ describe("condenseCard", () => {
     });
 
     it("should handle minimal data without issues", () => {
-        const minimalCard: ManaBox.Card = {
+        const minimalCard: Card = {
             binderName: "",
             binderType: "binder",
             name: "",
@@ -100,7 +100,7 @@ describe("condenseCard", () => {
     });
 
     it("should correctly map fields from the card input", () => {
-        const mockCard: ManaBox.Card = {
+        const mockCard: Card = {
             binderName: "AnotherBinder",
             binderType: "deck",
             name: "SpecialCard",

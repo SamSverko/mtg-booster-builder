@@ -12,8 +12,12 @@ import Papa from "papaparse";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppLink } from "@/components";
-import { App, ManaBox } from "@/types";
-import { getCardCount, getCardCountBySetCode } from "@/utils";
+import { type Card } from "@/types";
+import {
+    getCardCount,
+    getCardCountBySetCode,
+    type CardCountBySetCode,
+} from "@/utils";
 
 const HiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -27,8 +31,14 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 
+export type CardImportData = {
+    cards: Card[];
+    cardCount: number;
+    cardCountBySetCode: CardCountBySetCode;
+};
+
 export type CardImportProps = {
-    onChange: (event: App.CardData) => void;
+    onChange: (event: CardImportData) => void;
 };
 
 /**
@@ -79,7 +89,7 @@ export function CardImport({ onChange }: CardImportProps) {
 
     const parseFile = useCallback(
         (file: File) => {
-            Papa.parse<ManaBox.Card>(file, {
+            Papa.parse<Card>(file, {
                 header: true,
                 complete: (results) => {
                     setIsLoading(false);

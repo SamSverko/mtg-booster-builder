@@ -1,14 +1,14 @@
-import { ManaBox } from "@/types";
+import { type BinderType, type Card } from "@/types";
 
 export type CardCountByBinderType = {
-    [key in ManaBox.BinderType]?: number;
+    [key in BinderType]?: number;
 };
 
 /**
  * Get the total card count by binderType
  */
 export const getCardCountByBinderType = (
-    cards: ManaBox.Card[]
+    cards: Card[]
 ): CardCountByBinderType => {
     const cardCount = cards.reduce((acc: CardCountByBinderType, card) => {
         if (card.quantity < 0) {

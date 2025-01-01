@@ -1,12 +1,12 @@
-import { ManaBox } from "@/types";
+import { type Card } from "@/types";
 
 /**
  * Get a map of cards based on their scryfallID.
  *
  * Split out the card quantity into individual card entries (e.g. a card with quantity: 3 will be split into 3 card entries with quantity: 1).
  */
-export const getCardsMap = (cards: ManaBox.Card[]) => {
-    const cardsMap = new Map<string, ManaBox.Card[]>();
+export const getCardsMap = (cards: Card[]) => {
+    const cardsMap = new Map<string, Card[]>();
 
     cards.forEach((card) => {
         // If the card isn't already in the map, add it

@@ -1,9 +1,9 @@
-import { ManaBox } from "@/types";
+import { type Card } from "@/types";
 
 /**
  * Get the total card count.
  */
-export const getCardCount = (cards: ManaBox.Card[]): number => {
+export const getCardCount = (cards: Card[]): number => {
     if (cards.some((card) => card.quantity < 0)) {
         throw new Error("Card quantity cannot be negative.");
     }

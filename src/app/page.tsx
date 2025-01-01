@@ -14,27 +14,32 @@ import {
     FormatSelect,
     StepContent,
     StepLabel,
+    type CardImportData,
 } from "@/components";
-import { MTG } from "@/constants";
-import { App, ManaBox, MTG as MTGType } from "@/types";
-import { generateBoosters, serializeBoosters } from "@/utils";
+import { FORMAT_NONE } from "@/constants";
+import { type BinderType, type Format } from "@/types";
+import {
+    generateBoosters,
+    serializeBoosters,
+    type CardCountBySetCode,
+} from "@/utils";
 
 export default function HomePage() {
     const router = useRouter();
 
     const [activeStep, setActiveStep] = useState(0);
 
-    const [cardData, setCardData] = useState<App.CardData | undefined>(
+    const [cardData, setCardData] = useState<CardImportData | undefined>(
         undefined
     );
-    const [binderTypes, setBinderTypes] = useState<ManaBox.BinderType[]>([]);
+    const [binderTypes, setBinderTypes] = useState<BinderType[]>([]);
     const [cardDataFiltered, setCardDataFiltered] = useState<
-        App.CardData | undefined
+        CardImportData | undefined
     >(undefined);
-    const [format, setFormat] = useState<MTGType.Format | undefined>(undefined);
+    const [format, setFormat] = useState<Format | undefined>(undefined);
     const [playerOrBoosterCount, setPlayerOrBoosterCount] = useState(0);
     const [allocatedBoosterCountBySetCode, setAllocatedBoosterCountBySetCode] =
-        useState<App.AllocatedBoosterCountBySetCode>({});
+        useState<CardCountBySetCode>({});
     const [isGenerating, setIsGenerating] = useState(false);
     const [generationErrors, setGenerationErrors] = useState<string[]>([]);
 
@@ -148,9 +153,7 @@ export default function HomePage() {
                             : undefined
                     }
                     label={`Set ${
-                        format?.name === MTG.FORMAT_NONE.name
-                            ? "booster"
-                            : "player"
+                        format?.name === FORMAT_NONE.name ? "booster" : "player"
                     } count`}
                 />
                 <StepContent

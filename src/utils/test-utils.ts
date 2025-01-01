@@ -1,8 +1,8 @@
-import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
-import { App, ManaBox } from "@/types";
+import { BASIC_LAND_NAMES, PLAY_BOOSTER_RULE } from "@/constants";
+import { type Card, type PlayBooster } from "@/types";
 
 type GenerateMockBoosterProps = {
-    setCode?: App.PlayBooster["setCode"];
+    setCode?: PlayBooster["setCode"];
     cardProps?: GenerateMockCardProps[];
 };
 
@@ -14,11 +14,11 @@ type GenerateMockBoosterProps = {
 export const generateMockBooster = ({
     setCode = "ABC",
     cardProps = [],
-}: GenerateMockBoosterProps = {}): App.PlayBooster => {
+}: GenerateMockBoosterProps = {}): PlayBooster => {
     return {
         setCode,
         cards: Array.from({
-            length: PLAY_BOOSTER_RULES.generic.slots.length,
+            length: PLAY_BOOSTER_RULE.slots.length,
         }).map((_, i) => generateMockCard(cardProps[i] || {})),
     };
 };
@@ -34,7 +34,7 @@ type GenerateMockBoostersProps = {
 export const generateMockBoosters = ({
     boosterProps = [],
     count,
-}: GenerateMockBoostersProps = {}): App.PlayBooster[] => {
+}: GenerateMockBoostersProps = {}): PlayBooster[] => {
     count =
         count !== undefined && count !== null
             ? count
@@ -46,17 +46,17 @@ export const generateMockBoosters = ({
 };
 
 type GenerateMockCardProps = {
-    binderName?: ManaBox.Card["binderName"];
-    binderType?: ManaBox.Card["binderType"];
-    collectorNumber?: ManaBox.Card["collectorNumber"];
-    foil?: ManaBox.Card["foil"];
-    language?: ManaBox.Card["language"];
-    name?: ManaBox.Card["name"];
-    purchasePriceCurrency?: ManaBox.Card["purchasePriceCurrency"];
-    quantity?: ManaBox.Card["quantity"];
-    rarity?: ManaBox.Card["rarity"];
-    setCode?: ManaBox.Card["setCode"];
-    setName?: ManaBox.Card["setName"];
+    binderName?: Card["binderName"];
+    binderType?: Card["binderType"];
+    collectorNumber?: Card["collectorNumber"];
+    foil?: Card["foil"];
+    language?: Card["language"];
+    name?: Card["name"];
+    purchasePriceCurrency?: Card["purchasePriceCurrency"];
+    quantity?: Card["quantity"];
+    rarity?: Card["rarity"];
+    setCode?: Card["setCode"];
+    setName?: Card["setName"];
 };
 
 /**
@@ -74,7 +74,7 @@ export const generateMockCard = ({
     rarity = getRandomRarity(),
     setCode = generateMockSetCode(),
     setName = "Mock Set Name",
-}: GenerateMockCardProps = {}): ManaBox.Card => {
+}: GenerateMockCardProps = {}): Card => {
     return {
         binderName,
         binderType,
@@ -107,7 +107,7 @@ type GenerateMockCardsProps = {
 export const generateMockCards = ({
     cardProps = [],
     count,
-}: GenerateMockCardsProps = {}): ManaBox.Card[] => {
+}: GenerateMockCardsProps = {}): Card[] => {
     count =
         count !== undefined && count !== null
             ? count
@@ -140,7 +140,7 @@ type GenerateMockLibraryProps = {
 
 export const generateMockLibrary = ({
     sets,
-}: GenerateMockLibraryProps = {}): ManaBox.Card[] => {
+}: GenerateMockLibraryProps = {}): Card[] => {
     const defaultSet = {
         setCode: "ABC",
         commonCardCount: 25,
@@ -286,7 +286,7 @@ export const generateMockLibrary = ({
                         })
                         .map((card, index) => ({
                             ...card,
-                            name: MTG.BASIC_LAND_NAMES[index % 5],
+                            name: BASIC_LAND_NAMES[index % 5],
                         })),
                 }),
                 basicLandFoil: generateMockCards({
@@ -299,7 +299,7 @@ export const generateMockLibrary = ({
                         })
                         .map((card, index) => ({
                             ...card,
-                            name: MTG.BASIC_LAND_NAMES[index % 5],
+                            name: BASIC_LAND_NAMES[index % 5],
                         })),
                 }),
             };
@@ -307,7 +307,7 @@ export const generateMockLibrary = ({
     );
 
     return generatedCards.reduce(
-        (acc: ManaBox.Card[], set) =>
+        (acc: Card[], set) =>
             acc.concat(
                 set.common,
                 set.uncommon,
@@ -320,7 +320,7 @@ export const generateMockLibrary = ({
                 set.basicLand,
                 set.basicLandFoil
             ),
-        [] as ManaBox.Card[]
+        [] as Card[]
     );
 };
 
@@ -378,12 +378,8 @@ export const getRandomAltered = ({
 /**
  * Get a random binderType.
  */
-export const getRandomBinderType = (): ManaBox.Card["binderType"] => {
-    const binderTypes: ManaBox.Card["binderType"][] = [
-        "binder",
-        "deck",
-        "list",
-    ];
+export const getRandomBinderType = (): Card["binderType"] => {
+    const binderTypes: Card["binderType"][] = ["binder", "deck", "list"];
 
     return binderTypes[Math.floor(Math.random() * binderTypes.length)];
 };
@@ -409,7 +405,7 @@ export const getRandomCondition = ({
     lightPlayedPercentage = 1,
     playedPercentage = 1,
     poorPercentage = 1,
-}: GetRandomConditionProps = {}): ManaBox.Card["condition"] => {
+}: GetRandomConditionProps = {}): Card["condition"] => {
     const percentages = [
         { condition: "mint", percentage: mintPercentage },
         { condition: "near_mint", percentage: nearMintPercentage },
@@ -435,7 +431,7 @@ export const getRandomCondition = ({
     for (const { condition, percentage } of percentages) {
         cumulative += percentage;
         if (random < cumulative) {
-            return condition as ManaBox.Card["condition"];
+            return condition as Card["condition"];
         }
     }
 
@@ -455,7 +451,7 @@ export const getRandomFoil = ({
     etchedPercentage = 0,
     foilPercentage = 7,
     normalPercentage = 93,
-}: GetRandomFoilProps = {}): ManaBox.Card["foil"] => {
+}: GetRandomFoilProps = {}): Card["foil"] => {
     const totalPercentage =
         etchedPercentage + foilPercentage + normalPercentage;
 
@@ -518,7 +514,7 @@ export const getRandomRarity = ({
     mythicPercentage = 0.74,
     rarePercentage = 5.15,
     uncommonPercentage = 35.29,
-}: GetRandomRarityProps = {}): ManaBox.Card["rarity"] => {
+}: GetRandomRarityProps = {}): Card["rarity"] => {
     const totalPercentage =
         commonPercentage +
         uncommonPercentage +

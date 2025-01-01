@@ -1,19 +1,19 @@
-import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
+import { BASIC_LAND_NAMES, PLAY_BOOSTER_RULES } from "@/constants";
 import {
     getBoosterRuleSlotItemCards,
     getCardsMap,
     getOrderedBoosterRuleSlotItems,
     type CardCountBySetCode,
 } from "@/utils";
-import { App, ManaBox } from "@/types";
+import { type Card, type PlayBooster } from "@/types";
 
 type GenerateBoostersProps = {
     allocatedBoosterCountBySetCode: CardCountBySetCode;
-    cards: ManaBox.Card[];
+    cards: Card[];
 };
 
 type GenerateBoostersResponse = {
-    boosters: App.PlayBooster[];
+    boosters: PlayBooster[];
     errors: string[];
 };
 
@@ -73,7 +73,7 @@ export const generateBoosters = ({
                 boosterIndex < allocatedBoosterCount;
                 boosterIndex++
             ) {
-                const booster: App.PlayBooster = {
+                const booster: PlayBooster = {
                     setCode,
                     cards: [],
                 };
@@ -107,13 +107,12 @@ export const generateBoosters = ({
                             selectedSlot.type === "land"
                         ) {
                             slotCards = slotCards.filter((card) =>
-                                MTG.BASIC_LAND_NAMES.includes(card.name)
+                                BASIC_LAND_NAMES.includes(card.name)
                             );
                         } else {
                             // Exclude basic lands for other slots
                             slotCards = slotCards.filter(
-                                (card) =>
-                                    !MTG.BASIC_LAND_NAMES.includes(card.name)
+                                (card) => !BASIC_LAND_NAMES.includes(card.name)
                             );
                         }
 

@@ -1,9 +1,9 @@
-import { MTG } from "@/constants";
-import { App, ManaBox } from "@/types";
+import { BASIC_LAND_NAMES } from "@/constants";
+import { type Card, type PlayBoosterRuleSlotItem } from "@/types";
 
 type GetBoosterRuleSlotItemCardsProps = {
-    availableCardsMap: Map<string, ManaBox.Card[]>;
-    selectedSlot: App.PlayBoosterRuleSlotItem;
+    availableCardsMap: Map<string, Card[]>;
+    selectedSlot: PlayBoosterRuleSlotItem;
 };
 
 /**
@@ -12,8 +12,8 @@ type GetBoosterRuleSlotItemCardsProps = {
 export const getBoosterRuleSlotItemCards = ({
     availableCardsMap,
     selectedSlot,
-}: GetBoosterRuleSlotItemCardsProps): ManaBox.Card[] => {
-    const matchingCards: ManaBox.Card[] = [];
+}: GetBoosterRuleSlotItemCardsProps): Card[] => {
+    const matchingCards: Card[] = [];
 
     availableCardsMap.forEach((cards) => {
         cards.forEach((card) => {
@@ -22,7 +22,7 @@ export const getBoosterRuleSlotItemCards = ({
                 selectedSlot.superType === "basic" &&
                 selectedSlot.type === "land"
             ) {
-                if (MTG.BASIC_LAND_NAMES.includes(card.name)) {
+                if (BASIC_LAND_NAMES.includes(card.name)) {
                     for (let i = 0; i < card.quantity; i++) {
                         matchingCards.push(card);
                     }

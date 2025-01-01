@@ -1,11 +1,11 @@
-import { App, ManaBox } from "@/types";
+import { type Card, type PlayBooster } from "@/types";
 import { condenseCards, type CardCondensed } from "@/utils";
 
 export type BoosterCondensed = {
     /**
      * Set Code
      */
-    s: ManaBox.Card["setCode"];
+    s: Card["setCode"];
     /**
      * Cards
      */
@@ -16,7 +16,7 @@ export type BoosterCondensed = {
  * Condense booster data into the minimal format for storage.
  */
 export const condenseBoosters = (
-    boosters: App.PlayBooster[]
+    boosters: PlayBooster[]
 ): BoosterCondensed[] => {
     if (boosters.length === 0) {
         return [];

@@ -18,7 +18,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { APP } from "@/constants";
+import { APP_MAX_WIDTH, LS_KEY_SERIALIZED_BOOSTERS } from "@/constants";
 
 /**
  * Component for the application top bar.
@@ -32,9 +32,7 @@ export function AppBar() {
 
     useEffect(() => {
         window.setTimeout(() => {
-            const boosters = localStorage?.getItem(
-                APP.SERIALIZED_BOOSTERS_LS_KEY
-            );
+            const boosters = localStorage?.getItem(LS_KEY_SERIALIZED_BOOSTERS);
             setLocalSerializedBoosters(boosters);
         }, 250);
     }, [pathname]);
@@ -46,7 +44,7 @@ export function AppBar() {
                     boxSizing: "border-box",
                     justifyContent: "center",
                     margin: "0 auto",
-                    maxWidth: APP.MAX_WIDTH,
+                    maxWidth: APP_MAX_WIDTH,
                     width: "100%",
                     "@media (min-width: 600px)": {
                         paddingInline: (theme) => theme.spacing(2),

@@ -12,7 +12,7 @@ import {
     Tooltip,
 } from "@mui/material";
 import { useState } from "react";
-import { ManaBox } from "@/types";
+import { type CardRarity } from "@/types";
 import { FoilChip } from "@/components";
 import {
     compareRarityOrder,
@@ -88,8 +88,8 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
         if (orderBy === "rarity") {
             // Compare using compareRarityOrder for rarity
             const primaryComparison = compareRarityOrder(
-                a.rarity as ManaBox.CardRarity,
-                b.rarity as ManaBox.CardRarity
+                a.rarity as CardRarity,
+                b.rarity as CardRarity
             );
             if (primaryComparison !== 0) {
                 return order === "asc" ? primaryComparison : -primaryComparison;

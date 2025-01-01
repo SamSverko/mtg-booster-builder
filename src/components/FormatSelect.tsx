@@ -4,12 +4,16 @@ import {
     ToggleButtonGroupProps,
 } from "@mui/material";
 
-import { MTG } from "@/constants";
-import { MTG as MTGType } from "@/types";
+import {
+    FORMAT_BOOSTER_DRAFT,
+    FORMAT_NONE,
+    FORMAT_SEALED_DECK,
+} from "@/constants";
+import { type Format } from "@/types";
 
 export type FormatSelectProps = {
-    onChange: (format: MTGType.Format) => void;
-    format?: MTGType.Format;
+    onChange: (format: Format) => void;
+    format?: Format;
 };
 
 /**
@@ -19,9 +23,9 @@ export type FormatSelectProps = {
  */
 export function FormatSelect({ onChange, format }: FormatSelectProps) {
     const formatMap = new Map([
-        [MTG.FORMAT_NONE.name, MTG.FORMAT_NONE],
-        [MTG.FORMAT_BOOSTER_DRAFT.name, MTG.FORMAT_BOOSTER_DRAFT],
-        [MTG.FORMAT_SEALED_DECK.name, MTG.FORMAT_SEALED_DECK],
+        [FORMAT_NONE.name, FORMAT_NONE],
+        [FORMAT_BOOSTER_DRAFT.name, FORMAT_BOOSTER_DRAFT],
+        [FORMAT_SEALED_DECK.name, FORMAT_SEALED_DECK],
     ]);
 
     const handleChange: ToggleButtonGroupProps["onChange"] = (_, format) => {
@@ -41,14 +45,14 @@ export function FormatSelect({ onChange, format }: FormatSelectProps) {
             onChange={handleChange}
             value={format?.name}
         >
-            <ToggleButton value={MTG.FORMAT_NONE.name}>
-                {MTG.FORMAT_NONE.name}
+            <ToggleButton value={FORMAT_NONE.name}>
+                {FORMAT_NONE.name}
             </ToggleButton>
-            <ToggleButton value={MTG.FORMAT_BOOSTER_DRAFT.name}>
-                {MTG.FORMAT_BOOSTER_DRAFT.name}
+            <ToggleButton value={FORMAT_BOOSTER_DRAFT.name}>
+                {FORMAT_BOOSTER_DRAFT.name}
             </ToggleButton>
-            <ToggleButton value={MTG.FORMAT_SEALED_DECK.name}>
-                {MTG.FORMAT_SEALED_DECK.name}
+            <ToggleButton value={FORMAT_SEALED_DECK.name}>
+                {FORMAT_SEALED_DECK.name}
             </ToggleButton>
         </ToggleButtonGroup>
     );

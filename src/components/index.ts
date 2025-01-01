@@ -3,7 +3,11 @@ export { AppLink } from "@/components/AppLink";
 export { BoosterAllocation } from "@/components/BoosterAllocation";
 export { BoostersTable } from "@/components/BoostersTable";
 export { CardCount } from "@/components/CardCount";
-export { CardImport, type CardImportProps } from "@/components/CardImport";
+export {
+    CardImport,
+    type CardImportProps,
+    type CardImportData,
+} from "@/components/CardImport";
 export { ConfirmDetails } from "@/components/ConfirmDetails";
 export {
     CountInput,

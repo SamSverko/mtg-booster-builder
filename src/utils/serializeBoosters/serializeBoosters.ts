@@ -1,12 +1,12 @@
 import LZString from "lz-string";
 
-import { App } from "@/types";
+import { type PlayBooster } from "@/types";
 import { condenseBoosters } from "@/utils";
 
 /**
  * Serialize the boosters into a compressed URL-friendly string.
  */
-export const serializeBoosters = (boosters: App.PlayBooster[]): string => {
+export const serializeBoosters = (boosters: PlayBooster[]): string => {
     const condensedBoosters = condenseBoosters(boosters);
 
     const json = JSON.stringify(condensedBoosters);

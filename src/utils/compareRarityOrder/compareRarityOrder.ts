@@ -1,16 +1,13 @@
-import { MTG } from "@/constants";
-import { ManaBox } from "@/types";
+import { RARITY_ORDER } from "@/constants";
+import { CardRarity } from "@/types";
 
 /**
  * Compare two card rarities based on their order.
  */
-export const compareRarityOrder = (
-    a: ManaBox.CardRarity,
-    b: ManaBox.CardRarity
-): number => {
-    if (!(a in MTG.RARITY_ORDER) || !(b in MTG.RARITY_ORDER)) {
+export const compareRarityOrder = (a: CardRarity, b: CardRarity): number => {
+    if (!(a in RARITY_ORDER) || !(b in RARITY_ORDER)) {
         throw new Error("Invalid rarity");
     }
 
-    return MTG.RARITY_ORDER[a] - MTG.RARITY_ORDER[b];
+    return RARITY_ORDER[a] - RARITY_ORDER[b];
 };

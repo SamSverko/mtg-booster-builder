@@ -1,11 +1,14 @@
-import { App } from "@/types";
+import {
+    type PlayBoosterRuleSlot,
+    type PlayBoosterRuleSlotItem,
+} from "@/types";
 
 /**
  * Get all items from a Play Booster Rule Slot, ordered by their random selection.
  */
 export const getOrderedBoosterRuleSlotItems = (
-    slot: App.PlayBoosterRuleSlot
-): App.PlayBoosterRuleSlotItem[] => {
+    slot: PlayBoosterRuleSlot
+): PlayBoosterRuleSlotItem[] => {
     if (slot.length === 0) {
         throw new Error("Slot is empty");
     }

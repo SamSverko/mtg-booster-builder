@@ -1,4 +1,4 @@
-import { ManaBox } from "@/types";
+import { type Card } from "@/types";
 
 export type CardCountBySetCode = {
     [key: string]: number;
@@ -7,9 +7,7 @@ export type CardCountBySetCode = {
 /**
  * Get the total card count by setCode
  */
-export const getCardCountBySetCode = (
-    cards: ManaBox.Card[]
-): CardCountBySetCode => {
+export const getCardCountBySetCode = (cards: Card[]): CardCountBySetCode => {
     const cardCount = cards.reduce((acc: CardCountBySetCode, card) => {
         if (card.quantity < 0) {
             throw new Error(

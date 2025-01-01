@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CircularProgress, Step, Stepper } from "@mui/material";
+import { Alert, Button, CircularProgress, Step, Stepper } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -36,6 +36,7 @@ export default function HomePage() {
     const [allocatedBoosterCountBySetCode, setAllocatedBoosterCountBySetCode] =
         useState<App.AllocatedBoosterCountBySetCode>({});
     const [isGenerating, setIsGenerating] = useState(false);
+    const [generationErrors, setGenerationErrors] = useState<string[]>([]);
 
     const requiredBoosterCount = useMemo(() => {
         if (format?.boosterPerPlayerCount) {
@@ -207,6 +208,7 @@ export default function HomePage() {
                         }
                         fullWidth
                         onClick={() => {
+                            setGenerationErrors([]);
                             setIsGenerating(true);
 
                             if (!cardDataFiltered?.cards) return;
@@ -216,10 +218,8 @@ export default function HomePage() {
                                 cards: cardDataFiltered?.cards,
                             });
 
-                            console.log(generatedBoosters);
-
                             if (generatedBoosters.errors.length) {
-                                console.error(generatedBoosters.errors);
+                                setGenerationErrors(generatedBoosters.errors);
                                 setIsGenerating(false);
                                 return;
                             }
@@ -241,6 +241,11 @@ export default function HomePage() {
                     >
                         {isGenerating ? "Generating" : "Generate"} boosters
                     </Button>
+                    {generationErrors.map((error, index) => (
+                        <Alert key={index} severity="error">
+                            {error}
+                        </Alert>
+                    ))}
                 </StepContent>
             </Step>
         </Stepper>

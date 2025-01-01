@@ -1,0 +1,33 @@
+name: "Run PR Checks"
+
+on:
+    pull_request:
+        paths:
+            - "**/*"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    run-pr-checks:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code to the workflow
+              uses: actions/checkout@v4
+
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".nvmrc"
+                  cache: "npm"
+                  cache-dependency-path: package-lock.json
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Build app
+              run: npm run build
+
+            - name: Run tests
+              run: npm run test

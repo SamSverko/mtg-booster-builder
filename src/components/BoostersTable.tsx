@@ -12,12 +12,16 @@ import {
     Tooltip,
 } from "@mui/material";
 import { useState } from "react";
-import { App, ManaBox } from "@/types";
+import { ManaBox } from "@/types";
 import { FoilChip } from "@/components";
-import { compareRarityOrder } from "@/utils";
+import {
+    compareRarityOrder,
+    type BoosterCondensed,
+    type CardCondensed,
+} from "@/utils";
 
 type BoostersTableProps = {
-    boosters: App.PlayBoosterSerialized[];
+    boosters: BoosterCondensed[];
 };
 
 type Order = "asc" | "desc";
@@ -61,12 +65,12 @@ export function BoostersTable({ boosters }: BoostersTableProps) {
     const flattenedCards: {
         id: string;
         boosterIndex: number;
-        binderType: App.PlayBoosterCardSerialized["b"];
-        collectorNumber: App.PlayBoosterCardSerialized["c"];
-        name?: App.PlayBoosterCardSerialized["n"];
-        foil: App.PlayBoosterCardSerialized["f"];
-        rarity?: App.PlayBoosterCardSerialized["r"];
-        setCode: App.PlayBoosterSerialized["s"];
+        binderType: CardCondensed["b"];
+        collectorNumber: CardCondensed["c"];
+        name?: CardCondensed["n"];
+        foil: CardCondensed["f"];
+        rarity?: CardCondensed["r"];
+        setCode: BoosterCondensed["s"];
     }[] = boosters.flatMap((booster, boosterIndex) =>
         booster.c.map((card) => ({
             id: `${boosterIndex}-${card.c}-${card.n}`,

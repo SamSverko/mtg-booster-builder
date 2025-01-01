@@ -1,4 +1,4 @@
-import { App, ManaBox, MTG } from "@/types";
+import { ManaBox, MTG } from "@/types";
 
 /**
  * Sourced from [MTG Wiki - Basic land](https://mtg.fandom.com/wiki/Basic_land)
@@ -64,155 +64,41 @@ export const FORMAT_NONE: MTG.Format = {
 };
 
 /**
- * Play Boosters
- */
-
-/**
- * Generic play booster, excluding non-playable card slot.
+ * Special Guests (SPG) set (aka The List).
  *
- * Slot info sourced from [What are Play Boosters?](https://magic.wizards.com/en/news/making-magic/what-are-play-boosters).
- *
- * Wildcard slots info sourced from [Reward Distribution | Magic: The Gathering Arena](https://magic.wizards.com/en/mtgarena/drop-rates).
+ * Sourced from [Scryfall](https://scryfall.com/sets/spg).
  */
-export const PLAY_BOOSTER: App.PlayBooster = {
-    slots: [
-        // 1 - Common
-        [{ foil: "normal", percentage: 100, rarity: "common" }],
-        // 2 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
-        // 3 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
-        // 4 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
-        // 5 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
-        // 6 - Common
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "common",
-            },
-        ],
-        // 7 - Common/The List (ignoring 'The List' for now)
-        [
-            {
-                foil: "normal",
-                percentage: 87.5,
-                rarity: "common",
-            },
-            {
-                foil: "normal",
-                percentage: 4.69,
-                rarity: "uncommon",
-            },
-            {
-                foil: "normal",
-                percentage: 4.69,
-                rarity: "uncommon",
-            },
-            {
-                foil: "normal",
-                percentage: 1.56,
-                rarity: "rare",
-            },
-            {
-                foil: "normal",
-                percentage: 1.56,
-                rarity: "mythic",
-            },
-        ],
-        // 8 - Uncommon
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "uncommon",
-            },
-        ],
-        // 9 - Uncommon
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "uncommon",
-            },
-        ],
-        // 10 - Uncommon
-        [
-            {
-                foil: "normal",
-                percentage: 100,
-                rarity: "uncommon",
-            },
-        ],
-        // 11 - Rare/Mythic Rare
-        [
-            {
-                foil: "normal",
-                percentage: 85.71,
-                rarity: "rare",
-            },
-            {
-                foil: "normal",
-                percentage: 14.29,
-                rarity: "mythic",
-            },
-        ],
-        // 12 - Basic Land
-        [
-            {
-                foil: "normal",
-                percentage: 80,
-                rarity: "common",
-                superType: "basic", // TODO - I think nonbasic lands can also appear here?
-                type: "land",
-            },
-            {
-                foil: "foil",
-                percentage: 20,
-                rarity: "common",
-                superType: "basic",
-                type: "land",
-            },
-        ],
-        // 13 - Non-Foil Wildcard Slot
-        [
-            { foil: "normal", percentage: 58.82, rarity: "common" },
-            { foil: "normal", percentage: 35.29, rarity: "uncommon" },
-            { foil: "normal", percentage: 5.15, rarity: "rare" },
-            { foil: "normal", percentage: 0.74, rarity: "mythic" },
-        ],
-        // 14 - Traditional-Foil Wildcard Slot
-        [
-            { foil: "foil", percentage: 58.82, rarity: "common" },
-            { foil: "foil", percentage: 35.29, rarity: "uncommon" },
-            { foil: "foil", percentage: 5.15, rarity: "rare" },
-            { foil: "foil", percentage: 0.74, rarity: "mythic" },
-        ],
-    ],
+export const THE_LIST = {
+    fdn: [74, 75, 76, 77, 78, 79, 80, 81, 82, 83].map((collectorNumber) => ({
+        collectorNumber,
+        setCode: "spg",
+    })),
+    dsk: [64, 65, 66, 67, 68, 69, 70, 71, 72, 73].map((collectorNumber) => ({
+        collectorNumber,
+        setCode: "spg",
+    })),
+    blb: [54, 55, 56, 57, 58, 59, 60, 61, 62, 63].map((collectorNumber) => ({
+        collectorNumber,
+        setCode: "spg",
+    })),
+    mh3: [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53].map(
+        (collectorNumber) => ({
+            collectorNumber,
+            setCode: "spg",
+        })
+    ),
+    otj: [29, 30, 31, 32, 33, 34, 35, 36, 37, 38].map((collectorNumber) => ({
+        collectorNumber,
+        setCode: "spg",
+    })),
+    mkm: [19, 20, 21, 22, 23, 24, 25, 26, 27, 28].map((collectorNumber) => ({
+        collectorNumber,
+        setCode: "spg",
+    })),
+    lci: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map(
+        (collectorNumber) => ({
+            collectorNumber,
+            setCode: "spg",
+        })
+    ),
 };

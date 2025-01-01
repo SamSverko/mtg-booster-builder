@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, CircularProgress, Step, Stepper } from "@mui/material";
+import { Alert, Button, CircularProgress, Step, Stepper } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -17,7 +17,7 @@ import {
 } from "@/components";
 import { MTG } from "@/constants";
 import { App, ManaBox, MTG as MTGType } from "@/types";
-import { getSerializedBoostersUrl } from "@/utils";
+import { generateBoosters, serializeBoosters } from "@/utils";
 
 export default function HomePage() {
     const router = useRouter();
@@ -36,6 +36,7 @@ export default function HomePage() {
     const [allocatedBoosterCountBySetCode, setAllocatedBoosterCountBySetCode] =
         useState<App.AllocatedBoosterCountBySetCode>({});
     const [isGenerating, setIsGenerating] = useState(false);
+    const [generationErrors, setGenerationErrors] = useState<string[]>([]);
 
     const requiredBoosterCount = useMemo(() => {
         if (format?.boosterPerPlayerCount) {
@@ -207,17 +208,31 @@ export default function HomePage() {
                         }
                         fullWidth
                         onClick={() => {
+                            setGenerationErrors([]);
                             setIsGenerating(true);
 
-                            const serializedBoostersUrl =
-                                getSerializedBoostersUrl(
-                                    cardDataFiltered?.cards,
-                                    allocatedBoosterCountBySetCode
-                                );
+                            if (!cardDataFiltered?.cards) return;
 
-                            if (serializedBoostersUrl) {
-                                router.push(serializedBoostersUrl);
+                            const generatedBoosters = generateBoosters({
+                                allocatedBoosterCountBySetCode,
+                                cards: cardDataFiltered?.cards,
+                            });
+
+                            if (generatedBoosters.errors.length) {
+                                setGenerationErrors(generatedBoosters.errors);
+                                setIsGenerating(false);
+                                return;
                             }
+
+                            const serializedBoosters = serializeBoosters(
+                                generatedBoosters.boosters
+                            );
+
+                            router.push(
+                                `/boosters/?serializedBoosters=${serializedBoosters}`
+                            );
+
+                            setIsGenerating(false);
                         }}
                         startIcon={
                             isGenerating && <CircularProgress size={20} />
@@ -226,6 +241,11 @@ export default function HomePage() {
                     >
                         {isGenerating ? "Generating" : "Generate"} boosters
                     </Button>
+                    {generationErrors.map((error, index) => (
+                        <Alert key={index} severity="error">
+                            {error}
+                        </Alert>
+                    ))}
                 </StepContent>
             </Step>
         </Stepper>

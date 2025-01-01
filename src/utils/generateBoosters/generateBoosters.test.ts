@@ -15,24 +15,108 @@ const blbCards = [
     ...generateMockLibrary({ sets: [{ setCode: "blb" }] }),
     ...generateMockCards({
         cardProps: [
-            ...FULL_ART_BASIC_LANDS_BLB.autumn,
-            ...FULL_ART_BASIC_LANDS_BLB.autumn,
-            ...FULL_ART_BASIC_LANDS_BLB.spring,
-            ...FULL_ART_BASIC_LANDS_BLB.spring,
-            ...FULL_ART_BASIC_LANDS_BLB.summer,
-            ...FULL_ART_BASIC_LANDS_BLB.summer,
-            ...FULL_ART_BASIC_LANDS_BLB.winter,
-            ...FULL_ART_BASIC_LANDS_BLB.winter,
+            ...FULL_ART_BASIC_LANDS_BLB.autumn.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Full Art Basic Land Card - Autumn ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.autumn.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "foil" as const,
+                    name: `Mock Full Art Basic Land Foil Card - Autumn ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.spring.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Full Art Basic Land Card - Spring ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.spring.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "foil" as const,
+                    name: `Mock Full Art Basic Land Foil Card - Spring ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.summer.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Full Art Basic Land Card - Summer ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.summer.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "foil" as const,
+                    name: `Mock Full Art Basic Land Foil Card - Summer ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.winter.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Full Art Basic Land Card - Winter ${index}`,
+                };
+            }),
+            ...FULL_ART_BASIC_LANDS_BLB.winter.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "foil" as const,
+                    name: `Mock Full Art Basic Land Foil Card - Winter ${index}`,
+                };
+            }),
         ],
     }),
     ...generateMockCards({
         cardProps: [
-            ...NONBASIC_LANDS_BLB.common,
-            ...NONBASIC_LANDS_BLB.common,
-            ...NONBASIC_LANDS_BLB.uncommon,
-            ...NONBASIC_LANDS_BLB.uncommon,
-            ...NONBASIC_LANDS_BLB.rare,
-            ...NONBASIC_LANDS_BLB.rare,
+            ...NONBASIC_LANDS_BLB.common.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Common Nonbasic Land Card ${index}`,
+                };
+            }),
+            ...NONBASIC_LANDS_BLB.common.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "foil" as const,
+                    name: `Mock Common Nonbasic Land Foil Card ${index}`,
+                };
+            }),
+            ...NONBASIC_LANDS_BLB.uncommon.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Uncommon Nonbasic Land Card ${index}`,
+                };
+            }),
+            ...NONBASIC_LANDS_BLB.uncommon.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Uncommon Nonbasic Land Foil Card ${index}`,
+                };
+            }),
+            ...NONBASIC_LANDS_BLB.rare.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "normal" as const,
+                    name: `Mock Rare Nonbasic Land Card ${index}`,
+                };
+            }),
+            ...NONBASIC_LANDS_BLB.rare.map((card, index) => {
+                return {
+                    ...card,
+                    foil: "foil" as const,
+                    name: `Mock Rare Nonbasic Land Foil Card ${index}`,
+                };
+            }),
         ],
     }),
 ];
@@ -69,12 +153,13 @@ describe("getCardCount", () => {
         });
 
         expect(boosters.errors).toEqual([]);
+
         expect(boosters.boosters.length).toBe(2);
-        for (const booster of boosters.boosters) {
+        boosters.boosters.forEach((booster) => {
             expect(booster.cards.length).toBe(
                 PLAY_BOOSTER_RULES.generic.slots.length
             );
-        }
+        });
     });
 
     it("should return an error if no cards are provided", () => {
@@ -145,21 +230,21 @@ describe("getCardCount", () => {
                         uncommonCardCount: 5 * boosterCount,
                         rareCardCount: 3 * boosterCount,
                         mythicCardCount: 3 * boosterCount,
-                        commonFoilCardCount: 1 * boosterCount,
-                        uncommonFoilCardCount: 1 * boosterCount,
-                        rareFoilCardCount: 1 * boosterCount,
-                        mythicFoilCardCount: 1 * boosterCount,
-                        basicLandCardCount: 1 * boosterCount,
-                        basicLandFoilCardCount: 1 * boosterCount,
+                        commonFoilCardCount: 2 * boosterCount,
+                        uncommonFoilCardCount: 2 * boosterCount,
+                        rareFoilCardCount: 2 * boosterCount,
+                        mythicFoilCardCount: 2 * boosterCount,
+                        basicLandCardCount: 2 * boosterCount,
+                        basicLandFoilCardCount: 2 * boosterCount,
                     },
                 ],
             }),
         });
 
-        for (const booster of boosters.boosters) {
-            const cardIds = booster.cards.map((card) => card.collectorNumber);
-            const uniqueCardIds = new Set(cardIds);
-            expect(uniqueCardIds.size).toBe(cardIds.length);
-        }
+        boosters.boosters.forEach((booster) => {
+            const cardNames = booster.cards.map((card) => card.name);
+            const uniqeCardNames = new Set(cardNames);
+            expect(uniqeCardNames.size).toBe(cardNames.length);
+        });
     });
 });

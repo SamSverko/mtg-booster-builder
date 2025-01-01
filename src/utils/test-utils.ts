@@ -173,68 +173,108 @@ export const generateMockLibrary = ({
         }) => {
             return {
                 common: generateMockCards({
-                    cardProps: Array(commonCardCount).fill({
-                        foil: "normal",
-                        quantity: 1,
-                        rarity: "common",
-                        setCode,
-                    }),
+                    cardProps: Array(commonCardCount)
+                        .fill({
+                            foil: "normal",
+                            quantity: 1,
+                            rarity: "common",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Common Card ${index + 1}`,
+                        })),
                 }),
                 uncommon: generateMockCards({
-                    cardProps: Array(uncommonCardCount).fill({
-                        foil: "normal",
-                        quantity: 1,
-                        rarity: "uncommon",
-                        setCode,
-                    }),
+                    cardProps: Array(uncommonCardCount)
+                        .fill({
+                            foil: "normal",
+                            quantity: 1,
+                            rarity: "uncommon",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Uncommon Card ${index + 1}`,
+                        })),
                 }),
                 rare: generateMockCards({
-                    cardProps: Array(rareCardCount).fill({
-                        foil: "normal",
-                        quantity: 1,
-                        rarity: "rare",
-                        setCode,
-                    }),
+                    cardProps: Array(rareCardCount)
+                        .fill({
+                            foil: "normal",
+                            quantity: 1,
+                            rarity: "rare",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Rare Card ${index + 1}`,
+                        })),
                 }),
                 mythic: generateMockCards({
-                    cardProps: Array(mythicCardCount).fill({
-                        foil: "normal",
-                        quantity: 1,
-                        rarity: "mythic",
-                        setCode,
-                    }),
+                    cardProps: Array(mythicCardCount)
+                        .fill({
+                            foil: "normal",
+                            quantity: 1,
+                            rarity: "mythic",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Mythic Card ${index + 1}`,
+                        })),
                 }),
                 commonFoil: generateMockCards({
-                    cardProps: Array(commonFoilCardCount).fill({
-                        foil: "foil",
-                        quantity: 1,
-                        rarity: "common",
-                        setCode,
-                    }),
+                    cardProps: Array(commonFoilCardCount)
+                        .fill({
+                            foil: "foil",
+                            quantity: 1,
+                            rarity: "common",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Common Foil Card ${index + 1}`,
+                        })),
                 }),
                 uncommonFoil: generateMockCards({
-                    cardProps: Array(uncommonFoilCardCount).fill({
-                        foil: "foil",
-                        quantity: 1,
-                        rarity: "uncommon",
-                        setCode,
-                    }),
+                    cardProps: Array(uncommonFoilCardCount)
+                        .fill({
+                            foil: "foil",
+                            quantity: 1,
+                            rarity: "uncommon",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Uncommon Foil Card ${index + 1}`,
+                        })),
                 }),
                 rareFoil: generateMockCards({
-                    cardProps: Array(rareFoilCardCount).fill({
-                        foil: "foil",
-                        quantity: 1,
-                        rarity: "rare",
-                        setCode,
-                    }),
+                    cardProps: Array(rareFoilCardCount)
+                        .fill({
+                            foil: "foil",
+                            quantity: 1,
+                            rarity: "rare",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mock Rare Foil Card ${index + 1}`,
+                        })),
                 }),
                 mythicFoil: generateMockCards({
-                    cardProps: Array(mythicFoilCardCount).fill({
-                        foil: "foil",
-                        quantity: 1,
-                        rarity: "mythic",
-                        setCode,
-                    }),
+                    cardProps: Array(mythicFoilCardCount)
+                        .fill({
+                            foil: "foil",
+                            quantity: 1,
+                            rarity: "mythic",
+                            setCode,
+                        })
+                        .map((card, index) => ({
+                            ...card,
+                            name: `Mythic Foil Card ${index + 1}`,
+                        })),
                 }),
                 basicLand: generateMockCards({
                     cardProps: Array(basicLandCardCount)

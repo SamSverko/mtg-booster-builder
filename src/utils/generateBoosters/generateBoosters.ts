@@ -1,4 +1,4 @@
-import { PLAY_BOOSTER_RULES } from "@/constants";
+import { MTG, PLAY_BOOSTER_RULES } from "@/constants";
 import {
     getBoosterRuleSlotItemCards,
     getCardsMap,
@@ -78,6 +78,8 @@ export const generateBoosters = ({
                     cards: [],
                 };
 
+                const boosterCardNames = new Set<string>(); // Track card names in this booster
+
                 // Get that set's booster rule, otherwise use the generic booster rule
                 const boosterRuleExists =
                     Object.keys(PLAY_BOOSTER_RULES).includes(setCode);
@@ -94,16 +96,39 @@ export const generateBoosters = ({
 
                     // Try the ordered slots in order until we find a card
                     for (const selectedSlot of orderedSlots) {
-                        const slotCards = getBoosterRuleSlotItemCards({
+                        let slotCards = getBoosterRuleSlotItemCards({
                             availableCardsMap,
                             selectedSlot,
                         });
 
-                        if (slotCards.length > 0) {
+                        // Handle specific case for basic lands
+                        if (
+                            selectedSlot.superType === "basic" &&
+                            selectedSlot.type === "land"
+                        ) {
+                            slotCards = slotCards.filter((card) =>
+                                MTG.BASIC_LAND_NAMES.includes(card.name)
+                            );
+                        } else {
+                            // Exclude basic lands for other slots
+                            slotCards = slotCards.filter(
+                                (card) =>
+                                    !MTG.BASIC_LAND_NAMES.includes(card.name)
+                            );
+                        }
+
+                        // Filter out duplicate card names
+                        const nonDuplicateCards = slotCards.filter(
+                            (card) => !boosterCardNames.has(card.name)
+                        );
+
+                        if (nonDuplicateCards.length > 0) {
                             // Randomly select a card from the matching cards
                             const selectedCard =
-                                slotCards[
-                                    Math.floor(Math.random() * slotCards.length)
+                                nonDuplicateCards[
+                                    Math.floor(
+                                        Math.random() * nonDuplicateCards.length
+                                    )
                                 ];
 
                             // Add the selected card to the booster
@@ -113,6 +138,8 @@ export const generateBoosters = ({
                             availableCardsMap
                                 .get(selectedCard.scryfallID)
                                 ?.shift();
+
+                            boosterCardNames.add(selectedCard.name);
 
                             cardAdded = true; // Mark as card added
                             break; // Stop after the first valid selection

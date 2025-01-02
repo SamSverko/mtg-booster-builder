@@ -12,27 +12,32 @@ describe("getCardsMap", () => {
     it("should create a map with the correct number of unique entries", () => {
         const cards = generateMockCards({
             cardProps: [
-                { quantity: 1, setCode: "set1" },
-                { quantity: 2, setCode: "set2" },
-                { quantity: 3, setCode: "set3" },
+                { quantity: 1, setCode: "set1", foil: "normal" },
+                { quantity: 2, setCode: "set2", foil: "foil" },
+                { quantity: 3, setCode: "set3", foil: "normal" },
             ],
         });
 
         const cardsMap = getCardsMap(cards);
 
-        // Verify the map size matches the number of unique scryfallIDs
         expect(cardsMap.size).toBe(cards.length);
 
-        // Dynamically verify the entries
         let totalEntries = 0;
-        cardsMap.forEach((cardList, scryfallID) => {
-            const matchingCard = cards.find(
-                (card) => card.scryfallID === scryfallID
-            );
-            expect(matchingCard).toBeDefined();
+        cardsMap.forEach((cardList, uniqueID) => {
+            const [scryfallID, foilStatus] = uniqueID.split("_");
 
-            // Check that the number of cards in the map matches the quantity
-            expect(cardList.length).toBe(matchingCard?.quantity);
+            // Ensure every uniqueID maps correctly to the card data
+            const matchingCards = cards.filter(
+                (card) =>
+                    card.scryfallID === scryfallID && card.foil === foilStatus
+            );
+
+            // Check that the number of cards in the map matches the combined quantity
+            const totalQuantity = matchingCards.reduce(
+                (sum, card) => sum + card.quantity,
+                0
+            );
+            expect(cardList.length).toBe(totalQuantity);
 
             // Ensure all cards in the list have quantity 1
             cardList.forEach((card) => {
@@ -42,7 +47,6 @@ describe("getCardsMap", () => {
             totalEntries += cardList.length;
         });
 
-        // Verify the total number of cards in the map matches the sum of all quantities
         const expectedTotalEntries = cards.reduce(
             (sum, card) => sum + card.quantity,
             0
@@ -52,13 +56,13 @@ describe("getCardsMap", () => {
 
     it("should correctly split card quantities into individual entries", () => {
         const cards = generateMockCards({
-            cardProps: [{ quantity: 5, setCode: "set1" }],
+            cardProps: [{ quantity: 5, setCode: "set1", foil: "foil" }],
         });
 
         const cardsMap = getCardsMap(cards);
 
         // Verify the map size
-        expect(cardsMap.size).toBe(1); // One unique scryfallID
+        expect(cardsMap.size).toBe(1); // One unique uniqueID
 
         cardsMap.forEach((cardList) => {
             // Check that the number of cards in the list matches the original quantity
@@ -71,30 +75,41 @@ describe("getCardsMap", () => {
         });
     });
 
-    it("should correctly handle duplicate scryfallIDs with different quantities", () => {
+    it("should correctly handle duplicate scryfallIDs with different foil statuses", () => {
         const cards = generateMockCards({
             cardProps: [
-                { quantity: 3, setCode: "set1" },
-                { quantity: 2, setCode: "set2" },
+                { quantity: 3, setCode: "set1", foil: "normal" },
+                { quantity: 2, setCode: "set2", foil: "foil" },
             ],
         });
 
-        cards[1].scryfallID = cards[0].scryfallID; // Duplicate scryfallID
+        // Ensure duplicate scryfallID with different foil status
+        cards[1].scryfallID = cards[0].scryfallID;
 
         const cardsMap = getCardsMap(cards);
 
-        // Verify the map size (only one unique scryfallID)
-        expect(cardsMap.size).toBe(1);
+        // Verify the map size (two unique uniqueIDs: one for normal and one for foil)
+        expect(cardsMap.size).toBe(2); // One for normal, one for foil
 
-        cardsMap.forEach((cardList, scryfallID) => {
-            const totalQuantity = cards
-                .filter((card) => card.scryfallID === scryfallID)
-                .reduce((sum, card) => sum + card.quantity, 0);
+        cardsMap.forEach((cardList, uniqueID) => {
+            const [scryfallID, foilStatus] = uniqueID.split("_");
 
-            // Check the total number of entries matches the combined quantity
+            // Find the matching cards in the input
+            const matchingCards = cards.filter(
+                (card) =>
+                    card.scryfallID === scryfallID && card.foil === foilStatus
+            );
+
+            // Calculate the total quantity for this scryfallID and foil status combination
+            const totalQuantity = matchingCards.reduce(
+                (sum, card) => sum + card.quantity,
+                0
+            );
+
+            // Ensure the number of entries in the map matches the total quantity
             expect(cardList.length).toBe(totalQuantity);
 
-            // Verify each card has quantity 1
+            // Ensure each card has a quantity of 1 in the map
             cardList.forEach((card) => {
                 expect(card.quantity).toBe(1);
             });
@@ -105,8 +120,8 @@ describe("getCardsMap", () => {
         const cards = generateMockCards({
             count: 1000,
             cardProps: [
-                { quantity: 10, setCode: "set1" },
-                { quantity: 20, setCode: "set2" },
+                { quantity: 10, setCode: "set1", foil: "normal" },
+                { quantity: 20, setCode: "set2", foil: "foil" },
             ],
         });
 

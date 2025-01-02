@@ -2,6 +2,7 @@ import { BASIC_LAND_NAMES, PLAY_BOOSTER_RULES } from "@/constants";
 import {
     getBoosterRuleSlotItemCards,
     getCardsMap,
+    getCardUniqueID,
     getOrderedBoosterRuleSlotItems,
     type CardCountBySetCode,
 } from "@/utils";
@@ -135,10 +136,25 @@ export const generateBoosters = ({
                             // Add the selected card to the booster
                             booster.cards.push(selectedCard);
 
+                            // Check if the selectedCardUniqueID exists in the availableCardsMap
+                            const selectedCardUniqueID =
+                                getCardUniqueID(selectedCard);
+
+                            const availableCards =
+                                availableCardsMap.get(selectedCardUniqueID);
+
+                            if (
+                                !availableCards ||
+                                availableCards.length === 0
+                            ) {
+                                // If the entry is not found or the array is empty, throw an error
+                                throw new Error(
+                                    `Card with uniqueID ${selectedCardUniqueID} not found in available cards map.`
+                                );
+                            }
+
                             // Remove the selected card from the available cards
-                            availableCardsMap
-                                .get(selectedCard.scryfallID)
-                                ?.shift();
+                            availableCards.shift();
 
                             boosterCardNames.add(selectedCard.name);
 

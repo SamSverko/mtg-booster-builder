@@ -1,4 +1,3 @@
-export { deserializeBoosters } from "@/utils/deserializeBoosters/deserializeBoosters";
 export { compareRarityOrder } from "@/utils/compareRarityOrder/compareRarityOrder";
 export {
     condenseBoosters,
@@ -8,8 +7,8 @@ export {
     condenseCards,
     type CardCondensed,
 } from "@/utils/condenseCards/condenseCards";
+export { deserializeBoosters } from "@/utils/deserializeBoosters/deserializeBoosters";
 export { generateBoosters } from "@/utils/generateBoosters/generateBoosters";
-export { getCardsMap } from "@/utils/getCardsMap/getCardsMap";
 export { getBoosterRuleSlotItemCards } from "@/utils/getBoosterRuleSlotItemCards/getBoosterRuleSlotItemCards";
 export { getCardCount } from "@/utils/getCardCount/getCardCount";
 export {
@@ -20,6 +19,8 @@ export {
     getCardCountBySetCode,
     type CardCountBySetCode,
 } from "@/utils/getCardCountBySetCode/getCardCountBySetCode";
+export { getCardsMap } from "@/utils/getCardsMap/getCardsMap";
+export { getCardUniqueID } from "@/utils/getCardUniqueID/getCardUniqueID";
 export { getOrderedBoosterRuleSlotItems } from "@/utils/getOrderedBoosterRuleSlotItems/getOrderedBoosterRuleSlotItems";
 export { getRandomNumberExcluding } from "@/utils/getRandomNumberExcluding/getRandomNumberExcluding";
 export { serializeBoosters } from "@/utils/serializeBoosters/serializeBoosters";

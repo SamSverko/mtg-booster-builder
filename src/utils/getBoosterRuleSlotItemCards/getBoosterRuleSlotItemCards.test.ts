@@ -1,5 +1,5 @@
 import {
-    BASIC_LANDS_FULL_ART_BLB,
+    FULL_ART_BASIC_LAND_CARDS_BLB,
     BASIC_LAND_NAMES,
     PLAY_BOOSTER_RULE,
     PLAY_BOOSTER_RULE_BLB,
@@ -214,14 +214,15 @@ describe("getBoosterRuleSlotItemCards", () => {
             })
         );
 
-        const otherSeasonCards = BASIC_LANDS_FULL_ART_BLB.summer.map((card) =>
-            generateMockCard({
-                ...card,
-                foil: "normal",
-                quantity: 1,
-                rarity: "common",
-                setCode,
-            })
+        const otherSeasonCards = FULL_ART_BASIC_LAND_CARDS_BLB.summer.map(
+            (card) =>
+                generateMockCard({
+                    ...card,
+                    foil: "normal",
+                    quantity: 1,
+                    rarity: "common",
+                    setCode,
+                })
         );
 
         const totalCards = [...allowedCards, ...otherSeasonCards];

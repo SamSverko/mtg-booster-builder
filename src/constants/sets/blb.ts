@@ -7,21 +7,25 @@ import { PlayBoosterRule } from "@/types";
  *
  * Sourced from [Scryfall](https://scryfall.com/sets/blb).
  */
-export const BASIC_LANDS_FULL_ART_BLB = {
+export const FULL_ART_BASIC_LAND_CARDS_BLB = {
     spring: [262, 266, 270, 274, 278].map((collectorNumber) => ({
         collectorNumber,
+        rarity: "common",
         setCode: "BLB",
     })),
     summer: [263, 267, 271, 275, 279].map((collectorNumber) => ({
         collectorNumber,
+        rarity: "common",
         setCode: "BLB",
     })),
     autumn: [264, 268, 272, 276, 280].map((collectorNumber) => ({
         collectorNumber,
+        rarity: "common",
         setCode: "BLB",
     })),
     winter: [265, 269, 273, 277, 281].map((collectorNumber) => ({
         collectorNumber,
+        rarity: "common",
         setCode: "BLB",
     })),
 };
@@ -31,18 +35,21 @@ export const BASIC_LANDS_FULL_ART_BLB = {
  *
  * Sourced from [Scryfall](https://scryfall.com/sets/blb).
  */
-export const NONBASIC_LANDS_BLB = {
+export const NONBASIC_LAND_CARDS_BLB = {
     common: [254, 261, 396, 397].map((collectorNumber) => ({
         collectorNumber,
+        rarity: "common",
         setCode: "BLB",
     })),
     uncommon: [255, 256, 257, 258, 259].map((collectorNumber) => ({
         collectorNumber,
+        rarity: "uncommon",
         setCode: "BLB",
     })),
     rare: [252, 253, 260, 337, 338, 339, 340, 367, 368].map(
         (collectorNumber) => ({
             collectorNumber,
+            rarity: "rare",
             setCode: "BLB",
         })
     ),
@@ -61,12 +68,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 100,
@@ -77,12 +82,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 100,
@@ -93,12 +96,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 100,
@@ -109,12 +110,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 100,
@@ -125,12 +124,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 100,
@@ -141,12 +138,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 100,
@@ -157,12 +152,10 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 98.5,
@@ -178,14 +171,6 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         // 8 - Uncommon
         [
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 100,
                 rarity: "uncommon",
@@ -194,14 +179,6 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         // 9 - Uncommon
         [
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 100,
                 rarity: "uncommon",
@@ -210,14 +187,6 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         // 10 - Uncommon
         [
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 100,
                 rarity: "uncommon",
@@ -227,53 +196,26 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "normal",
                 percentage: 58.82,
                 rarity: "common",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 35.29,
                 rarity: "uncommon",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 5.15,
                 rarity: "rare",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 0.74,
                 rarity: "mythic",
@@ -282,28 +224,11 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         // 12 - Rare or Mythic Rare
         [
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 85.71,
                 rarity: "rare",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "normal",
                 percentage: 14.29,
                 rarity: "mythic",
@@ -313,53 +238,26 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         [
             {
                 denyList: [
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.spring,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.summer,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
+                    ...FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 ],
                 foil: "foil",
                 percentage: 58.82,
                 rarity: "common",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "foil",
                 percentage: 35.29,
                 rarity: "uncommon",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "foil",
                 percentage: 5.15,
                 rarity: "rare",
             },
             {
-                denyList: [
-                    ...NONBASIC_LANDS_BLB.common,
-                    ...NONBASIC_LANDS_BLB.uncommon,
-                    ...NONBASIC_LANDS_BLB.rare,
-                    ...BASIC_LANDS_FULL_ART_BLB.spring,
-                    ...BASIC_LANDS_FULL_ART_BLB.summer,
-                    ...BASIC_LANDS_FULL_ART_BLB.autumn,
-                    ...BASIC_LANDS_FULL_ART_BLB.winter,
-                ],
                 foil: "foil",
                 percentage: 0.74,
                 rarity: "mythic",
@@ -368,49 +266,49 @@ export const PLAY_BOOSTER_RULE_BLB: PlayBoosterRule = {
         // 14 - Seasonal full-art basic land
         [
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.spring,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.spring,
                 foil: "normal",
                 percentage: 32,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.spring,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.spring,
                 foil: "foil",
                 percentage: 8,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.summer,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.summer,
                 foil: "normal",
                 percentage: 24,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.summer,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.summer,
                 foil: "foil",
                 percentage: 6,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.autumn,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
                 foil: "normal",
                 percentage: 16,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.autumn,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.autumn,
                 foil: "foil",
                 percentage: 4,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.winter,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 foil: "normal",
                 percentage: 8,
                 rarity: "common",
             },
             {
-                allowList: BASIC_LANDS_FULL_ART_BLB.winter,
+                allowList: FULL_ART_BASIC_LAND_CARDS_BLB.winter,
                 foil: "foil",
                 percentage: 2,
                 rarity: "common",

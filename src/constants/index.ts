@@ -18,8 +18,8 @@ import {
 } from "@/constants/mtg";
 import { PLAY_BOOSTER_RULES } from "@/constants/sets/all";
 import {
-    BASIC_LANDS_FULL_ART_BLB,
-    NONBASIC_LANDS_BLB,
+    FULL_ART_BASIC_LAND_CARDS_BLB,
+    NONBASIC_LAND_CARDS_BLB,
     PLAY_BOOSTER_RULE_BLB,
 } from "@/constants/sets/blb";
 import { PLAY_BOOSTER_RULE } from "@/constants/sets/generic";
@@ -31,13 +31,13 @@ export {
     APP_TITLE,
     APP_URL,
     APP_TOOLBAR_HEIGHT,
-    BASIC_LANDS_FULL_ART_BLB,
+    FULL_ART_BASIC_LAND_CARDS_BLB,
     BASIC_LAND_NAMES,
     FORMAT_BOOSTER_DRAFT,
     FORMAT_NONE,
     FORMAT_SEALED_DECK,
     LS_KEY_SERIALIZED_BOOSTERS,
-    NONBASIC_LANDS_BLB,
+    NONBASIC_LAND_CARDS_BLB,
     PLAY_BOOSTER_RULE,
     PLAY_BOOSTER_RULES,
     PLAY_BOOSTER_RULE_BLB,

@@ -8,7 +8,7 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const config: Config = {
-    collectCoverage: true, // Enable coverage collection
+    collectCoverage: false, // Disable coverage collection
     collectCoverageFrom: [
         "**/*.{ts,tsx}", // Include TypeScript files
         "!**/node_modules/**", // Exclude node_modules

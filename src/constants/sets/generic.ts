@@ -40,7 +40,6 @@ export const PLAY_BOOSTER_RULE: PlayBoosterRule = {
             { foil: "normal", percentage: 14.29, rarity: "mythic" },
         ],
         // 12 - Basic Land
-        // TODO - How to handle nonbasic lands when I don't have access to the type?
         [
             {
                 foil: "normal",
